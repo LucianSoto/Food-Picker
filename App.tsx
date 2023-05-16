@@ -22,22 +22,31 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 import GetLocation from 'react-native-get-location';
 import { useState, useEffect } from 'react'
-// import Config from 'react-native-config'
-// import {YELP_API} from '@env'
-import {YELP_API} from 'react-native-dotenv'
+import axios from 'axios'
 
 function App(): JSX.Element {
   const [data, setData] = useState<object>({})
-  // console.log(Config.YELP_API, 'YELP API')
-  console.log(process.env.YELP_API,' hello')
-  // console.log(YELP_API)
+  const YelpKey = process.env.YELP_API
+
+  const config = { 
+    headers: {
+      Authorization: "Bearer" + " " + YelpKey,
+    },
+    // params: {
+    //   radius: 1000,
+    //   // sort_by: "relevance",
+    // },
+  }
 
   useEffect(() => {
-    const options = {method: 'GET', headers: {accept: 'application/json'}}
-    fetch('https://api.yelp.com/v3/businesses/search?sort_by=best_match&limit=20', options)
-    .then(response => response.json())
-    .then(response => console.log(response))
-    .catch(err => console.error(err));
+    axios
+      .get('https://api.yelp.com/v3/businesses/search?location=seattle&sort_by=best_match&limit=20', config)
+      .then((response) => {
+        console.log(response.data)
+      })
+      .catch((error) => {
+        console.log(error, 'error api')
+      })
   },[])
 
 
