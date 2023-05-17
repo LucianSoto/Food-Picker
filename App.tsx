@@ -15,6 +15,8 @@ import {
   Text,
   useColorScheme,
   View,
+  TextInput,
+  Button,
 } from 'react-native';
 
 import {
@@ -22,25 +24,38 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 import GetLocation from 'react-native-get-location';
 import { useState, useEffect } from 'react'
-// import Config from 'react-native-config'
-// import {YELP_API} from '@env'
-import {YELP_API} from 'react-native-dotenv'
+import axios from 'axios'
 
 function App(): JSX.Element {
   const [data, setData] = useState<object>({})
-  // console.log(Config.YELP_API, 'YELP API')
-  console.log(process.env.YELP_API,' hello')
-  // console.log(YELP_API)
+  const [location, setLocation] = useState<string>('')
+  const [distance, setDistance] = useState<string>('5000')
+  const [limit, setLimit] = useState<string>('')
+  const YelpKey = process.env.YELP_API
+
+  const config = { 
+    headers: {
+      Authorization: "Bearer " + YelpKey,
+    },
+  }
 
   useEffect(() => {
-    const options = {method: 'GET', headers: {accept: 'application/json'}}
-    fetch('https://api.yelp.com/v3/businesses/search?sort_by=best_match&limit=20', options)
-    .then(response => response.json())
-    .then(response => console.log(response))
-    .catch(err => console.error(err));
+    
   },[])
 
+  const getList = (location: string, distance: string) => {
+    console.log(location, distance)
+    axios
+      .get(`https://api.yelp.com/v3/businesses/search?location=${location}&radius=${distance}&sort_by=best_match&limit=3`, config)
+      .then((response) => {
+        console.log(response.data)
+      })
+      .catch((error) => {
+        console.log(error, 'error api')
+      })
+  }
 
+  
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
@@ -60,7 +75,18 @@ function App(): JSX.Element {
           style={{
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}>
-        <Text>NomNom Roulette</Text>
+        <Text style={styles.title}>NomNom Roulette</Text>
+
+        <TextInput 
+          style={styles.input}
+          onChangeText={text => setLocation(text)}
+          value={location}
+          placeholder='location'
+          keyboardType='default'
+          onSubmitEditing={()=> getList(location, distance)}
+          clearButtonMode='while-editing'
+        />
+        {/* create component to display restaurant info */}
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -68,7 +94,16 @@ function App(): JSX.Element {
 }
 
 const styles = StyleSheet.create({
-
+  title: {
+    fontSize: 30,
+  },
+  input: {
+    height: 40,
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
+    borderRadius: 10,
+  },
 });
 
 export default App;
