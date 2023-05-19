@@ -1,10 +1,6 @@
 /**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
  * @format
  */
-
 import React from 'react';
 import type {PropsWithChildren} from 'react';
 import {
@@ -18,19 +14,25 @@ import {
   TextInput,
   Button,
 } from 'react-native';
-
-import {
-  Colors,
-} from 'react-native/Libraries/NewAppScreen';
-import GetLocation from 'react-native-get-location';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
+import Geolocation from 'react-native-geolocation-service'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+import { locationPermission } from './utils/permissions'
 
+// interface Icoordinates {
+//   latitude: string;
+//   longitude: string;
+// }
 function App(): JSX.Element {
+  const isDarkMode = useColorScheme() === 'dark';
+  const [loading, setLoading] = useState(false)
   const [data, setData] = useState<object>({})
-  const [location, setLocation] = useState<string>('')
+  const [location, setLocation] = useState<any>()
   const [distance, setDistance] = useState<string>('5000')
-  const [limit, setLimit] = useState<string>('')
+  const [limit, setLimit] = useState<string>('2')
+  const [openNow, setOppenNow] = useState<boolean>(true)
+  const [geo, setGeo] = useState({})
   const YelpKey = process.env.YELP_API
 
   const config = { 
@@ -39,14 +41,62 @@ function App(): JSX.Element {
     },
   }
 
+  const backgroundStyle = {
+      backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+    };
+
+  const getLocation = async () => {
+    const result = locationPermission();
+    result.then(res => {
+      if (res) {
+        Geolocation.getCurrentPosition(
+          position => {
+            setGeo(position.coords);
+            setLoading(true)
+            return position.coords
+          },
+          error => {
+            console.log(error.code, error.message);
+            setGeo({
+              latitude: '',
+              longitude: '',
+            });
+          },
+          {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
+        );
+        return true
+      }
+    });
+  };
+
   useEffect(() => {
-    
+    const loadList = async () => {
+      try {
+        const coords = await getLocation()
+        
+      } catch (err) {
+        console.log(err)
+      }
+    }
+    loadList()
   },[])
 
-  const getList = (location: string, distance: string) => {
-    console.log(location, distance)
-    axios
-      .get(`https://api.yelp.com/v3/businesses/search?location=${location}&radius=${distance}&sort_by=best_match&limit=3`, config)
+  useEffect(() => {
+    if(!geo) {
+      return
+    }
+    getList()
+  }, [loading])
+
+  // Get list of places
+  const getList = () => {
+    if(typeof(location) === 'string') {
+      setGeo(false)
+    }
+
+    console.log(location, geo.latitude, 'getting list**********')
+    axios // CHANGE TO AXIOS STYLE OF CALL LATER  -- NOT WORKING WITH ACTUAL AXIOS PARAMS
+      .get(`https://api.yelp.com/v3/businesses/search?location=${location}&latitude=${location? '' : geo.latitude}&longitude=${location? '' : geo.longitude}&open_now=${openNow ? 'true' : 'false'}&radius=${distance}&sort_by=best_match&limit=${limit}`, config)
       .then((response) => {
         console.log(response.data)
       })
@@ -54,13 +104,6 @@ function App(): JSX.Element {
         console.log(error, 'error api')
       })
   }
-
-  
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
 
   return (
     <SafeAreaView style={backgroundStyle}>
@@ -76,19 +119,27 @@ function App(): JSX.Element {
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}>
         <Text style={styles.title}>NomNom Roulette</Text>
-
+        <Button 
+          title="Roulette"
+          onPress={()=> getList()}
+        />
         <TextInput 
           style={styles.input}
           onChangeText={text => setLocation(text)}
           value={location}
-          placeholder='location'
+          placeholder='City, State'
           keyboardType='default'
-          onSubmitEditing={()=> getList(location, distance)}
+          onSubmitEditing={()=> getList()}
           clearButtonMode='while-editing'
         />
         {/* create component to display restaurant info */}
         </View>
       </ScrollView>
+      
+      <View>
+        <Text>Latitude: {geo.latitude}</Text>
+        <Text>Longitude: {geo.longitude}</Text>
+      </View>
     </SafeAreaView>
   );
 }
@@ -104,6 +155,25 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
   },
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });
 
 export default App;
+
+
+
+
+// axios    GET USER LOCATION~!!!!!!!
+    //   .get(`https://api.yelp.com/v3/businesses/search?location=${location}&open_now=${openNow ? 'true' : 'false'}&radius=${distance}&sort_by=best_match&limit=${limit}`, config)
+    //   .then((response) => {
+    //     console.log(response.data)
+
+    //   })
+    //   .catch((error) => {
+    //     console.log(error, 'error api')
+    //   })
