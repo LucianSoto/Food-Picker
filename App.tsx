@@ -20,6 +20,8 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { locationPermission } from './utils/permissions'
 
+import List from './components/list/list'
+
 // interface Icoordinates {
 //   latitude: string;
 //   longitude: string;
@@ -93,7 +95,6 @@ function App(): JSX.Element {
     if(typeof(location) === 'string') {
       setGeo(false)
     }
-
     console.log(location, geo.latitude, 'getting list**********')
     axios // CHANGE TO AXIOS STYLE OF CALL LATER  -- NOT WORKING WITH ACTUAL AXIOS PARAMS
       .get(`https://api.yelp.com/v3/businesses/search?location=${location}&latitude=${location? '' : geo.latitude}&longitude=${location? '' : geo.longitude}&open_now=${openNow ? 'true' : 'false'}&radius=${distance}&sort_by=best_match&limit=${limit}`, config)
@@ -135,7 +136,7 @@ function App(): JSX.Element {
         {/* create component to display restaurant info */}
         </View>
       </ScrollView>
-      
+      <List/>
       <View>
         <Text>Latitude: {geo.latitude}</Text>
         <Text>Longitude: {geo.longitude}</Text>
