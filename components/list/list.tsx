@@ -1,14 +1,22 @@
 import { Text, View } from 'react-native'
-import React, { Component } from 'react'
+import { useEffect } from 'react'
 
-export class list extends Component {
-  render() {
-    return (
-      <View>
-        <Text>list</Text>
-      </View>
-    )
-  }
+
+const List = (data) => {
+
+
+
+// const list = data.map((i) => console.log(i))
+
+console.log(data[0], '1111')
+
+  return (
+    <View>
+      <Text>List</Text>
+      {/* {list && list} */}
+      <Text>{data[0]}</Text>
+    </View>
+  )
 }
 
-export default list
+export default List
