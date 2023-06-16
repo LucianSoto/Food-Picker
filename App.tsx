@@ -135,7 +135,7 @@ function App(): JSX.Element {
         {/* create component to display restaurant info */}
         </View>
       </ScrollView>
-        {data.length > 0 &&
+        {data &&
           <List data={data} />
         }
       <View>
