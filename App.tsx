@@ -29,7 +29,7 @@ import List from './components/list/list'
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
   const [loading, setLoading] = useState(false)
-  const [data, setData] = useState<object>({})
+  const [data, setData] = useState<Array<string>>([])
   const [location, setLocation] = useState<any>()
   const [distance, setDistance] = useState<string>('5000')
   const [limit, setLimit] = useState<string>('2')
@@ -95,11 +95,10 @@ function App(): JSX.Element {
     if(typeof(location) === 'string') {
       setGeo(false)
     }
-    console.log(location, geo.latitude, 'getting list**********')
     axios // CHANGE TO AXIOS STYLE OF CALL LATER  -- NOT WORKING WITH ACTUAL AXIOS PARAMS
       .get(`https://api.yelp.com/v3/businesses/search?location=${location}&latitude=${location? '' : geo.latitude}&longitude=${location? '' : geo.longitude}&open_now=${openNow ? 'true' : 'false'}&radius=${distance}&sort_by=best_match&limit=${limit}`, config)
       .then((response) => {
-        console.log(response.data)
+        setData(response.data.businesses)
       })
       .catch((error) => {
         console.log(error, 'error api')
@@ -136,7 +135,9 @@ function App(): JSX.Element {
         {/* create component to display restaurant info */}
         </View>
       </ScrollView>
-      <List/>
+        {data &&
+          <List data={data} />
+        }
       <View>
         <Text>Latitude: {geo.latitude}</Text>
         <Text>Longitude: {geo.longitude}</Text>
