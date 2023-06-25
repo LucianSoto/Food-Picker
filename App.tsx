@@ -32,7 +32,7 @@ function App(): JSX.Element {
   const [data, setData] = useState<Array<string>>([])
   const [location, setLocation] = useState<any>()
   const [distance, setDistance] = useState<string>('5000')
-  const [limit, setLimit] = useState<string>('2')
+  const [limit, setLimit] = useState<string>('8')
   const [openNow, setOppenNow] = useState<boolean>(true)
   const [geo, setGeo] = useState({})
   const YelpKey = process.env.YELP_API
@@ -42,10 +42,6 @@ function App(): JSX.Element {
       Authorization: "Bearer " + YelpKey,
     },
   }
-
-  const backgroundStyle = {
-      backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-    };
 
   const getLocation = async () => {
     const result = locationPermission();
@@ -106,23 +102,19 @@ function App(): JSX.Element {
   }
 
   return (
-    <SafeAreaView style={backgroundStyle}>
+    <SafeAreaView style={{backgroundColor: 'lightgray'}}>
       <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
+        barStyle={'light-content'}
+        backgroundColor={'#ff1a1a'}
       />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <View
+      <View
           style={{
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}>
-        <Text style={styles.title}>NomNom Roulette</Text>
-        <Button 
-          title="Roulette"
-          onPress={()=> getList()}
-        />
+        <Text style={styles.title}>NomNom</Text>
+        <Text >
+          Filters
+        </Text>
         <TextInput 
           style={styles.input}
           onChangeText={text => setLocation(text)}
@@ -132,16 +124,21 @@ function App(): JSX.Element {
           onSubmitEditing={()=> getList()}
           clearButtonMode='while-editing'
         />
-        {/* create component to display restaurant info */}
-        </View>
-      </ScrollView>
-        {data &&
-          <List data={data} />
-        }
-      <View>
-        <Text>Latitude: {geo.latitude}</Text>
-        <Text>Longitude: {geo.longitude}</Text>
+        
       </View>
+        <ScrollView
+          contentInsetAdjustmentBehavior="automatic"
+          style={styles.list_view}
+        >
+          {data &&
+            <List data={data} />
+          }
+        </ScrollView>
+        <Button 
+            title="Roulette"
+            onPress={()=> getList()}
+            color="#ff1a1a"
+        />
     </SafeAreaView>
   );
 }
@@ -149,6 +146,7 @@ function App(): JSX.Element {
 const styles = StyleSheet.create({
   title: {
     fontSize: 30,
+    // margin
   },
   input: {
     height: 40,
@@ -163,6 +161,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  list_view: {
+    backgroundColor: '#e6e3e3',
+    // margin: 1,
+    // alignSelf: 'center',
+    height: '70%',
+
+  }
 });
 
 export default App;
