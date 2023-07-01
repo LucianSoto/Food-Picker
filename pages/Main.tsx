@@ -8,12 +8,14 @@ import {
   View,
   TextInput,
   Button,
+  TouchableOpacity,
 } from 'react-native';
 import Geolocation from 'react-native-geolocation-service'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { locationPermission } from '../utils/permissions';
 import List from '../components/list/list'
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const Main = () => {
   const [loading, setLoading] = useState(false)
@@ -92,26 +94,45 @@ const Main = () => {
       })
   }
 
+  const openFilters = () => {
+    console.log('opening filters')
+  }
+
   return (
     <View>
       <View
           style={{
             // backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}>
-        <Text style={styles.title}>NomNom</Text>
-        <Text >
-          Filters
-        </Text>
-        <TextInput 
-          style={styles.input}
-          onChangeText={text => setLocation(text)}
-          value={location}
-          placeholder='City, State'
-          keyboardType='default'
-          onSubmitEditing={()=> getList()}
-          clearButtonMode='while-editing'
-        />
-        
+        <View 
+          style={{flexDirection: "row", justifyContent: 'space-around', width: "100%"}}
+        >
+          <TextInput 
+            style={styles.input}
+            onChangeText={text => setLocation(text)}
+            value={location}
+            placeholder='City, State'
+            keyboardType='default'
+            onSubmitEditing={()=> getList()}
+            clearButtonMode='while-editing'
+          />
+          <Icon
+            style={styles.filterButton}
+            name="chevron-down"
+            onPress={openFilters}
+          />
+        </View>
+        <TouchableOpacity
+          style={styles.main_button}
+          onPress={()=> getList()}
+        >
+          <Text style={styles.main_button_text}>ROULETTE</Text>
+        </TouchableOpacity>
+        {/* <Button 
+            title="Roulette"
+            onPress={()=> getList()}
+            color="#ff1a1a"            
+        /> */}
       </View>
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
@@ -121,11 +142,6 @@ const Main = () => {
             <List data={data} />
           }
         </ScrollView>
-        <Button 
-            title="Roulette"
-            onPress={()=> getList()}
-            color="#ff1a1a"
-        />
     </View>
   )
 }
@@ -137,10 +153,34 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
+    width: "80%",
     margin: 12,
     borderWidth: 1,
     padding: 10,
     borderRadius: 10,
+  },
+  filterButton: {
+    width: 40,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    // textAlign: 'center',
+    marginLeft: 0,
+    marginTop: 15,
+    fontSize: 25,
+  },
+  main_button: {
+    width: '100%',
+    padding: 9,
+    backgroundColor: 'ff1a1a',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 25,
+  },
+  main_button_text: {
+    color: '#fff',
+    fontSize: 20,
   },
   container: {
     flex: 1,

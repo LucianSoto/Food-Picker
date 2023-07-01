@@ -21,6 +21,8 @@ function App(): JSX.Element {
   const Stack = createNativeStackNavigator()
   const Tab = createBottomTabNavigator()
 
+  const tabScreenOptions = {headerShown: false}
+
   return (
     <NavigationContainer>
       {/* <SafeAreaView style={{backgroundColor: 'lightgray'}}> */}
@@ -28,9 +30,9 @@ function App(): JSX.Element {
           barStyle={'light-content'}
           backgroundColor={'#ff1a1a'}
         />
-        <Tab.Navigator initialRouteName='Roulette'>
-          <Tab.Screen name='Roulette' component={Main} />
-          <Tab.Screen name='Settings' component={Settings} />
+        <Tab.Navigator initialRouteName='Roulette' >
+          <Tab.Screen name='Roulette' component={Main} options={tabScreenOptions}/>
+          <Tab.Screen name='Settings' component={Settings} options={tabScreenOptions} />
         </Tab.Navigator>
       {/* </SafeAreaView> */}
     </NavigationContainer>

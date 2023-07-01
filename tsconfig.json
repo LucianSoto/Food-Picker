@@ -4,5 +4,4 @@
     "types": ["node"],
     "typeRoots": ["./src/types/"]
   },
-
 }
