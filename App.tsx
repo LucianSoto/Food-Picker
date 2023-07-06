@@ -15,10 +15,6 @@ import Settings from './pages/settings/Settings'
 import Favorites from './pages/favorites/Favorites'
 // import Icon from 'react-native-vector-icons/AntDesign'
 import Icon from 'react-native-vector-icons/FontAwesome'
-// import Home from 'react-native-vector-icons/Entypo'
-// AntDesign star
-// Entypo home
-// Octicons gear
 // import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 
