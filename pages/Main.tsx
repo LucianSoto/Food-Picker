@@ -101,9 +101,10 @@ const Main = () => {
   return (
     <View>
       <View
-          style={{
+          // style={{
             // backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
+            style={{flexDirection: "column", alignItems: "center"}}
+          >
         <View 
           style={{flexDirection: "row", justifyContent: 'space-around', width: "100%"}}
         >
@@ -170,9 +171,9 @@ const styles = StyleSheet.create({
     fontSize: 25,
   },
   main_button: {
-    width: '100%',
+    width: '95%',
     padding: 9,
-    backgroundColor: 'ff1a1a',
+    backgroundColor: '#ff1a1a',
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
