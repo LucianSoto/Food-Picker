@@ -1,6 +1,6 @@
 import { Text, View, Image } from 'react-native'
 import styled from 'styled-components'
-import Icon from 'react-native-vector-icons/FontAwesome5'
+import Icon from 'react-native-vector-icons/FontAwesome'
 
 type Data = {
   name: string, 
@@ -10,7 +10,7 @@ type Data = {
   distance: number, 
   rating: number,
   price: string,
-  categories: string,
+  categories: [{title: string}],
 }
 
 const Item = styled.View`
@@ -23,12 +23,11 @@ const Item = styled.View`
 `
 
 const List = (data: any) => { 
-  // console.log(data.data[3].categories)
   const list = data.data.map((item: Data, i: number)=> {
-    // console.log(item.categories[0].title, 'here')
-    let getCategories = item.categories.map((cat)=> {
-      console.log(cat.title)
-      return cat.title + ', '
+    console.log(item)
+    let getCategories = item.categories.map((category)=> {
+      console.log(category)
+      return category.title + ', '
     })
     return (
       <Item key={i}>
