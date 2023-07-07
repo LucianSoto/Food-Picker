@@ -16,6 +16,7 @@ import axios from 'axios'
 import { locationPermission } from '../utils/permissions';
 import List from '../components/list/list'
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { relative } from 'path';
 
 const Main = () => {
   const [loading, setLoading] = useState(false)
@@ -99,12 +100,15 @@ const Main = () => {
   }
 
   return (
-    <View>
-      <View
-          // style={{
-            // backgroundColor: isDarkMode ? Colors.black : Colors.white,
-            style={{flexDirection: "column", alignItems: "center"}}
-          >
+    <View
+      style={{flexDirection: "column", alignItems: "center", flex: 1}}
+      // style={{
+        // backgroundColor: isDarkMode ? Colors.black : Colors.white,
+    >
+      <ScrollView
+        contentInsetAdjustmentBehavior="automatic"
+        contentContainerStyle={styles.list_view}
+      >
         <View 
           style={{flexDirection: "row", justifyContent: 'space-around', width: "100%"}}
         >
@@ -123,26 +127,14 @@ const Main = () => {
             onPress={openFilters}
           />
         </View>
+          {data && <List data={data} />}
+      </ScrollView>
         <TouchableOpacity
           style={styles.main_button}
           onPress={()=> getList()}
         >
           <Text style={styles.main_button_text}>ROULETTE</Text>
         </TouchableOpacity>
-        {/* <Button 
-            title="Roulette"
-            onPress={()=> getList()}
-            color="#ff1a1a"            
-        /> */}
-      </View>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.list_view}
-        >
-          {data &&
-            <List data={data} />
-          }
-        </ScrollView>
     </View>
   )
 }
@@ -150,7 +142,6 @@ const Main = () => {
 const styles = StyleSheet.create({
   title: {
     fontSize: 30,
-    // margin
   },
   input: {
     height: 40,
@@ -158,7 +149,7 @@ const styles = StyleSheet.create({
     margin: 12,
     borderWidth: 1,
     padding: 10,
-    borderRadius: 10,
+    borderRadius: 30,
   },
   filterButton: {
     width: 40,
@@ -178,10 +169,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 25,
+    // flex: 1,
+    position: 'relative',
+    bottom: 0,
   },
   main_button_text: {
     color: '#fff',
     fontSize: 20,
+    bottom: 0,
   },
   container: {
     flex: 1,
@@ -191,10 +186,8 @@ const styles = StyleSheet.create({
   },
   list_view: {
     backgroundColor: '#e6e3e3',
-    // margin: 1,
-    // alignSelf: 'center',
-    height: '70%',
-
+    flexDirection: 'column',
+    alignItems: 'center',
   }
 });
 

@@ -15,10 +15,6 @@ import Settings from './pages/settings/Settings'
 import Favorites from './pages/favorites/Favorites'
 // import Icon from 'react-native-vector-icons/AntDesign'
 import Icon from 'react-native-vector-icons/FontAwesome'
-// import Home from 'react-native-vector-icons/Entypo'
-// AntDesign star
-// Entypo home
-// Octicons gear
 // import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 
@@ -33,7 +29,7 @@ function App(): JSX.Element {
       {/* <SafeAreaView style={{backgroundColor: 'lightgray'}}> */}
         <StatusBar
           barStyle={'light-content'}
-          backgroundColor={'#ff1a1a'}
+          backgroundColor={'red'}
         />
         <Tab.Navigator initialRouteName='Roulette' >
           <Tab.Screen 
