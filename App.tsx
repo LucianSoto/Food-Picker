@@ -29,7 +29,7 @@ function App(): JSX.Element {
       {/* <SafeAreaView style={{backgroundColor: 'lightgray'}}> */}
         <StatusBar
           barStyle={'light-content'}
-          backgroundColor={'#ff1a1a'}
+          backgroundColor={'red'}
         />
         <Tab.Navigator initialRouteName='Roulette' >
           <Tab.Screen 
