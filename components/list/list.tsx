@@ -20,13 +20,17 @@ const Item = styled.View`
   background-color: white;
   font-size: 15px;
   flexDirection: row;
-
+  border-radius: 5px;
 `
 
 const List = (data: any) => { 
   const list = data.data.map((item: Data, i: number)=> {
     let getCategories = item.categories.map((category)=> {
-      return category.title + ', '
+      return (
+        <Text style={styles.categories}>
+          {category.title}
+        </Text>
+      )
     })
     return (
       <Item key={i}>
@@ -54,7 +58,7 @@ const List = (data: any) => {
             {item.rating}
           </Text>
           <Text style={styles.price}>{item.price}</Text>
-          <Text style={styles.categories}>{getCategories}</Text>
+          <View style={styles.categories_container}>{getCategories}</View>
         </View>
       </Item>
     )
