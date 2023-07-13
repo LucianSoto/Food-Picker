@@ -25,9 +25,9 @@ const Item = styled.View`
 
 const List = (data: any) => { 
   const list = data.data.map((item: Data, i: number)=> {
-    let getCategories = item.categories.map((category)=> {
+    let getCategories = item.categories.map((category: {title: string}, i:number)=> {
       return (
-        <Text style={styles.categories}>
+        <Text key={i} style={styles.categories}>
           {category.title}
         </Text>
       )

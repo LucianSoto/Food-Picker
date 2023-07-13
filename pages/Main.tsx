@@ -18,7 +18,7 @@ import List from '../components/list/list'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { relative } from 'path';
 
-const Main = () => {
+const Main: React.FC<{}> = () => {
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState<Array<string>>([])
   const [location, setLocation] = useState<any>()

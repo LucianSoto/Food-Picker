@@ -1,28 +1,35 @@
 /**
  * @format
  */
-import React from 'react';
-import type {PropsWithChildren} from 'react';
+import SplashScreen from 'react-native-splash-screen'
+import React, { useEffect } from 'react'
+import type {PropsWithChildren} from 'react'
 import {
   SafeAreaView,
   StatusBar,
   useColorScheme,
 } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native'
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Main from './pages/Main'
-import Settings from './pages/settings/Settings'
-import Favorites from './pages/favorites/Favorites'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { Home } from './Home'
+import Register from './pages/register/Register'
+import Login from './pages/login/Login'
 // import Icon from 'react-native-vector-icons/AntDesign'
 import Icon from 'react-native-vector-icons/FontAwesome'
-// import { Colors } from 'react-native/Libraries/NewAppScreen';
+// import { Colors } from 'react-native/Libraries/NewAppScreen'
 
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
-  const Tab = createBottomTabNavigator()
-
+  const Stack = createNativeStackNavigator()
   const tabScreenOptions = {headerShown: false}
+  
+  useEffect(()=> {
+    // do stuff while splash screen is shown
+    // After having done stuff (such as async tasks) hide the splash screen
+    SplashScreen.hide();
+  },[])
 
   return (
     <NavigationContainer>
@@ -31,59 +38,14 @@ function App(): JSX.Element {
           barStyle={'light-content'}
           backgroundColor={'red'}
         />
-        <Tab.Navigator initialRouteName='Roulette' >
-          <Tab.Screen 
-            name='Roulette' 
-            
-            component={Main} 
-            options={{
-              headerShown: false,
-              tabBarLabel: "Home",
-              tabBarIcon: ({ color, size }) => (
-                <Icon 
-                  name="home"
-                  color={'red'}
-                  size={28}
-                />
-              )
-            }}
-          />
-          <Tab.Screen 
-            name="Favorites" 
-            
-            component={Favorites} 
-            options={{
-              headerShown: false,
-              tabBarLabel: "favorites",
-              tabBarIcon: ({ color, size }) => (
-                <Icon 
-                  name="star"
-                  color={'gold'}
-                  size={28}
-                />
-              )
-            }}
-          />
-          <Tab.Screen 
-            name='Settings' 
-            
-            component={Settings} 
-            options={{
-              headerShown: false,
-              tabBarLabel: "settings",
-              tabBarIcon: ({ color, size }) => (
-                <Icon 
-                  name="gear"
-                  color={'red'}
-                  size={28}
-                />
-              )
-            }} 
-          />
-        </Tab.Navigator>
+      <Stack.Navigator screenOptions={{headerShown: false}} >
+        <Stack.Screen name="Register" component={Register} />
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Home" component={Home} />
+      </Stack.Navigator>
+        
       {/* </SafeAreaView> */}
     </NavigationContainer>
-    
   );
 }
 
