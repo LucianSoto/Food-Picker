@@ -1,39 +1,47 @@
 import React from 'react'
-import { Text, View, TextInput, Button } from 'react-native'
+import { Text, View, TextInput, TouchableOpacity, Image } from 'react-native'
 import { Formik } from 'formik'
+import styles from './registerStyles'
 
 type Props = {}
 
-export default function Register({}: Props) {
+const Register: React.FC<{}> = () => {
+  const IMAGE = require('../../assets/images/logo_sm.png')
+
   return (
-    <View>
-      {/* ICON */}
-      <Text >Create and account to get munching!</Text>
+    <View style={styles.container}>
+      <Image source={IMAGE} style={{height: 100, width: 100, marginTop: 20}}/>
+      <Text style={styles.sub_heading}>Create and account to get munching!</Text>
       <Formik
-      initialValues={{ name: '', email: '', password: '' }}
-      onSubmit={values => console.log(values)}
+        initialValues={{ name: '', email: '', password: '' }}
+        onSubmit={values => console.log(values)}
       >
         {({ handleChange, handleBlur, handleSubmit, values }) => (
-          <View>
-            <Text>UserName</Text>
+          <View style={styles.form}>
+            <Text style={{color: 'white', marginLeft: 10}}>UserName</Text>
             <TextInput
+              style={styles.input}
               onChangeText={handleChange('name')}
               onBlur={handleBlur('name')}
               value={values.name}
             />
-            <Text>Email</Text>
+            <Text style={{color: 'white', marginLeft: 10}}>Email</Text>
             <TextInput
+              style={styles.input}
               onChangeText={handleChange('email')}
               onBlur={handleBlur('email')}
               value={values.email}
             />
-            <Text>Password</Text>
+            <Text style={{color: 'white', marginLeft: 10}}>Password</Text>
             <TextInput
+              style={styles.input}
               onChangeText={handleChange('password')}
               onBlur={handleBlur('password')}
               value={values.password}
             />
-            <Button onPress={handleSubmit} title="Submit" />
+            <TouchableOpacity style={styles.submit} onPress={handleSubmit}>
+              <Text style={styles.submit_text}>SUBMIT</Text>
+            </TouchableOpacity>
           </View>
         )}
       </Formik>
@@ -41,3 +49,5 @@ export default function Register({}: Props) {
     </View>
   )
 }
+
+export default Register

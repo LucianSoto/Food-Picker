@@ -10,15 +10,12 @@ import {
   useColorScheme,
 } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native'
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { Home } from './Home'
 import Register from './pages/register/Register'
 import Login from './pages/login/Login'
-// import Icon from 'react-native-vector-icons/AntDesign'
-import Icon from 'react-native-vector-icons/FontAwesome'
 // import { Colors } from 'react-native/Libraries/NewAppScreen'
-
+import EStyleSheet from 'react-native-extended-stylesheet'
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -36,7 +33,7 @@ function App(): JSX.Element {
       {/* <SafeAreaView style={{backgroundColor: 'lightgray'}}> */}
         <StatusBar
           barStyle={'light-content'}
-          backgroundColor={'red'}
+          backgroundColor={EStyleSheet.value('$mainColor_magenta')}
         />
       <Stack.Navigator screenOptions={{headerShown: false}} >
         <Stack.Screen name="Register" component={Register} />
@@ -50,3 +47,9 @@ function App(): JSX.Element {
 }
 
 export default App;
+
+EStyleSheet.build({
+  $mainColor_white: '#d9d9d9',
+  $mainColor_black: '#050102',
+  $mainColor_magenta: '#c2003f',
+})

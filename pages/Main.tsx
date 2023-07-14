@@ -16,7 +16,7 @@ import axios from 'axios'
 import { locationPermission } from '../utils/permissions';
 import List from '../components/list/list'
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { relative } from 'path';
+// import { relative } from 'path';
 
 const Main: React.FC<{}> = () => {
   const [loading, setLoading] = useState(false)
@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     width: '95%',
     padding: 9,
-    backgroundColor: '#ff1a1a',
+    backgroundColor: '$mainColor_magenta',
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
     bottom: 0,
   },
   main_button_text: {
-    color: '#fff',
+    color: '$mainColor_white',
     fontSize: 20,
     bottom: 0,
   },
