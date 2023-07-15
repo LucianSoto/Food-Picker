@@ -2,10 +2,12 @@ import EStyleSheet from 'react-native-extended-stylesheet'
 
 export default EStyleSheet.create({
   container: {
+    flex: 1,
     alignItems: 'center',
     width: '100%',
-    height: '100%',
+    // height: '100%',
     backgroundColor: '$mainColor_black',
+    alignItems: 'center',
   },
 
   sub_heading: {
@@ -18,8 +20,7 @@ export default EStyleSheet.create({
 
   form: {
     width: '90%',
-    // flexDirection: 'column',
-    // alignItems: 'center',
+    marginBottom: 100,
   },
 
   input: {

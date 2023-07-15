@@ -1,7 +1,8 @@
 import React from 'react'
-import { Text, View, TextInput, TouchableOpacity, Image } from 'react-native'
+import { Text, View, TextInput, TouchableOpacity, Image, ScrollView } from 'react-native'
 import { Formik } from 'formik'
 import styles from './registerStyles'
+import Oauth from '../../components/auth/Oauth'
 
 type Props = {}
 
@@ -10,6 +11,10 @@ const Register: React.FC<{}> = () => {
 
   return (
     <View style={styles.container}>
+    {/* <ScrollView 
+      contentContainerStyle={styles.container}
+      contentInsetAdjustmentBehavior="automatic"
+    > */}
       <Image source={IMAGE} style={{height: 100, width: 100, marginTop: 20}}/>
       <Text style={styles.sub_heading}>Create and account to get munching!</Text>
       <Formik
@@ -46,6 +51,8 @@ const Register: React.FC<{}> = () => {
         )}
       </Formik>
       {/* Google  */}
+        <Oauth />
+    {/* </ScrollView> */}
     </View>
   )
 }
