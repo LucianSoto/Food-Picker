@@ -2,8 +2,8 @@ import EStyleSheet from 'react-native-extended-stylesheet'
 
 export default EStyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: 'center',
+    // flexGrow: 1,
+    // alignItems: 'center',
     width: '100%',
     // height: '100%',
     backgroundColor: '$mainColor_black',
@@ -19,8 +19,9 @@ export default EStyleSheet.create({
   },  
 
   form: {
+    flex: 1,
     width: '90%',
-    marginBottom: 100,
+    marginBottom: 30,
   },
 
   input: {
@@ -37,7 +38,7 @@ export default EStyleSheet.create({
   },
 
   submit: {
-    marginVertical: 25,
+    marginVertical: 20,
     width: '100%',
     padding: 9,
     backgroundColor: '$mainColor_magenta',
@@ -54,7 +55,22 @@ export default EStyleSheet.create({
     fontSize: 20,
     fontWeight: 700,
     letterSpacing: 5,
-  }
+  },
+
+  links_cont: {
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'space-around',
+    marginHorizontal: 20,
+  },
+
+  links: {
+
+  },
+
+  links_txt: {
+    color: 'white',
+  },
 })
 
 // make button component?

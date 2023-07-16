@@ -6,15 +6,13 @@ import Oauth from '../../components/auth/Oauth'
 
 type Props = {}
 
-const Register: React.FC<{}> = () => {
+const Register: React.FC<{}> = ({navigation}) => {
   const IMAGE = require('../../assets/images/logo_sm.png')
 
   return (
-    <View style={styles.container}>
-    {/* <ScrollView 
-      contentContainerStyle={styles.container}
+    <ScrollView contentContainerStyle={styles.container}
       contentInsetAdjustmentBehavior="automatic"
-    > */}
+    >
       <Image source={IMAGE} style={{height: 100, width: 100, marginTop: 20}}/>
       <Text style={styles.sub_heading}>Create and account to get munching!</Text>
       <Formik
@@ -45,15 +43,29 @@ const Register: React.FC<{}> = () => {
               value={values.password}
             />
             <TouchableOpacity style={styles.submit} onPress={handleSubmit}>
-              <Text style={styles.submit_text}>SUBMIT</Text>
+            <Text style={styles.submit_text}>SUBMIT</Text>
             </TouchableOpacity>
+            <View style={styles.links_cont}>
+              <TouchableOpacity 
+                style={styles.links} 
+                onPress={() => navigation.navigate('Login')}
+              >
+                <Text style={styles.links_txt}>Log In</Text>
+              </TouchableOpacity>
+              <TouchableOpacity 
+                style={styles.links} 
+                onPress={() => navigation.navigate('Forgot_Password')}
+              >
+                <Text style={styles.links_txt}>Forgot Password</Text>
+              </TouchableOpacity>
+            </View>
+            
           </View>
         )}
       </Formik>
       {/* Google  */}
-        <Oauth />
-    {/* </ScrollView> */}
-    </View>
+      <Oauth />
+    </ScrollView>
   )
 }
 
