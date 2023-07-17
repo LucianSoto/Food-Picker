@@ -56,7 +56,7 @@ const Register: React.FC<{}> = ({navigation}) => {
                 style={styles.links} 
                 onPress={() => navigation.navigate('Forgot_Password')}
               >
-                <Text style={styles.links_txt}>Forgot Password</Text>
+                <Text style={styles.links_txt}>Terms of Use</Text>
               </TouchableOpacity>
             </View>
             

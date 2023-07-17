@@ -27,7 +27,7 @@ const style = StyleSheet.create({
   goog: {
     height: 60,
     width: 59,
-    margin: 10,
+    // margin: 10,
   }
 })
 
