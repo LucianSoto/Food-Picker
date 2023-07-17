@@ -3,12 +3,13 @@ import { StyleSheet } from 'react-native'
 export default StyleSheet.create({
   right_container: {
     marginLeft: 10,
-    height: 150,
+    height: 165,
     justifyContent: "space-around",
     // alignItems: "stretch",
   },
   name: {
-    fontSize: 20,
+    fontSize: 18,
+    maxWidth: 160,
     fontWeight: 900,
     color: "black",
     marginBottom: 7,
@@ -16,7 +17,16 @@ export default StyleSheet.create({
   price: {
     fontWeight: 900,
   },
+  categories_container: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    maxWidth: 150,
+  },
   categories: {
-    width: 170,
+    backgroundColor: 'lightgray',
+    color: 'white',
+    margin: 3,
+    paddingHorizontal: 3,
+    borderRadius: 5,
   },
 })

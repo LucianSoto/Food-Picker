@@ -16,9 +16,9 @@ import axios from 'axios'
 import { locationPermission } from '../utils/permissions';
 import List from '../components/list/list'
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { relative } from 'path';
+// import { relative } from 'path';
 
-const Main = () => {
+const Main: React.FC<{}> = () => {
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState<Array<string>>([])
   const [location, setLocation] = useState<any>()
@@ -101,7 +101,7 @@ const Main = () => {
 
   return (
     <View
-      style={{flexDirection: "column", alignItems: "center", flex: 1}}
+      style={{flexDirection: "column", alignItems: "center", flex: 1, backgroundColor: "black"}}
       // style={{
         // backgroundColor: isDarkMode ? Colors.black : Colors.white,
     >
@@ -110,7 +110,7 @@ const Main = () => {
         contentContainerStyle={styles.list_view}
       >
         <View 
-          style={{flexDirection: "row", justifyContent: 'space-around', width: "100%"}}
+          style={{flexDirection: "row", alignItems: 'center',}}
         >
           <TextInput 
             style={styles.input}
@@ -120,6 +120,7 @@ const Main = () => {
             keyboardType='default'
             onSubmitEditing={()=> getList()}
             clearButtonMode='while-editing'
+            placeholderTextColor={'white'}
           />
           <Icon
             style={styles.filterButton}
@@ -144,37 +145,40 @@ const styles = StyleSheet.create({
     fontSize: 30,
   },
   input: {
-    height: 40,
-    width: "80%",
-    margin: 12,
+    height: 50,
+    width: "90%",
+    margin: 10,
+    marginLeft: 0,
     borderWidth: 1,
-    padding: 10,
+    borderColor: 'white',
+    paddingLeft: 20,
     borderRadius: 30,
+    fontSize: 23,
+    color: "white",
   },
   filterButton: {
     width: 40,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    // textAlign: 'center',
-    marginLeft: 0,
-    marginTop: 15,
+    marginLeft: -50,
     fontSize: 25,
+    color: "lightgray",
   },
   main_button: {
+    marginVertical: 10,
     width: '95%',
     padding: 9,
-    backgroundColor: '#ff1a1a',
+    backgroundColor: '$mainColor_magenta',
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 25,
-    // flex: 1,
     position: 'relative',
     bottom: 0,
   },
   main_button_text: {
-    color: '#fff',
+    color: '$mainColor_white',
     fontSize: 20,
     bottom: 0,
   },
@@ -185,7 +189,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   list_view: {
-    backgroundColor: '#e6e3e3',
+    backgroundColor: 'black',
     flexDirection: 'column',
     alignItems: 'center',
   }
