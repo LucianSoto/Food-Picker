@@ -1,4 +1,5 @@
 {
   "name": "FoodPicker",
-  "displayName": "Munchie"
+  "displayName": "Munchie",
+  "plugins": ["@react-native-google-signin/google-signin"]
 }

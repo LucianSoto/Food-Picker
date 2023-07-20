@@ -2,7 +2,7 @@
  * @format
  */
 import SplashScreen from 'react-native-splash-screen'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import type {PropsWithChildren} from 'react'
 import {
   SafeAreaView,
@@ -16,17 +16,31 @@ import Register from './pages/register/Register'
 import Login from './pages/login/Login'
 // import { Colors } from 'react-native/Libraries/NewAppScreen'
 import EStyleSheet from 'react-native-extended-stylesheet'
+import Oauth from '../../components/auth/Oauth'
+import auth from '@react-native-firebase/auth'
 
 function App(): JSX.Element {
+  const [initializing, setInitializing] = useState(true)
+  const [user, setUser] = useState()
+
   const isDarkMode = useColorScheme() === 'dark';
   const Stack = createNativeStackNavigator()
   const tabScreenOptions = {headerShown: false}
   
   useEffect(()=> {
-    // do stuff while splash screen is shown
-    // After having done stuff (such as async tasks) hide the splash screen
+    // do stuff while splash screen is shown After having done stuff (such as async tasks) hide the splash screen
     SplashScreen.hide();
   },[])
+
+  const onAuthStateChanged = (user) => {
+    setUser(user)
+    if(initializing) setInitializing(false)
+  }
+
+  useEffect(()=> {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged)
+    return subscriber
+  }, [])
 
   return (
     <NavigationContainer>
@@ -36,8 +50,8 @@ function App(): JSX.Element {
           backgroundColor={EStyleSheet.value('$mainColor_magenta')}
         />
       <Stack.Navigator screenOptions={{headerShown: false}} >
-        <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="Home" component={Home} />
       </Stack.Navigator>
         

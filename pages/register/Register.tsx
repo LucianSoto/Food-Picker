@@ -1,13 +1,30 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Text, View, TextInput, TouchableOpacity, Image, ScrollView } from 'react-native'
 import { Formik } from 'formik'
 import styles from './registerStyles'
 import Oauth from '../../components/auth/Oauth'
+import auth from '@react-native-firebase/auth'
 
 type Props = {}
 
 const Register: React.FC<{}> = ({navigation}) => {
   const IMAGE = require('../../assets/images/logo_sm.png')
+  const [initializing, setInitializing] = useState(true)
+  const [user, setUser] = useState()
+
+  const onAuthStateChanged = (user) => {
+    setUser(user)
+    if(initializing) setInitializing(false)
+  }
+
+  useEffect(()=> {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged)
+    return subscriber
+  }, [])
+
+  // if(!user) {
+  //   return navigation.navigate('Login')
+  // }
 
   return (
     <ScrollView contentContainerStyle={styles.container}
