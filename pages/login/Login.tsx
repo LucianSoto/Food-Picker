@@ -57,7 +57,7 @@ const Register: React.FC<{}> = ({navigation}) => {
         )}
       </Formik>
       {/* Google  */}
-      <Oauth />
+      <Oauth text={'Or login with'}/>
     </ScrollView>
   )
 }

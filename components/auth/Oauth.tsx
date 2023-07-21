@@ -4,7 +4,9 @@ import React from 'react'
 import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-community/google-signin';
 import auth from '@react-native-firebase/auth'
 
-type Props = {}
+type Props = {
+  text: string
+}
 
 
 const Oauth = (props: Props) => {
@@ -12,6 +14,7 @@ const Oauth = (props: Props) => {
   // GoogleSignin.configure({
   //   webClientId: '472888646819-96no2ertkgn045l9vtcavd1trafj8ccm.apps.googleusercontent.com',
   // });
+  const {text} = props
 
   const onGoogleButtonPress = async () => {
     const {idToken} = await GoogleSignin.signIn()
@@ -22,7 +25,7 @@ const Oauth = (props: Props) => {
 
   return (
     <View style={style.auth_cont}>
-      <Text style={{color: 'white', marginBottom: 15}}>Or register with</Text>
+      <Text style={{color: 'white', marginBottom: 15}}>{text}</Text>
       {/* <GoogleSigninButton 
         
         size={5}
