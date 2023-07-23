@@ -16,13 +16,14 @@ const Register: React.FC<{}> = (props: Props) => {
 
   const {navigation} = props
 
-  const createUser = (email:string, password:string) => {
-    console.log('creating user')
+  const createUser = (email:string, password:string, name:string) => {
+    console.log('in createUser', email, password)
     auth()
-      .createUserWithEmailAndPassword(email, password)
+      .createUserWithEmailAndPassword(email, password, name)
       .then(()=> console.log('working', email))
       .then(()=> {
-        console.log('User account created & signed in!')
+        console.log('User account created & signed in!'),
+        navigation.navigate('Home', {name: name})
       })
       .catch(err => {
         if(err.code === 'auth/email-already-in-use') {
@@ -45,7 +46,11 @@ const Register: React.FC<{}> = (props: Props) => {
     return subscriber
   }, [])
 
+  useEffect(()=> {
+    console.log(user, 'in useEffect')
+  }, [user])
 
+  if(user) {navigation.navigate('Home')}
 
   return (
     <ScrollView contentContainerStyle={styles.container}
@@ -55,7 +60,7 @@ const Register: React.FC<{}> = (props: Props) => {
       <Text style={styles.sub_heading}>Create and account to get munching!</Text>
       <Formik
         initialValues={{ name: '', email: '', password: '' }}
-        onSubmit={values => {console.log(values), createUser(values.email, values.password)}}
+        onSubmit={values => {console.log(values), createUser(values.email, values.password, values.name,)}}
       >
         {({ handleChange, handleBlur, handleSubmit, values }) => (
           <View style={styles.form}>

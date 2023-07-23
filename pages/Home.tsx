@@ -1,13 +1,10 @@
 import {
   SafeAreaView,
   ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
-  useColorScheme,
   View,
   TextInput,
-  Button,
   TouchableOpacity,
 } from 'react-native';
 import Geolocation from 'react-native-geolocation-service'
@@ -16,7 +13,6 @@ import axios from 'axios'
 import { locationPermission } from '../utils/permissions';
 import List from '../components/list/list'
 import Icon from 'react-native-vector-icons/FontAwesome';
-// import { relative } from 'path';
 
 const Main: React.FC<{}> = () => {
   const [loading, setLoading] = useState(false)
@@ -27,6 +23,7 @@ const Main: React.FC<{}> = () => {
   const [openNow, setOppenNow] = useState<boolean>(true)
   const [geo, setGeo] = useState({})
   const YelpKey = process.env.YELP_API
+  
   // interface Icoordinates {
 //   latitude: string;
 //   longitude: string;
