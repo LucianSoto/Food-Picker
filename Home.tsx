@@ -1,7 +1,7 @@
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Settings from "./pages/settings/Settings"
 import Favorites from "./pages/favorites/Favorites"
-import Main from "./pages/Main"
+import Main from "./pages/Home"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 
 export const Home = () => {

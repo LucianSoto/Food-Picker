@@ -1,13 +1,58 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Text, View, TextInput, TouchableOpacity, Image, ScrollView } from 'react-native'
 import { Formik } from 'formik'
 import styles from './registerStyles'
 import Oauth from '../../components/auth/Oauth'
+import auth from '@react-native-firebase/auth'
 
-type Props = {}
+type Props = {
+  navigation: any
+}
 
-const Register: React.FC<{}> = ({navigation}) => {
+const Register: React.FC<{}> = (props: Props) => {
   const IMAGE = require('../../assets/images/logo_sm.png')
+  const [initializing, setInitializing] = useState(true)
+  const [user, setUser] = useState()
+
+  const {navigation} = props
+
+  const createUser = (email:string, password:string, name:string) => {
+    console.log('in createUser', email, password)
+    auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then(()=> console.log('working', email))
+      .then(()=> {
+        console.log('User account created & signed in!'),
+        navigation.navigate('Home', {name: name})
+      })
+      .catch(err => {
+        if(err.code === 'auth/email-already-in-use') {
+          console.log('Email / Account already exists.')
+        }
+        if(err.code === 'auth/invalid-email'){
+          console.log('Invalid email address.')
+        }
+        console.log(err)
+      })
+  }
+
+  const onAuthStateChanged = (user:any) => {
+    setUser(user)
+    if(initializing) setInitializing(false)
+  }
+
+  useEffect(()=> {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged)
+    return subscriber
+  }, [])
+
+  useEffect(()=> {
+    console.log(user, 'in useEffect')
+  }, [user])
+
+  useEffect(() => {
+    if(user) {() => navigation.navigate('Home')}
+  })
 
   return (
     <ScrollView contentContainerStyle={styles.container}
@@ -17,7 +62,7 @@ const Register: React.FC<{}> = ({navigation}) => {
       <Text style={styles.sub_heading}>Create and account to get munching!</Text>
       <Formik
         initialValues={{ name: '', email: '', password: '' }}
-        onSubmit={values => console.log(values)}
+        onSubmit={values => {console.log(values), createUser(values.email, values.password, values.name,)}}
       >
         {({ handleChange, handleBlur, handleSubmit, values }) => (
           <View style={styles.form}>
@@ -63,8 +108,7 @@ const Register: React.FC<{}> = ({navigation}) => {
           </View>
         )}
       </Formik>
-      {/* Google  */}
-      <Oauth />
+      <Oauth text={'Or register with'}/>
     </ScrollView>
   )
 }

@@ -28,11 +28,11 @@ export default EStyleSheet.create({
     margin: 10,
     marginLeft: 0,
     borderWidth: 1,
-    borderColor: 'white',
+    borderColor: '$mainColor_white',
     paddingLeft: 20,
     borderRadius: 30,
-    fontSize: 23,
-    color: "$mainColor_black",
+    fontSize: 20,
+    color: "white",
   },
 
   submit: {

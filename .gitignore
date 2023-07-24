@@ -64,3 +64,8 @@ yarn-error.log
 
 
 .env.development
+
+
+# Google/Firebase
+google-services.json
+
