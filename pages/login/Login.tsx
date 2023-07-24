@@ -7,12 +7,26 @@ import auth from '@react-native-firebase/auth'
 
 type Props = {navigation:any}
 
-const Login: React.FC<{}> = (props: Props) => {
+const Login = (props: Props) => {
   const [initializing, setInitializing] = useState(true)
   const [user, setUser] = useState()
-
   const IMAGE = require('../../assets/images/logo_sm.png')
   const {navigation} = props
+
+  const logIn = (email:string, password:string) => {
+    auth()
+      .signInWithEmailAndPassword(auth, email, password )
+      .then(()=> console.log('working', email))
+      .then((userCredential:any)=> {
+        const user = userCredential.user
+        console.log(user)
+        navigation.navigate('Home', {user: user})
+      })
+      .catch(error => {
+        const errCode = error.code
+        const errMessage = error.message
+      })
+  }
 
   const onAuthStateChanged = (user:any) => {
     setUser(user)
@@ -28,7 +42,10 @@ const Login: React.FC<{}> = (props: Props) => {
     console.log(user, 'in useEffect')
   }, [user])
 
-  if(user) {navigation.navigate('Home')}
+  useEffect(()=> {
+    if(user) {()=> navigation.navigate('Home')}
+  else if(!user) {() => navigation.navigate('Login')}
+  }, [])
 
   return (
     <ScrollView contentContainerStyle={styles.container}
@@ -38,7 +55,11 @@ const Login: React.FC<{}> = (props: Props) => {
       <Text style={styles.sub_heading}>Log in to get Munching!</Text>
       <Formik
         initialValues={{ email: '', password: '' }}
-        onSubmit={values => console.log(values)}
+        onSubmit={values => {
+          const {email, password} = values
+
+          logIn(email, password)
+        }}
       >
         {({ handleChange, handleBlur, handleSubmit, values }) => (
           <View style={styles.form}>
@@ -62,7 +83,7 @@ const Login: React.FC<{}> = (props: Props) => {
             <View style={styles.links_cont}>
               <TouchableOpacity 
                 style={styles.links} 
-                onPress={() => navigation.navigate('Register', {})}
+                onPress={() => {navigation.navigate('Register')}}
               >
                 <Text style={styles.links_txt}>Register</Text>
               </TouchableOpacity>

@@ -13,8 +13,17 @@ import axios from 'axios'
 import { locationPermission } from '../utils/permissions';
 import List from '../components/list/list'
 import Icon from 'react-native-vector-icons/FontAwesome';
+import EStyleSheet from 'react-native-extended-stylesheet';
+import auth from '@react-native-firebase/auth'
 
-const Main: React.FC<{}> = () => {
+type Props = {
+  navigation: any,
+  name: string,
+}
+
+const Main = (props: Props) => {
+  const [initializing, setInitializing] = useState(true)
+  const [user, setUser] = useState()
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState<Array<string>>([])
   const [location, setLocation] = useState<any>()
@@ -23,11 +32,30 @@ const Main: React.FC<{}> = () => {
   const [openNow, setOppenNow] = useState<boolean>(true)
   const [geo, setGeo] = useState({})
   const YelpKey = process.env.YELP_API
+
+  const {navigation, name} = props
   
   // interface Icoordinates {
 //   latitude: string;
 //   longitude: string;
 // }
+const onAuthStateChanged = (user:any) => {
+  setUser(user)
+  if(initializing) setInitializing(false)
+}
+
+useEffect(()=> {
+  const subscriber = auth().onAuthStateChanged(onAuthStateChanged)
+  return subscriber
+}, [])
+
+useEffect(()=> {
+  console.log(user, 'in useEffect')
+}, [user])
+
+useEffect(() => {
+  if(user) {() => navigation.navigate('Home')}
+})
 
   const getLocation = async () => {
     const result = locationPermission();
@@ -98,7 +126,7 @@ const Main: React.FC<{}> = () => {
 
   return (
     <View
-      style={{flexDirection: "column", alignItems: "center", flex: 1, backgroundColor: "black"}}
+      style={{flexDirection: "column", alignItems: "center", flex: 1, backgroundColor: "$mainColor_black"}}
       // style={{
         // backgroundColor: isDarkMode ? Colors.black : Colors.white,
     >
@@ -137,7 +165,7 @@ const Main: React.FC<{}> = () => {
   )
 }
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   title: {
     fontSize: 30,
   },
@@ -186,7 +214,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   list_view: {
-    backgroundColor: 'black',
+    backgroundColor: '$mainColor_black',
     flexDirection: 'column',
     alignItems: 'center',
   }

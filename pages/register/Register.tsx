@@ -19,7 +19,7 @@ const Register: React.FC<{}> = (props: Props) => {
   const createUser = (email:string, password:string, name:string) => {
     console.log('in createUser', email, password)
     auth()
-      .createUserWithEmailAndPassword(email, password, name)
+      .createUserWithEmailAndPassword(email, password)
       .then(()=> console.log('working', email))
       .then(()=> {
         console.log('User account created & signed in!'),
@@ -50,7 +50,9 @@ const Register: React.FC<{}> = (props: Props) => {
     console.log(user, 'in useEffect')
   }, [user])
 
-  if(user) {navigation.navigate('Home')}
+  useEffect(() => {
+    if(user) {() => navigation.navigate('Home')}
+  })
 
   return (
     <ScrollView contentContainerStyle={styles.container}
