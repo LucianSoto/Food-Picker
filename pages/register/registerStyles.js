@@ -2,6 +2,7 @@ import EStyleSheet from 'react-native-extended-stylesheet'
 
 export default EStyleSheet.create({
   container: {
+    flexGrow: 1,
     width: '100%',
     backgroundColor: '$mainColor_black',
     alignItems: 'center',

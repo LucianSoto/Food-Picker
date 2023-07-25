@@ -35,6 +35,14 @@ export default EStyleSheet.create({
     color: "white",
   },
 
+  eye: {
+    color: 'lightgray',
+    position: 'absolute',
+    right: 25,
+    fontSize: 28,
+    top: 20,
+  },
+
   submit: {
     marginVertical: 30,
     width: '100%',
