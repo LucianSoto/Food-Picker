@@ -4,16 +4,17 @@ import { Formik } from 'formik'
 import styles from './registerStyles'
 import Oauth from '../../components/auth/Oauth'
 import auth from '@react-native-firebase/auth'
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 type Props = {
   navigation: any
 }
 
-const Register: React.FC<{}> = (props: Props) => {
+const Register = (props: Props) => {
   const IMAGE = require('../../assets/images/logo_sm.png')
   const [initializing, setInitializing] = useState(true)
   const [user, setUser] = useState()
-
+  const [secure, setSecure] = useState<boolean>(true)
   const {navigation} = props
 
   const createUser = (email:string, password:string, name:string) => {
@@ -81,12 +82,20 @@ const Register: React.FC<{}> = (props: Props) => {
               value={values.email}
             />
             <Text style={{color: 'white', marginLeft: 10}}>Password</Text>
-            <TextInput
-              style={styles.input}
-              onChangeText={handleChange('password')}
-              onBlur={handleBlur('password')}
-              value={values.password}
-            />
+            <View>
+              <TextInput
+                style={styles.input}
+                onChangeText={handleChange('password')}
+                onBlur={handleBlur('password')}
+                value={values.password}
+                secureTextEntry={secure}
+              />
+              <Icon 
+                style={styles.eye}
+                name={secure? 'eye' : 'eye-slash'}
+                onPress={()=> setSecure(!secure)}
+              />
+            </View>
             <TouchableOpacity style={styles.submit} onPress={handleSubmit}>
             <Text style={styles.submit_text}>SUBMIT</Text>
             </TouchableOpacity>

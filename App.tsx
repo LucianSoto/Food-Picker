@@ -16,7 +16,6 @@ import Register from './pages/register/Register'
 import Login from './pages/login/Login'
 // import { Colors } from 'react-native/Libraries/NewAppScreen'
 import EStyleSheet from 'react-native-extended-stylesheet'
-import Oauth from '../../components/auth/Oauth'
 import auth from '@react-native-firebase/auth'
 
 function App(): JSX.Element {
