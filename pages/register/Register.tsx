@@ -33,7 +33,7 @@ const Register = (props: Props) => {
         if(err.code === 'auth/invalid-email'){
           console.log('Invalid email address.')
         }
-        console.log(err)
+        console.log(err)  
       })
   }
 

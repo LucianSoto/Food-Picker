@@ -17,8 +17,8 @@ const Login = (props: Props) => {
 
   const logIn = (email:string, password:string) => {
     auth()
-      .signInWithEmailAndPassword(auth, email, password )
-      .then(()=> console.log('working', email))
+      .signInWithEmailAndPassword( email, password )
+      // .then(()=> console.log('working', email))
       .then((userCredential:any)=> {
         const user = userCredential.user
         console.log(user)
