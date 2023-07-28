@@ -16,18 +16,7 @@ const Login = (props: Props) => {
   const {navigation} = props
 
   const logIn = (email:string, password:string) => {
-    auth()
-      .signInWithEmailAndPassword( email, password )
-      // .then(()=> console.log('working', email))
-      .then((userCredential:any)=> {
-        const user = userCredential.user
-        console.log(user)
-        navigation.navigate('Home', {user: user})
-      })
-      .catch(error => {
-        const errCode = error.code
-        const errMessage = error.message
-      })
+    
   }
 
   const onAuthStateChanged = (user:any) => {
@@ -39,15 +28,20 @@ const Login = (props: Props) => {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged)
     return subscriber
   }, [])
-
+  
   useEffect(()=> {
     console.log(user, 'in useEffect')
-  }, [user])
-
-  useEffect(()=> {
     if(user) {()=> navigation.navigate('Home')}
   else if(!user) {() => navigation.navigate('Login')}
   }, [])
+
+  if (initializing) {
+    return(
+      <View>
+        <Text>Initializing...</Text>
+      </View>
+    )
+  }
 
   return (
     <ScrollView contentContainerStyle={styles.container}
@@ -60,7 +54,26 @@ const Login = (props: Props) => {
         onSubmit={values => {
           const {email, password} = values
 
-          logIn(email, password)
+          auth()
+            .signInWithEmailAndPassword( email, password )
+            .then((userCredential:any)=> {
+              const user = userCredential.user
+              navigation.navigate('Home', {user: user})
+            })
+            .catch(error => {
+              // display errors
+              console.log(error.code, error.message)
+              if(error.code === 'auth/wrong-password'){
+                console.log('Password incorrect.')
+              } 
+              if(error.code === 'auth/user-not-found'){
+                console.log('User does not exist')
+              }
+            })
+            .finally(()=> {
+              values.email = ''
+              values.password = ''
+            })
         }}
       >
         {({ handleChange, handleBlur, handleSubmit, values }) => (

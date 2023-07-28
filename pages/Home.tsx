@@ -34,28 +34,21 @@ const Main = (props: Props) => {
   const YelpKey = process.env.YELP_API
 
   const {navigation, name} = props
-  
-  // interface Icoordinates {
-//   latitude: string;
-//   longitude: string;
-// }
-const onAuthStateChanged = (user:any) => {
-  setUser(user)
-  if(initializing) setInitializing(false)
-}
 
-useEffect(()=> {
-  const subscriber = auth().onAuthStateChanged(onAuthStateChanged)
-  return subscriber
-}, [])
+  const onAuthStateChanged = (user:any) => {
+    setUser(user)
+    if(initializing) setInitializing(false)
+  }
 
-useEffect(()=> {
+  useEffect(()=> {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged)
+    return subscriber
+  }, [])
+
+  useEffect(() => {
+    if(user) {() => navigation.navigate('Home')}
+  })
   console.log(user, 'in useEffect')
-}, [user])
-
-useEffect(() => {
-  if(user) {() => navigation.navigate('Home')}
-})
 
   const getLocation = async () => {
     const result = locationPermission();
