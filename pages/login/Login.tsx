@@ -5,6 +5,7 @@ import styles from './loginStyles'
 import Oauth from '../../components/auth/Oauth'
 import auth from '@react-native-firebase/auth'
 import Icon from 'react-native-vector-icons/FontAwesome';
+import SInfo from "react-native-sensitive-info";
 
 type Props = {navigation:any}
 
@@ -14,10 +15,6 @@ const Login = (props: Props) => {
   const [secure, setSecure] = useState<boolean>(true)
   const IMAGE = require('../../assets/images/logo_sm.png')
   const {navigation} = props
-
-  const logIn = (email:string, password:string) => {
-    
-  }
 
   const onAuthStateChanged = (user:any) => {
     setUser(user)
@@ -30,7 +27,7 @@ const Login = (props: Props) => {
   }, [])
   
   useEffect(()=> {
-    console.log(user, 'in useEffect')
+    // console.log(user, 'in useEffect')
     if(user) {()=> navigation.navigate('Home')}
   else if(!user) {() => navigation.navigate('Login')}
   }, [])
@@ -51,14 +48,20 @@ const Login = (props: Props) => {
       <Text style={styles.sub_heading}>Log in to get Munching!</Text>
       <Formik
         initialValues={{ email: '', password: '' }}
-        onSubmit={values => {
+        onSubmit={async (values) => {
           const {email, password} = values
 
+          const logIn = await 
           auth()
             .signInWithEmailAndPassword( email, password )
             .then((userCredential:any)=> {
               const user = userCredential.user
-              navigation.navigate('Home', {user: user})
+              // navigation.navigate('Home', {user: user})
+              const token = user.getIdToken().then(idToken => idToken)
+              return token
+            })
+            .then((token) => {
+              console.log(token, 'token')
             })
             .catch(error => {
               // display errors
@@ -70,9 +73,12 @@ const Login = (props: Props) => {
                 console.log('User does not exist')
               }
             })
+            // .finally(()=> {
+            //   values.email = ''
+            //   values.password = ''
+            // })
             .finally(()=> {
-              values.email = ''
-              values.password = ''
+              
             })
         }}
       >

@@ -48,7 +48,7 @@ const Main = (props: Props) => {
   useEffect(() => {
     if(user) {() => navigation.navigate('Home')}
   })
-  console.log(user, 'in useEffect')
+  console.log( user.getIdToken(), 'in useEffect')
 
   const getLocation = async () => {
     const result = locationPermission();
