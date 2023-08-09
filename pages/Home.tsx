@@ -15,6 +15,7 @@ import List from '../components/list/list'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import auth from '@react-native-firebase/auth'
+import EncryptedStorage from 'react-native-encrypted-storage';
 
 type Props = {
   navigation: any,
@@ -45,10 +46,18 @@ const Main = (props: Props) => {
     return subscriber
   }, [])
 
+  useEffect(()=> {
+    const getSession = async () => {
+      const session = await EncryptedStorage.getItem("user_session")
+      console.log(session, 'SESSION!!!!')
+    }
+    getSession()
+    // console.log(session, 'SESSION!@@@@@')
+  })
+
   useEffect(() => {
     if(user) {() => navigation.navigate('Home')}
   })
-  console.log( user.getIdToken(), 'in useEffect')
 
   const getLocation = async () => {
     const result = locationPermission();

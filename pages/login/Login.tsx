@@ -5,7 +5,7 @@ import styles from './loginStyles'
 import Oauth from '../../components/auth/Oauth'
 import auth from '@react-native-firebase/auth'
 import Icon from 'react-native-vector-icons/FontAwesome';
-import SInfo from "react-native-sensitive-info";
+import EncryptedStorage from 'react-native-encrypted-storage';
 
 type Props = {navigation:any}
 
@@ -27,7 +27,6 @@ const Login = (props: Props) => {
   }, [])
   
   useEffect(()=> {
-    // console.log(user, 'in useEffect')
     if(user) {()=> navigation.navigate('Home')}
   else if(!user) {() => navigation.navigate('Login')}
   }, [])
@@ -55,14 +54,26 @@ const Login = (props: Props) => {
           auth()
             .signInWithEmailAndPassword( email, password )
             .then((userCredential:any)=> {
-              const user = userCredential.user
-              // navigation.navigate('Home', {user: user})
-              const token = user.getIdToken().then(idToken => idToken)
+              const userCreds = userCredential.user
+              const token = userCredential.user.getIdToken()
+              
               return token
             })
-            .then((token) => {
-              console.log(token, 'token')
+            .then((idToken:any)=> {
+              // console.log(idToken, email)
+              EncryptedStorage.setItem(
+                "user_session",
+                JSON.stringify({
+                  token : idToken,
+                  email : email,
+                })
+                )
+                // return idToken
             })
+              
+            .then (
+                navigation.navigate('Home')
+            )
             .catch(error => {
               // display errors
               console.log(error.code, error.message)
@@ -77,9 +88,6 @@ const Login = (props: Props) => {
             //   values.email = ''
             //   values.password = ''
             // })
-            .finally(()=> {
-              
-            })
         }}
       >
         {({ handleChange, handleBlur, handleSubmit, values }) => (
