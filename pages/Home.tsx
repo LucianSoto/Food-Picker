@@ -55,8 +55,10 @@ const Main = (props: Props) => {
     // console.log(session, 'SESSION!@@@@@')
   })
 
+  // GET LOCALLY stored user info
+
   useEffect(() => {
-    if(user) {() => navigation.navigate('Home')}
+    if(!user) {() => navigation.navigate('Login')}
   })
 
   const getLocation = async () => {
@@ -126,6 +128,7 @@ const Main = (props: Props) => {
     console.log('opening filters')
   }
 
+  // IF INITIALIZING HAVE A LOADING ANIMATION.
   return (
     <View
       style={{flexDirection: "column", alignItems: "center", flex: 1, backgroundColor: "$mainColor_black"}}

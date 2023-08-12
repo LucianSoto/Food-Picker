@@ -56,11 +56,9 @@ const Login = (props: Props) => {
             .then((userCredential:any)=> {
               const userCreds = userCredential.user
               const token = userCredential.user.getIdToken()
-              
               return token
             })
             .then((idToken:any)=> {
-              // console.log(idToken, email)
               EncryptedStorage.setItem(
                 "user_session",
                 JSON.stringify({
@@ -68,14 +66,11 @@ const Login = (props: Props) => {
                   email : email,
                 })
                 )
-                // return idToken
             })
-              
             .then (
                 navigation.navigate('Home')
             )
             .catch(error => {
-              // display errors
               console.log(error.code, error.message)
               if(error.code === 'auth/wrong-password'){
                 console.log('Password incorrect.')
@@ -84,10 +79,10 @@ const Login = (props: Props) => {
                 console.log('User does not exist')
               }
             })
-            // .finally(()=> {
-            //   values.email = ''
-            //   values.password = ''
-            // })
+            .finally(()=> {
+              values.email = ''
+              values.password = ''
+            })
         }}
       >
         {({ handleChange, handleBlur, handleSubmit, values }) => (

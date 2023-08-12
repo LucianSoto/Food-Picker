@@ -14,6 +14,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { Home } from './Home'
 import Register from './pages/register/Register'
 import Login from './pages/login/Login'
+import { ForgotPassword } from './pages/forgotPassword/ForgotPassword';
 // import { Colors } from 'react-native/Libraries/NewAppScreen'
 import EStyleSheet from 'react-native-extended-stylesheet'
 import auth from '@react-native-firebase/auth'
@@ -52,6 +53,7 @@ function App(): JSX.Element {
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="Forgot_Password" component={ForgotPassword} />
       </Stack.Navigator>
         
       {/* </SafeAreaView> */}

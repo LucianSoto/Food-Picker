@@ -108,7 +108,7 @@ const Register = (props: Props) => {
               </TouchableOpacity>
               <TouchableOpacity 
                 style={styles.links} 
-                onPress={() => navigation.navigate('Forgot_Password')}
+                onPress={() => navigation.navigate('Terms_Of_Use')}
               >
                 <Text style={styles.links_txt}>Terms of Use</Text>
               </TouchableOpacity>

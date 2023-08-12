@@ -16,12 +16,6 @@ export default EStyleSheet.create({
     color: '$mainColor_white',
   },  
 
-  form: {
-    flex: 1,
-    width: '90%',
-    marginBottom: 30,
-  },
-
   input: {
     height: 50,
     width: "100%",
@@ -66,5 +60,3 @@ export default EStyleSheet.create({
     color: 'white',
   },
 })
-
-// make button component?
