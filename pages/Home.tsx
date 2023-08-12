@@ -52,10 +52,7 @@ const Main = (props: Props) => {
       console.log(session, 'SESSION!!!!')
     }
     getSession()
-    // console.log(session, 'SESSION!@@@@@')
   })
-
-  // GET LOCALLY stored user info
 
   useEffect(() => {
     if(!user) {() => navigation.navigate('Login')}

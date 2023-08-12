@@ -28,8 +28,9 @@ const Login = (props: Props) => {
   
   useEffect(()=> {
     if(user) {()=> navigation.navigate('Home')}
-  else if(!user) {() => navigation.navigate('Login')}
   }, [])
+
+  console.log(user)
 
   if (initializing) {
     return(
