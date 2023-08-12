@@ -15,6 +15,7 @@ import List from '../components/list/list'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import auth from '@react-native-firebase/auth'
+import EncryptedStorage from 'react-native-encrypted-storage';
 
 type Props = {
   navigation: any,
@@ -34,28 +35,28 @@ const Main = (props: Props) => {
   const YelpKey = process.env.YELP_API
 
   const {navigation, name} = props
-  
-  // interface Icoordinates {
-//   latitude: string;
-//   longitude: string;
-// }
-const onAuthStateChanged = (user:any) => {
-  setUser(user)
-  if(initializing) setInitializing(false)
-}
 
-useEffect(()=> {
-  const subscriber = auth().onAuthStateChanged(onAuthStateChanged)
-  return subscriber
-}, [])
+  const onAuthStateChanged = (user:any) => {
+    setUser(user)
+    if(initializing) setInitializing(false)
+  }
 
-useEffect(()=> {
-  console.log(user, 'in useEffect')
-}, [user])
+  useEffect(()=> {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged)
+    return subscriber
+  }, [])
 
-useEffect(() => {
-  if(user) {() => navigation.navigate('Home')}
-})
+  useEffect(()=> {
+    const getSession = async () => {
+      const session = await EncryptedStorage.getItem("user_session")
+      console.log(session, 'SESSION!!!!')
+    }
+    getSession()
+  })
+
+  useEffect(() => {
+    if(!user) {() => navigation.navigate('Login')}
+  })
 
   const getLocation = async () => {
     const result = locationPermission();
@@ -124,6 +125,7 @@ useEffect(() => {
     console.log('opening filters')
   }
 
+  // IF INITIALIZING HAVE A LOADING ANIMATION.
   return (
     <View
       style={{flexDirection: "column", alignItems: "center", flex: 1, backgroundColor: "$mainColor_black"}}

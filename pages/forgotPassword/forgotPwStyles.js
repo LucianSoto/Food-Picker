@@ -6,25 +6,20 @@ export default EStyleSheet.create({
     width: '100%',
     backgroundColor: '$mainColor_black',
     alignItems: 'center',
+    justifyContent: 'center',
   },
 
   sub_heading: {
-    fontSize: 20,
+    fontSize: 30,
     fontWeight: 600,
-    marginVertical: 20,
     alignItems: 'center',
     color: '$mainColor_white',
+    marginBottom: 70,
   },  
-
-  form: {
-    flex: 1,
-    width: '90%',
-    marginBottom: 30,
-  },
 
   input: {
     height: 50,
-    width: "100%",
+    width: "80%",
     margin: 10,
     marginLeft: 0,
     borderWidth: 1,
@@ -37,7 +32,7 @@ export default EStyleSheet.create({
 
   submit: {
     marginVertical: 30,
-    width: '100%',
+    width: '80%',
     padding: 9,
     backgroundColor: '$mainColor_magenta',
     flexDirection: 'row',
@@ -66,5 +61,3 @@ export default EStyleSheet.create({
     color: 'white',
   },
 })
-
-// make button component?

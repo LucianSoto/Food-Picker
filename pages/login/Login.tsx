@@ -5,6 +5,7 @@ import styles from './loginStyles'
 import Oauth from '../../components/auth/Oauth'
 import auth from '@react-native-firebase/auth'
 import Icon from 'react-native-vector-icons/FontAwesome';
+import EncryptedStorage from 'react-native-encrypted-storage';
 
 type Props = {navigation:any}
 
@@ -15,21 +16,6 @@ const Login = (props: Props) => {
   const IMAGE = require('../../assets/images/logo_sm.png')
   const {navigation} = props
 
-  const logIn = (email:string, password:string) => {
-    auth()
-      .signInWithEmailAndPassword(auth, email, password )
-      .then(()=> console.log('working', email))
-      .then((userCredential:any)=> {
-        const user = userCredential.user
-        console.log(user)
-        navigation.navigate('Home', {user: user})
-      })
-      .catch(error => {
-        const errCode = error.code
-        const errMessage = error.message
-      })
-  }
-
   const onAuthStateChanged = (user:any) => {
     setUser(user)
     if(initializing) setInitializing(false)
@@ -39,15 +25,20 @@ const Login = (props: Props) => {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged)
     return subscriber
   }, [])
-
-  useEffect(()=> {
-    console.log(user, 'in useEffect')
-  }, [user])
-
+  
   useEffect(()=> {
     if(user) {()=> navigation.navigate('Home')}
-  else if(!user) {() => navigation.navigate('Login')}
   }, [])
+
+  console.log(user)
+
+  if (initializing) {
+    return(
+      <View>
+        <Text>Initializing...</Text>
+      </View>
+    )
+  }
 
   return (
     <ScrollView contentContainerStyle={styles.container}
@@ -57,10 +48,42 @@ const Login = (props: Props) => {
       <Text style={styles.sub_heading}>Log in to get Munching!</Text>
       <Formik
         initialValues={{ email: '', password: '' }}
-        onSubmit={values => {
+        onSubmit={async (values) => {
           const {email, password} = values
 
-          logIn(email, password)
+          const logIn = await 
+          auth()
+            .signInWithEmailAndPassword( email, password )
+            .then((userCredential:any)=> {
+              const userCreds = userCredential.user
+              const token = userCredential.user.getIdToken()
+              return token
+            })
+            .then((idToken:any)=> {
+              EncryptedStorage.setItem(
+                "user_session",
+                JSON.stringify({
+                  token : idToken,
+                  email : email,
+                })
+                )
+            })
+            .then (
+                navigation.navigate('Home')
+            )
+            .catch(error => {
+              console.log(error.code, error.message)
+              if(error.code === 'auth/wrong-password'){
+                console.log('Password incorrect.')
+              } 
+              if(error.code === 'auth/user-not-found'){
+                console.log('User does not exist')
+              }
+            })
+            .finally(()=> {
+              values.email = ''
+              values.password = ''
+            })
         }}
       >
         {({ handleChange, handleBlur, handleSubmit, values }) => (

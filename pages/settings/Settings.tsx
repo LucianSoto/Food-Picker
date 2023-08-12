@@ -25,14 +25,15 @@ const Settings = (props: Props) => {
     console.log(user, 'in useEffect')
   }, [user])
 
-  if(user) {navigation.navigate('Home')}
-  else if(!user) {navigation.navigate('Login')}
+  // if(user) {navigation.navigate('Home')}
+  // else if(!user) {navigation.navigate('Login')}
 
   const logOut = () => {
     console.log('logging out'),
     auth()
       .signOut()
       .then(()=> console.log('user signed out!'))
+      navigation.navigate('Login')
   }
 
   return (

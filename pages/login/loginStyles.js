@@ -70,10 +70,6 @@ export default EStyleSheet.create({
     marginHorizontal: 20,
   },
 
-  links: {
-
-  },
-
   links_txt: {
     color: 'white',
   },

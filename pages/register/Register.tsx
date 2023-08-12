@@ -6,6 +6,7 @@ import Oauth from '../../components/auth/Oauth'
 import auth from '@react-native-firebase/auth'
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+
 type Props = {
   navigation: any
 }
@@ -33,7 +34,7 @@ const Register = (props: Props) => {
         if(err.code === 'auth/invalid-email'){
           console.log('Invalid email address.')
         }
-        console.log(err)
+        console.log(err)  
       })
   }
 
@@ -108,7 +109,7 @@ const Register = (props: Props) => {
               </TouchableOpacity>
               <TouchableOpacity 
                 style={styles.links} 
-                onPress={() => navigation.navigate('Forgot_Password')}
+                onPress={() => navigation.navigate('Terms_Of_Use')}
               >
                 <Text style={styles.links_txt}>Terms of Use</Text>
               </TouchableOpacity>

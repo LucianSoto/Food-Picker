@@ -10,7 +10,6 @@ import com.facebook.react.defaults.DefaultReactNativeHost;
 import com.facebook.soloader.SoLoader;
 import java.util.List;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
-import dev.mcodex.RNSensitiveInfo.RNSensitiveInfoPackage;
 public class MainApplication extends Application implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost =
