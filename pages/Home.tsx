@@ -46,17 +46,15 @@ const Main = (props: Props) => {
     return subscriber
   }, [])
 
-  useEffect(()=> {
-    const getSession = async () => {
-      const session = await EncryptedStorage.getItem("user_session")
-      console.log(session, 'SESSION!!!!')
-    }
-    getSession()
-  })
+  // useEffect(()=> {
+  //   const getSession = async () => {
+  //     const session = await EncryptedStorage.getItem("user_session")
+  //     console.log(session, 'SESSION HOME')
+  //   }
+  //   getSession()
+  // })
 
-  useEffect(() => {
-    if(!user) {() => navigation.navigate('Login')}
-  })
+  if(!user) {() => navigation.navigate('Login')}
 
   const getLocation = async () => {
     const result = locationPermission();
