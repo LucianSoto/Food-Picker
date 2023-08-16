@@ -19,19 +19,26 @@ const Login = (props: Props) => {
   const onAuthStateChanged = (user:any) => {
     setUser(user)
     if(initializing) setInitializing(false)
+    if(user) {()=> navigation.navigate('Home')}
   }
 
   useEffect(()=> {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged)
     return subscriber
   }, [])
-  
-  useEffect(()=> {
-    if(user) {()=> navigation.navigate('Home')}
-  }, [])
 
-  console.log(user)
+  // useEffect(()=> {
+  //   const getSession = async () => {
+  //     const session: string|any = await EncryptedStorage.getItem("user_session")
+  //     const sessionObj = JSON.parse(session)
+  //     // console.log(sessionObj.email, 'SESSION  Login')
+  //     // console.log(sessionObj.token)
+  //   }
+  //   getSession()
+  // })
 
+  if(user) {navigation.navigate('Home')}
+    
   if (initializing) {
     return(
       <View>
@@ -51,7 +58,7 @@ const Login = (props: Props) => {
         onSubmit={async (values) => {
           const {email, password} = values
 
-          const logIn = await 
+          //USE YUP to validate forms!
           auth()
             .signInWithEmailAndPassword( email, password )
             .then((userCredential:any)=> {

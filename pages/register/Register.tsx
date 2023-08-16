@@ -6,7 +6,6 @@ import Oauth from '../../components/auth/Oauth'
 import auth from '@react-native-firebase/auth'
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-
 type Props = {
   navigation: any
 }
@@ -19,7 +18,6 @@ const Register = (props: Props) => {
   const {navigation} = props
 
   const createUser = (email:string, password:string, name:string) => {
-    console.log('in createUser', email, password)
     auth()
       .createUserWithEmailAndPassword(email, password)
       .then(()=> console.log('working', email))
@@ -48,13 +46,7 @@ const Register = (props: Props) => {
     return subscriber
   }, [])
 
-  useEffect(()=> {
-    console.log(user, 'in useEffect')
-  }, [user])
-
-  useEffect(() => {
-    if(user) {() => navigation.navigate('Home')}
-  })
+  if(user) {navigation.navigate('Home')}
 
   return (
     <ScrollView contentContainerStyle={styles.container}

@@ -23,7 +23,8 @@ export const ForgotPassword = (props: Props) => {
       .then(()=> setModal(true))
       .then(()=> setTimeout(()=> {
           setModal(false)
-        }, 3000))
+        }, 2000))
+      .then(()=> navigation.navigate('Login'))
       .catch(err => {
         console.log(err.code, err.message)
         // or open modal with error
