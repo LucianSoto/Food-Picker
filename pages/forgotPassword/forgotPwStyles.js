@@ -60,4 +60,9 @@ export default EStyleSheet.create({
   links_txt: {
     color: 'white',
   },
+
+  modal: {
+    flex: 1,
+  }
+  
 })
