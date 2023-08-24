@@ -126,9 +126,8 @@ const Main = (props: Props) => {
   // IF INITIALIZING HAVE A LOADING ANIMATION.
   return (
     <View
-      style={{flexDirection: "column", alignItems: "center", flex: 1, backgroundColor: "$mainColor_black"}}
-      // style={{
-        // backgroundColor: isDarkMode ? Colors.black : Colors.white,
+      // style={{flexDirection: "column", alignItems: "center", flex: 1, backgroundColor: "$mainColor_black"}}
+      style={styles.main_container}
     >
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
@@ -170,7 +169,7 @@ const styles = EStyleSheet.create({
     fontSize: 30,
   },
   input: {
-    height: 50,
+    height: 60,
     width: "90%",
     margin: 10,
     marginLeft: 0,
@@ -207,16 +206,18 @@ const styles = EStyleSheet.create({
     fontSize: 20,
     bottom: 0,
   },
-  container: {
+  main_container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: 'black',
     alignItems: 'center',
     justifyContent: 'center',
+    width: '100%',
   },
   list_view: {
     backgroundColor: '$mainColor_black',
     flexDirection: 'column',
     alignItems: 'center',
+    width: '100%',
   }
 });
 

@@ -20,9 +20,6 @@ import EStyleSheet from 'react-native-extended-stylesheet'
 import auth from '@react-native-firebase/auth'
 
 function App(): JSX.Element {
-  const [initializing, setInitializing] = useState(true)
-  const [user, setUser] = useState()
-
   const isDarkMode = useColorScheme() === 'dark';
   const Stack = createNativeStackNavigator()
   const tabScreenOptions = {headerShown: false}
@@ -32,19 +29,8 @@ function App(): JSX.Element {
     SplashScreen.hide();
   },[])
 
-  const onAuthStateChanged = (user) => {
-    setUser(user)
-    if(initializing) setInitializing(false)
-  }
-
-  useEffect(()=> {
-    const subscriber = auth().onAuthStateChanged(onAuthStateChanged)
-    return subscriber
-  }, [])
-
   return (
     <NavigationContainer>
-      {/* <SafeAreaView style={{backgroundColor: 'lightgray'}}> */}
         <StatusBar
           barStyle={'light-content'}
           backgroundColor={EStyleSheet.value('$mainColor_magenta')}
@@ -55,8 +41,6 @@ function App(): JSX.Element {
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Forgot_Password" component={ForgotPassword} />
       </Stack.Navigator>
-        
-      {/* </SafeAreaView> */}
     </NavigationContainer>
   );
 }

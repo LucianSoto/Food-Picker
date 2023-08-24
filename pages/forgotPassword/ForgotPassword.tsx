@@ -64,10 +64,10 @@ export const ForgotPassword = (props: Props) => {
           <Text style={styles.links_txt}>Register</Text>
         </TouchableOpacity>
       </View>
-      <Modal isVisible={true}>
+      <Modal isVisible={modal}>
         <View style={styles.modal}>
           <Text style={{fontSize: 35, color: "#fff"}}>Email has been sent to {email}</Text>
-          <Text style={{fontSize: 25, color: "#fff"}}>Redirecting..</Text>
+          <Text style={{fontSize: 25, color: "#fff"}}>Redirecting... 🚀</Text>
         </View>
       </Modal>
     </View>
