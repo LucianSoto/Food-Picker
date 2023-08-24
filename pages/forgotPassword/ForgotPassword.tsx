@@ -23,15 +23,15 @@ export const ForgotPassword = (props: Props) => {
       .then(()=> setModal(true))
       .then(()=> setTimeout(()=> {
           setModal(false)
-        }, 2000))
-      // .then(()=> navigation.navigate('Login'))
+          navigation.navigate('Login')
+        }, 2500))
       .catch(err => {
         console.log(err.code, err.message)
         // or open modal with error
       })
-      // .finally(()=> {
-      //   email = ''
-      // })
+      .finally(()=> {
+        email = ''
+      })
   }
 
   return (
@@ -64,9 +64,10 @@ export const ForgotPassword = (props: Props) => {
           <Text style={styles.links_txt}>Register</Text>
         </TouchableOpacity>
       </View>
-      <Modal isVisible={modal}>
+      <Modal isVisible={true}>
         <View style={styles.modal}>
-          <Text style={{fontSize: 50, color: "#fff"}}>Email has been sent to {email}</Text>
+          <Text style={{fontSize: 35, color: "#fff"}}>Email has been sent to {email}</Text>
+          <Text style={{fontSize: 25, color: "#fff"}}>Redirecting..</Text>
         </View>
       </Modal>
     </View>

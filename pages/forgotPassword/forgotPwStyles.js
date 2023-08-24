@@ -63,6 +63,11 @@ export default EStyleSheet.create({
 
   modal: {
     flex: 1,
+    // marginTop: 100,
+    textAlign: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'black',
   }
   
 })
