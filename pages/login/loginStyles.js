@@ -33,6 +33,7 @@ export default EStyleSheet.create({
     borderRadius: 30,
     fontSize: 20,
     color: "white",
+    placeholderTextColor: 'white',
   },
 
   eye: {
@@ -73,4 +74,11 @@ export default EStyleSheet.create({
   links_txt: {
     color: 'white',
   },
+
+  err: {
+    color: 'red'
+  },
+  errorText: {
+    color: 'red'
+  }
 })
