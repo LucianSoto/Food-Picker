@@ -1,3 +1,4 @@
+import { Certificate } from 'crypto'
 import EStyleSheet from 'react-native-extended-stylesheet'
 
 export default EStyleSheet.create({
@@ -76,8 +77,13 @@ export default EStyleSheet.create({
   },
 
   err: {
-    color: 'red'
+    color: 'red',
+    fontSize: 30,
+    textAlign: 'center',
+    textTransform: 'capitalize',
+    marginTop: 30,
   },
+
   errorText: {
     color: 'red'
   }
