@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { Home } from './Home'
+import { Home } from './Tabs'
 import Register from './pages/register/Register'
 import Login from './pages/login/Login'
 import { ForgotPassword } from './pages/forgotPassword/ForgotPassword';

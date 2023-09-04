@@ -134,7 +134,7 @@ const Main = (props: Props) => {
         contentContainerStyle={styles.list_view}
       >
         <View 
-          style={{flexDirection: "row", alignItems: 'center',}}
+          style={{flexDirection: "row", alignItems: 'center'}}
         >
           <TextInput 
             style={styles.input}
@@ -199,7 +199,6 @@ const styles = EStyleSheet.create({
     alignItems: 'center',
     borderRadius: 25,
     position: 'relative',
-    bottom: 0,
   },
   main_button_text: {
     color: '$mainColor_white',
@@ -208,10 +207,11 @@ const styles = EStyleSheet.create({
   },
   main_container: {
     flex: 1,
-    backgroundColor: 'black',
+    backgroundColor: '$mainColor_black',
     alignItems: 'center',
     justifyContent: 'center',
     width: '100%',
+    borderBottom: ''
   },
   list_view: {
     backgroundColor: '$mainColor_black',
