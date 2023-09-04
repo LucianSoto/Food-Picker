@@ -13,9 +13,9 @@ import axios from 'axios'
 import { locationPermission } from '../utils/permissions';
 import List from '../components/list/list'
 import Icon from 'react-native-vector-icons/FontAwesome';
-import EStyleSheet from 'react-native-extended-stylesheet';
 import auth from '@react-native-firebase/auth'
 import EncryptedStorage from 'react-native-encrypted-storage';
+import EStyleSheet from 'react-native-extended-stylesheet'
 
 type Props = {
   navigation: any,
@@ -45,14 +45,6 @@ const Main = (props: Props) => {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged)
     return subscriber
   }, [])
-
-  // useEffect(()=> {
-  //   const getSession = async () => {
-  //     const session = await EncryptedStorage.getItem("user_session")
-  //     console.log(session, 'SESSION HOME')
-  //   }
-  //   getSession()
-  // })
 
   if(!user) {() => navigation.navigate('Login')}
 
@@ -125,10 +117,7 @@ const Main = (props: Props) => {
 
   // IF INITIALIZING HAVE A LOADING ANIMATION.
   return (
-    <View
-      // style={{flexDirection: "column", alignItems: "center", flex: 1, backgroundColor: "$mainColor_black"}}
-      style={styles.main_container}
-    >
+    <View style={styles.main_container}>
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         contentContainerStyle={styles.list_view}
