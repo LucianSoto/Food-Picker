@@ -34,7 +34,6 @@ export default EStyleSheet.create({
     borderRadius: 30,
     fontSize: 20,
     color: "white",
-    placeholderTextColor: 'white',
   },
 
   eye: {

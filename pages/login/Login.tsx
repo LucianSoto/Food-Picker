@@ -66,7 +66,6 @@ const Login = (props: Props) => {
         onSubmit={async (values) => {
           const {email, password} = values
 
-          //USE YUP to validate forms!
           auth()
             .signInWithEmailAndPassword( email, password )
             .then((userCredential:any)=> {
@@ -83,9 +82,9 @@ const Login = (props: Props) => {
                 })
                 )
             })
-            // .then (
-            //     navigation.navigate('Home')
-            // )
+            .then (
+                navigation.navigate('Home')
+            )
             .catch(error => {
               console.log(error.code, error.message)
               if(error.code === 'auth/wrong-password'){
@@ -108,7 +107,6 @@ const Login = (props: Props) => {
             <Text style={{color: 'white', marginLeft: 10}}>Email</Text>
             <TextInput
               style={styles.input}
-              // name="email"
               placeholder='email@email.com'
               onChangeText={handleChange('email')}
               onBlur={handleBlur('email')}
@@ -124,7 +122,6 @@ const Login = (props: Props) => {
             <View>
               <TextInput
                 style={styles.input}
-                // name="password"
                 onChangeText={handleChange('password')}
                 onBlur={handleBlur('password')}
                 value={values.password}
@@ -168,6 +165,7 @@ const Login = (props: Props) => {
         
       </Formik>
       {/* Google  */}
+      {/* figure out how to pass navigation to oauth as well or just import it????????????? */}
       <Oauth text={'Or login with'}/>
     </ScrollView>
   )
