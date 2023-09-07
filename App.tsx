@@ -11,7 +11,8 @@ import {
 } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { Home } from './Tabs'
+import { Tabs } from './Tabs'
+import { Home } from './pages/Home'
 import Register from './pages/register/Register'
 import Login from './pages/login/Login'
 import { ForgotPassword } from './pages/forgotPassword/ForgotPassword';
@@ -29,7 +30,7 @@ function App(): JSX.Element {
     SplashScreen.hide();
   },[])
 
-  return (
+  return (  
     <NavigationContainer>
         <StatusBar
           barStyle={'light-content'}
@@ -38,7 +39,7 @@ function App(): JSX.Element {
       <Stack.Navigator screenOptions={{headerShown: false}} >
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Register" component={Register} />
-        <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="Home" component={Tabs} />
         <Stack.Screen name="Forgot_Password" component={ForgotPassword} />
       </Stack.Navigator>
     </NavigationContainer>

@@ -4,8 +4,6 @@ export default StyleSheet.create({
   thumb: {
     minHeight: 190,
     minWidth: 190,
-    maxHeight: '90%',
-    maxwidth: '90%',
   },
   right_container: {
     marginLeft: 20,

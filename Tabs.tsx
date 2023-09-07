@@ -1,19 +1,22 @@
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Settings from "./pages/settings/Settings"
 import Favorites from "./pages/favorites/Favorites"
-import Main from "./pages/Home"
+import {Home} from "./pages/Home"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import EStyleSheet from 'react-native-extended-stylesheet';
 
-export const Home = () => {
+type Props = {
+  navigation: any,
+  state: any,
+  descriptions: any,
+}
+
+export const Tabs = (props: Props) => {
   const Tab = createBottomTabNavigator()
 
   return(
-    <Tab.Navigator initialRouteName='Roulette' 
+    <Tab.Navigator initialRouteName='Home' 
       screenOptions={{
-        tabBarLabelStyle: {
-          // backgroundColor: 'black',
-        },
         tabBarShowLabel: false,
         tabBarItemStyle: {
           backgroundColor: 'rgba(200,200,200, 0.1)',
@@ -22,30 +25,32 @@ export const Home = () => {
           marginHorizontal: 30,   
           height: 60, 
         },
-        tabBarActiveTintColor: 'magenta',
+        tabBarActiveTintColor: 'tomato',
         
         tabBarStyle: {
           backgroundColor: 'black',
           height: 80,
           paddingVertical: 10,
           paddingHorizontal: 20,
-        }
+        },
       }}
     >
       <Tab.Screen 
         style={{background: 'red'}}
-        name='Roulette'         
-        component={Main} 
+        name='Home'         
+        component={Home} 
+        //CLEAR THIS LATER
         options={{
           headerShown: false,
           tabBarLabel: "Home",
-          tabBarIcon: ({ color, size }) => (
+          tabBarIcon: ({ focused, color, size }) => (
             <Icon 
               name="home"
-              color={'gray'}
+              color={focused? 'white' : 'gray'}
               size={35}
             />
           )
+          
         }}
       />
       <Tab.Screen 
@@ -54,10 +59,10 @@ export const Home = () => {
         options={{
           headerShown: false,
           tabBarLabel: "favorites",
-          tabBarIcon: ({ color, size }) => (
+          tabBarIcon: ({ focused, color, size }) => (
             <Icon 
               name="star"
-              color={'gray'}
+              color={focused? 'white' : 'gray'}
               size={35}
             />
           )
@@ -69,10 +74,10 @@ export const Home = () => {
         options={{
           headerShown: false,
           tabBarLabel: "settings",
-          tabBarIcon: ({ color, size }) => (
+          tabBarIcon: ({ focused, color, size }) => (
             <Icon 
               name="gear"
-              color={'gray'}
+              color={focused? 'white' : 'gray'}
               size={35}
             />
           )

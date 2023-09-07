@@ -6,6 +6,7 @@ import {
   View,
   TextInput,
   TouchableOpacity,
+  Dimensions
 } from 'react-native';
 import Geolocation from 'react-native-geolocation-service'
 import { useState, useEffect } from 'react'
@@ -22,7 +23,10 @@ type Props = {
   name: string,
 }
 
-const Main = (props: Props) => {
+const {width} = Dimensions.get('window')
+console.log(width)
+
+export const Home = (props: Props) => {
   const [initializing, setInitializing] = useState(true)
   const [user, setUser] = useState()
   const [loading, setLoading] = useState(false)
@@ -133,7 +137,7 @@ const Main = (props: Props) => {
             keyboardType='default'
             onSubmitEditing={()=> getList()}
             clearButtonMode='while-editing'
-            placeholderTextColor={'white'}
+            placeholderTextColor={'gray'}
           />
           <Icon
             style={styles.filterButton}
@@ -147,7 +151,7 @@ const Main = (props: Props) => {
           style={styles.main_button}
           onPress={()=> getList()}
         >
-          <Text style={styles.main_button_text}>ROULETTE</Text>
+          <Text style={styles.main_button_text}>MANGIA</Text>
         </TouchableOpacity>
     </View>
   )
@@ -180,7 +184,7 @@ const styles = EStyleSheet.create({
   },
   main_button: {
     marginVertical: 10,
-    width: '95%',
+    width: '90%',
     padding: 9,
     backgroundColor: '$mainColor_magenta',
     flexDirection: 'row',
@@ -200,7 +204,7 @@ const styles = EStyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     width: '100%',
-    borderBottom: ''
+    borderBottom: '10px red'
   },
   list_view: {
     backgroundColor: '$mainColor_black',
@@ -210,4 +214,3 @@ const styles = EStyleSheet.create({
   }
 });
 
-export default Main
