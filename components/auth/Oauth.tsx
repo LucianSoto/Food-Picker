@@ -53,11 +53,11 @@ const Oauth = (props: Props) => {
     getCurrentUser()
   })
 
-  if(user) {navigation.navigate('Home')}
+  // if(user) {navigation.navigate('Home')}
 
-  useEffect(()=> {
-    if(user) {navigation.navigate('Home')}
-  },[user])
+  // useEffect(()=> {
+  //   if(user) {navigation.navigate('Home')}
+  // },[user])
 
   console.log(user)
   return (
