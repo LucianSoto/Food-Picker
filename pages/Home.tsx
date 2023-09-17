@@ -121,6 +121,10 @@ export const Home = (props: Props) => {
 
   if(!user) {()=> navigation.navigate('Login')}
 
+  useEffect(()=> {
+    if(!user) {navigation.navigate('Login')}
+  },[user])
+
   console.log(user, 'user in Home')
 
   // IF INITIALIZING HAVE A LOADING ANIMATION.

@@ -40,7 +40,7 @@ const Login = (props: Props) => {
       .required('Password is required'),
   })
 
-  if(user) {navigation.navigate('Home')}
+  if(user) {()=> navigation.navigate('Home')}
 
   useEffect(()=> {
     if(user) {navigation.navigate('Home')}
