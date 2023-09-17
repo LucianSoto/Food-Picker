@@ -17,10 +17,11 @@ GoogleSignin.configure();
 
 const Oauth = (props: Props) => {
   const [user, setUser] = useState<{}>([])
-  const {navigation} = props
-  // GoogleSignin.configure({
-  //   webClientId: '472888646819-96no2ertkgn045l9vtcavd1trafj8ccm.apps.googleusercontent.com',
-  // });
+  const {navigation, text} = props
+
+  GoogleSignin.configure({
+    webClientId: '472888646819-96no2ertkgn045l9vtcavd1trafj8ccm.apps.googleusercontent.com',
+  });
 
   const signIn = async () => {
     try {
@@ -30,44 +31,28 @@ const Oauth = (props: Props) => {
       navigation.navigate('Home')
     } catch (error: any) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-        // user cancelled the login flow
       } else if (error.code === statusCodes.IN_PROGRESS) {
-        // operation (e.g. sign in) is in progress already
       } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-        // play services not available or outdated
       } else {
         // some other error happened
       }
     }
   };
 
-  console.log(navigation)
-
-  // const {text} = props
   useEffect(()=> {
     const getCurrentUser = async () => {
       const currentUser = await GoogleSignin.getCurrentUser();
       setUser({ currentUser });
     };
-    
-    getCurrentUser()
+
+    if(!user) {
+      getCurrentUser()      
+    }
   })
 
-  // if(user) {navigation.navigate('Home')}
-
-  // useEffect(()=> {
-  //   if(user) {navigation.navigate('Home')}
-  // },[user])
-
-  console.log(user)
   return (
     <View style={style.auth_cont}>
-      <Text style={{color: 'white', marginBottom: 15}}>{text}</Text>
-      {/* <GoogleSigninButton 
-        
-        size={5}
-        onPress={()=> onGoogleButtonPress().then(()=> console.log('singin in with google'))}
-      /> */}
+      <Text style={{color: 'white', marginBottom: 15}}>Or signin with Google</Text>
       <TouchableOpacity 
         onPress={()=> signIn()}
       >
@@ -92,7 +77,6 @@ const style = StyleSheet.create({
   goog: {
     height: 60,
     width: 59,
-    // margin: 10,
   }
 })
 

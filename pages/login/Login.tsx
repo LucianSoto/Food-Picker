@@ -166,7 +166,7 @@ const Login = (props: Props) => {
       </Formik>
       {/* Google  */}
       {/* figure out how to pass navigation to oauth as well or just import it????????????? */}
-      <Oauth text={'Or login with'}/>
+      <Oauth {...props} />
     </ScrollView>
   )
 }

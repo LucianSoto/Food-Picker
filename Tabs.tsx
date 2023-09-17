@@ -37,7 +37,7 @@ export const Tabs = (props: Props) => {
     >
       <Tab.Screen 
         style={{background: 'red'}}
-        name='Home'         
+        name='HomeScreen'         
         component={Home} 
         //CLEAR THIS LATER
         options={{

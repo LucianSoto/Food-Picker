@@ -15,7 +15,7 @@ import { locationPermission } from '../utils/permissions';
 import List from '../components/list/list'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import auth from '@react-native-firebase/auth'
-import EncryptedStorage from 'react-native-encrypted-storage';
+// import EncryptedStorage from 'react-native-encrypted-storage';
 import EStyleSheet from 'react-native-extended-stylesheet'
 
 type Props = {
@@ -24,7 +24,6 @@ type Props = {
 }
 
 const {width} = Dimensions.get('window')
-console.log(width)
 
 export const Home = (props: Props) => {
   const [initializing, setInitializing] = useState(true)
@@ -105,7 +104,8 @@ export const Home = (props: Props) => {
     if(typeof(location) === 'string') {
       setGeo(false)
     }
-    axios // CHANGE TO AXIOS STYLE OF CALL LATER  -- NOT WORKING WITH ACTUAL AXIOS PARAMS
+    // CHANGE TO AXIOS STYLE OF CALL LATER  -- NOT WORKING WITH ACTUAL AXIOS PARAMS
+    axios 
       .get(`https://api.yelp.com/v3/businesses/search?location=${location}&latitude=${location? '' : geo.latitude}&longitude=${location? '' : geo.longitude}&open_now=${openNow ? 'true' : 'false'}&radius=${distance}&sort_by=best_match&limit=${limit}`, config)
       .then((response) => {
         setData(response.data.businesses)
@@ -118,6 +118,10 @@ export const Home = (props: Props) => {
   const openFilters = () => {
     console.log('opening filters')
   }
+
+  if(!user) {()=> navigation.navigate('Login')}
+
+  console.log(user, 'user in Home')
 
   // IF INITIALIZING HAVE A LOADING ANIMATION.
   return (
