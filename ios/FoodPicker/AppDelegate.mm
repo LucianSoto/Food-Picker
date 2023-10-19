@@ -12,8 +12,14 @@
   [FIRApp configure];
   // They will be passed down to the ViewController used by React Native.
   self.initialProps = @{};
+  
+  BOOL didFinishLaunchingWithOptions = [super application:application didFinishLaunchingWithOptions:launchOptions];
+
+  //SPLASH SCREEN NEEDS TO COME AFTER ALL JS FILES ARE LOADED 
+  //THAT'S WHY IT WAS NOT BEING CLOSED BECUASE THE ACTUAL RNSPLASHCREEN LIBRARY FILES WERE NOT LOADED YET
   [RNSplashScreen show];
-  return [super application:application didFinishLaunchingWithOptions:launchOptions];
+
+  return didFinishLaunchingWithOptions;
 }
 
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge

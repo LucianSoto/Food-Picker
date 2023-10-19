@@ -8,6 +8,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import * as yup from 'yup'
 
+Icon.loadFont()
+
 type Props = {navigation:any}
 
 const Login = (props: Props) => {
@@ -17,6 +19,8 @@ const Login = (props: Props) => {
   const [err, setErr] = useState<string>('')
   const IMAGE = require('../../assets/images/logo_sm.png')
   const {navigation} = props
+
+  console.log('in LOGIN')
 
   const onAuthStateChanged = (user:any) => {
     setUser(user)
@@ -40,7 +44,6 @@ const Login = (props: Props) => {
       .required('Password is required'),
   })
 
-  // if(user) {()=> navigation.navigate('Home')}
 
   useEffect(()=> {
     if(user) {navigation.navigate('Home')}

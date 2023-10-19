@@ -18,6 +18,8 @@ import auth from '@react-native-firebase/auth'
 // import EncryptedStorage from 'react-native-encrypted-storage';
 import EStyleSheet from 'react-native-extended-stylesheet'
 
+Icon.loadFont()
+
 type Props = {
   navigation: any,
   name: string,
@@ -129,7 +131,7 @@ export const Home = (props: Props) => {
 
   // IF INITIALIZING HAVE A LOADING ANIMATION.
   return (
-    <View style={styles.main_container}>
+    <SafeAreaView style={styles.main_container}>
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         contentContainerStyle={styles.list_view}
@@ -161,7 +163,7 @@ export const Home = (props: Props) => {
         >
           <Text style={styles.main_button_text}>MANGIA</Text>
         </TouchableOpacity>
-    </View>
+    </SafeAreaView>
   )
 }
 

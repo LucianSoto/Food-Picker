@@ -1,7 +1,6 @@
 /**
  * @format
  */
-import SplashScreen from 'react-native-splash-screen'
 import React, { useEffect } from 'react'
 import {
   StatusBar,
@@ -9,6 +8,7 @@ import {
 } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import SplashScreen from 'react-native-splash-screen'
 import { Tabs } from './Tabs'
 import Register from './pages/register/Register'
 import Login from './pages/login/Login'
@@ -22,7 +22,10 @@ function App(): JSX.Element {
   useEffect(()=> {
     // do stuff while splash screen is shown After having done stuff (such as async tasks) hide the splash screen
     console.log('closing splash APP TSX',)
-    SplashScreen.hide();
+    setTimeout(() => {
+      SplashScreen.hide();
+    }, 3000);
+
   },[])
 
   return (  
