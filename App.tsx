@@ -2,23 +2,18 @@
  * @format
  */
 import SplashScreen from 'react-native-splash-screen'
-import React, { useEffect, useState } from 'react'
-import type {PropsWithChildren} from 'react'
+import React, { useEffect } from 'react'
 import {
-  SafeAreaView,
   StatusBar,
   useColorScheme,
 } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { Tabs } from './Tabs'
-import { Home } from './pages/Home'
 import Register from './pages/register/Register'
 import Login from './pages/login/Login'
 import { ForgotPassword } from './pages/forgotPassword/ForgotPassword';
-// import { Colors } from 'react-native/Libraries/NewAppScreen'
 import EStyleSheet from 'react-native-extended-stylesheet'
-import auth from '@react-native-firebase/auth'
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';

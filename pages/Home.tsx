@@ -119,11 +119,11 @@ export const Home = (props: Props) => {
     console.log('opening filters')
   }
 
-  if(!user) {()=> navigation.navigate('Login')}
+  // if(!user) {()=> navigation.navigate('Login')}
 
-  useEffect(()=> {
-    if(!user) {navigation.navigate('Login')}
-  },[user])
+  // useEffect(()=> {
+  //   if(!user) {navigation.navigate('Login')}
+  // },[user])
 
   console.log(user, 'user in Home')
 

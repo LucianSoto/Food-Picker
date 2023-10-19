@@ -40,7 +40,7 @@ const Login = (props: Props) => {
       .required('Password is required'),
   })
 
-  if(user) {()=> navigation.navigate('Home')}
+  // if(user) {()=> navigation.navigate('Home')}
 
   useEffect(()=> {
     if(user) {navigation.navigate('Home')}
@@ -83,7 +83,7 @@ const Login = (props: Props) => {
                 )
             })
             .then (
-                navigation.navigate('Home')
+                ()=> navigation.navigate('Home')
             )
             .catch(error => {
               console.log(error.code, error.message)
@@ -96,10 +96,7 @@ const Login = (props: Props) => {
                 setErr('User does not exist.')
               }
             })
-            .finally(()=> {
-              values.email = ''
-              values.password = ''
-            })
+            // luxi
         }}
       >
         {({ handleChange, handleBlur, handleSubmit, values, errors, touched}) => (
