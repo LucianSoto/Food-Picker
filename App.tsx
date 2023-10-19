@@ -16,12 +16,12 @@ import { ForgotPassword } from './pages/forgotPassword/ForgotPassword';
 import EStyleSheet from 'react-native-extended-stylesheet'
 
 function App(): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+  // const isDarkMode = useColorScheme() === 'dark';
   const Stack = createNativeStackNavigator()
-  const tabScreenOptions = {headerShown: false}
   
   useEffect(()=> {
     // do stuff while splash screen is shown After having done stuff (such as async tasks) hide the splash screen
+    console.log('closing splash APP TSX',)
     SplashScreen.hide();
   },[])
 
