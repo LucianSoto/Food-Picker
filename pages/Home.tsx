@@ -6,6 +6,7 @@ import {
   View,
   TextInput,
   TouchableOpacity,
+  Dimensions
 } from 'react-native';
 import Geolocation from 'react-native-geolocation-service'
 import { useState, useEffect } from 'react'
@@ -13,16 +14,20 @@ import axios from 'axios'
 import { locationPermission } from '../utils/permissions';
 import List from '../components/list/list'
 import Icon from 'react-native-vector-icons/FontAwesome';
-import EStyleSheet from 'react-native-extended-stylesheet';
 import auth from '@react-native-firebase/auth'
-import EncryptedStorage from 'react-native-encrypted-storage';
+// import EncryptedStorage from 'react-native-encrypted-storage';
+import EStyleSheet from 'react-native-extended-stylesheet'
+
+Icon.loadFont()
 
 type Props = {
   navigation: any,
   name: string,
 }
 
-const Main = (props: Props) => {
+const {width} = Dimensions.get('window')
+
+export const Home = (props: Props) => {
   const [initializing, setInitializing] = useState(true)
   const [user, setUser] = useState()
   const [loading, setLoading] = useState(false)
@@ -45,14 +50,6 @@ const Main = (props: Props) => {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged)
     return subscriber
   }, [])
-
-  // useEffect(()=> {
-  //   const getSession = async () => {
-  //     const session = await EncryptedStorage.getItem("user_session")
-  //     console.log(session, 'SESSION HOME')
-  //   }
-  //   getSession()
-  // })
 
   if(!user) {() => navigation.navigate('Login')}
 
@@ -109,7 +106,8 @@ const Main = (props: Props) => {
     if(typeof(location) === 'string') {
       setGeo(false)
     }
-    axios // CHANGE TO AXIOS STYLE OF CALL LATER  -- NOT WORKING WITH ACTUAL AXIOS PARAMS
+    // CHANGE TO AXIOS STYLE OF CALL LATER  -- NOT WORKING WITH ACTUAL AXIOS PARAMS
+    axios 
       .get(`https://api.yelp.com/v3/businesses/search?location=${location}&latitude=${location? '' : geo.latitude}&longitude=${location? '' : geo.longitude}&open_now=${openNow ? 'true' : 'false'}&radius=${distance}&sort_by=best_match&limit=${limit}`, config)
       .then((response) => {
         setData(response.data.businesses)
@@ -123,19 +121,23 @@ const Main = (props: Props) => {
     console.log('opening filters')
   }
 
+  // if(!user) {()=> navigation.navigate('Login')}
+
+  // useEffect(()=> {
+  //   if(!user) {navigation.navigate('Login')}
+  // },[user])
+
+  console.log(user, 'user in Home')
+
   // IF INITIALIZING HAVE A LOADING ANIMATION.
   return (
-    <View
-      style={{flexDirection: "column", alignItems: "center", flex: 1, backgroundColor: "$mainColor_black"}}
-      // style={{
-        // backgroundColor: isDarkMode ? Colors.black : Colors.white,
-    >
+    <SafeAreaView style={styles.main_container}>
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         contentContainerStyle={styles.list_view}
       >
         <View 
-          style={{flexDirection: "row", alignItems: 'center',}}
+          style={{flexDirection: "row", alignItems: 'center'}}
         >
           <TextInput 
             style={styles.input}
@@ -145,7 +147,7 @@ const Main = (props: Props) => {
             keyboardType='default'
             onSubmitEditing={()=> getList()}
             clearButtonMode='while-editing'
-            placeholderTextColor={'white'}
+            placeholderTextColor={'gray'}
           />
           <Icon
             style={styles.filterButton}
@@ -159,9 +161,9 @@ const Main = (props: Props) => {
           style={styles.main_button}
           onPress={()=> getList()}
         >
-          <Text style={styles.main_button_text}>ROULETTE</Text>
+          <Text style={styles.main_button_text}>MANGIA</Text>
         </TouchableOpacity>
-    </View>
+    </SafeAreaView>
   )
 }
 
@@ -170,7 +172,7 @@ const styles = EStyleSheet.create({
     fontSize: 30,
   },
   input: {
-    height: 50,
+    height: 60,
     width: "90%",
     margin: 10,
     marginLeft: 0,
@@ -192,7 +194,7 @@ const styles = EStyleSheet.create({
   },
   main_button: {
     marginVertical: 10,
-    width: '95%',
+    width: '90%',
     padding: 9,
     backgroundColor: '$mainColor_magenta',
     flexDirection: 'row',
@@ -200,24 +202,25 @@ const styles = EStyleSheet.create({
     alignItems: 'center',
     borderRadius: 25,
     position: 'relative',
-    bottom: 0,
   },
   main_button_text: {
     color: '$mainColor_white',
     fontSize: 20,
     bottom: 0,
   },
-  container: {
+  main_container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '$mainColor_black',
     alignItems: 'center',
     justifyContent: 'center',
+    width: '100%',
+    borderBottom: '10px red'
   },
   list_view: {
     backgroundColor: '$mainColor_black',
     flexDirection: 'column',
     alignItems: 'center',
+    width: '100%',
   }
 });
 
-export default Main

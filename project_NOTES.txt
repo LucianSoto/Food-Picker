@@ -8,4 +8,5 @@
           Jailbroken/Rooted devices can access your iOS' Keychain and Android's shared preferences in plain text, 
           so it is necessary to add another layer of protection.
   
-    
+          
+          

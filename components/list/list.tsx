@@ -1,7 +1,12 @@
-import { Text, View, Image } from 'react-native'
+import { Text, View, Image, ImageStyle } from 'react-native'
 import styled from 'styled-components/native'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import styles from './listStyles'
+import {Dimensions} from 'react-native'
+
+const winWidth = Dimensions.get('window').width
+console.log(winWidth, 'winWidth')
+console.log(Dimensions.get('window').height, 'height')
 
 type Data = {
   name: string, 
@@ -35,9 +40,9 @@ const List = (data: any) => {
     return (
       <Item key={i}>
         <Image 
-          style={{width: 175, height: 175}}
+          style={styles.thumb as ImageStyle} // had to add type for typescript compiling.
           source={{uri: item.image_url}}
-          />
+        />
         <View style={styles.right_container}>
           <Text style={styles.name}>{item.name}</Text>
           <Text>

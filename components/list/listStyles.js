@@ -1,18 +1,23 @@
 import { StyleSheet } from 'react-native'
 
 export default StyleSheet.create({
+  thumb: {
+    minHeight: 190,
+    minWidth: 190,
+  },
   right_container: {
-    marginLeft: 10,
-    height: 165,
+    marginLeft: 20,
+    height: 190,
+    width: '60%',
     justifyContent: "space-around",
     // alignItems: "stretch",
   },
   name: {
     fontSize: 18,
-    maxWidth: 160,
     fontWeight: 900,
     color: "black",
     marginBottom: 7,
+    width: '100%',
   },
   price: {
     fontWeight: 900,
@@ -20,7 +25,8 @@ export default StyleSheet.create({
   categories_container: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    maxWidth: 150,
+    maxWidth: '100%',
+    maxHeight: 150,
   },
   categories: {
     backgroundColor: 'lightgray',

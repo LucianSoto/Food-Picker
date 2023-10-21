@@ -60,4 +60,14 @@ export default EStyleSheet.create({
   links_txt: {
     color: 'white',
   },
+
+  modal: {
+    flex: 1,
+    // marginTop: 100,
+    textAlign: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'black',
+  }
+  
 })

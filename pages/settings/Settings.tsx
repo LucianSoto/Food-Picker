@@ -1,5 +1,5 @@
 import React , { useState, useEffect } from 'react'
-import { View, Text, TouchableOpacity } from 'react-native'
+import { View, Text, TouchableOpacity, SafeAreaView } from 'react-native'
 import auth from '@react-native-firebase/auth'
 
 type Props = {
@@ -37,7 +37,7 @@ const Settings = (props: Props) => {
   }
 
   return (
-    <View>
+    <SafeAreaView>
       <Text>Settings</Text>
       <TouchableOpacity 
         // style={styles.links} 
@@ -48,7 +48,7 @@ const Settings = (props: Props) => {
           // style={styles.links_txt}
         >LOG OUT</Text>
       </TouchableOpacity>
-    </View>
+    </SafeAreaView>
   )
 }
 

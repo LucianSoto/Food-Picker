@@ -1,38 +1,60 @@
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 // @react-native-firebase/app
-import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-community/google-signin';
+import {
+  GoogleSignin,
+  GoogleSigninButton,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth'
 
 type Props = {
-  text: string
+  text: string,
+  navigation: any
 }
 
+GoogleSignin.configure();
 
 const Oauth = (props: Props) => {
-  
-  // GoogleSignin.configure({
-  //   webClientId: '472888646819-96no2ertkgn045l9vtcavd1trafj8ccm.apps.googleusercontent.com',
-  // });
-  const {text} = props
+  const [user, setUser] = useState<{}>([])
+  const {navigation, text} = props
 
-  const onGoogleButtonPress = async () => {
-    const {idToken} = await GoogleSignin.signIn()
-    const googleCredentail = auth.GoogleAuthProvider.credential(idToken)
+  GoogleSignin.configure({
+    webClientId: '472888646819-96no2ertkgn045l9vtcavd1trafj8ccm.apps.googleusercontent.com',
+  });
 
-    return auth().signInWithCredential(googleCredentail)
-  }
+  const signIn = async () => {
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo: any = await GoogleSignin.signIn();
+      setUser({ userInfo });
+      navigation.navigate('Home')
+    } catch (error: any) {
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+      } else {
+        // some other error happened
+      }
+    }
+  };
+
+  useEffect(()=> {
+    const getCurrentUser = async () => {
+      const currentUser = await GoogleSignin.getCurrentUser();
+      setUser({ currentUser });
+    };
+
+    if(!user) {
+      getCurrentUser()      
+    }
+  })
 
   return (
     <View style={style.auth_cont}>
-      <Text style={{color: 'white', marginBottom: 15}}>{text}</Text>
-      {/* <GoogleSigninButton 
-        
-        size={5}
-        onPress={()=> onGoogleButtonPress().then(()=> console.log('singin in with google'))}
-      /> */}
+      <Text style={{color: 'white', marginBottom: 15}}>Or signin with Google</Text>
       <TouchableOpacity 
-        onPress={()=> onGoogleButtonPress().then(()=> console.log('singin in with google'))}
+        onPress={()=> signIn()}
       >
         <Image 
           source={require('../../assets/images/goog_logo.png')}
@@ -55,7 +77,6 @@ const style = StyleSheet.create({
   goog: {
     height: 60,
     width: 59,
-    // margin: 10,
   }
 })
 
