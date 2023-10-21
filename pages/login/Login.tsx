@@ -8,7 +8,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import * as yup from 'yup'
 
-Icon.loadFont()
+Icon.loadFont().catch((error) => { console.info(error); });
 
 type Props = {navigation:any}
 

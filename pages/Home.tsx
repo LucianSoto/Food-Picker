@@ -6,7 +6,8 @@ import {
   View,
   TextInput,
   TouchableOpacity,
-  Dimensions
+  Dimensions,
+  Platform
 } from 'react-native';
 import Geolocation from 'react-native-geolocation-service'
 import { useState, useEffect } from 'react'
@@ -15,17 +16,14 @@ import { locationPermission } from '../utils/permissions';
 import List from '../components/list/list'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import auth from '@react-native-firebase/auth'
-// import EncryptedStorage from 'react-native-encrypted-storage';
 import EStyleSheet from 'react-native-extended-stylesheet'
 
-Icon.loadFont()
+Icon.loadFont().catch((error) => { console.info(error); });
 
 type Props = {
   navigation: any,
   name: string,
 }
-
-const {width} = Dimensions.get('window')
 
 export const Home = (props: Props) => {
   const [initializing, setInitializing] = useState(true)
@@ -38,43 +36,54 @@ export const Home = (props: Props) => {
   const [openNow, setOppenNow] = useState<boolean>(true)
   const [geo, setGeo] = useState({})
   const YelpKey = process.env.YELP_API
-
   const {navigation, name} = props
-
-  const onAuthStateChanged = (user:any) => {
-    setUser(user)
-    if(initializing) setInitializing(false)
-  }
-
-  useEffect(()=> {
-    const subscriber = auth().onAuthStateChanged(onAuthStateChanged)
-    return subscriber
-  }, [])
-
-  if(!user) {() => navigation.navigate('Login')}
+  const {width} = Dimensions.get('window')
 
   const getLocation = async () => {
-    const result = locationPermission();
-    result.then(res => {
-      if (res) {
-        Geolocation.getCurrentPosition(
-          position => {
-            setGeo(position.coords);
-            setLoading(true)
-            return position.coords
-          },
-          error => {
-            console.log(error.code, error.message);
-            setGeo({
-              latitude: '',
-              longitude: '',
-            });
-          },
-          {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
-        );
-        return true
-      }
-    });
+    console.log('getting location HOME')
+
+
+    if(Platform.OS === "ios") {
+      Geolocation.requestAuthorization('whenInUse')
+      Geolocation.getCurrentPosition(
+        position => {
+          console.log(position, 'IOS geo in HOME')
+          setGeo(position.coords);
+          setLoading(true)
+          return position.coords
+        },
+        error => {
+          console.log(error.code, error.message, 'ERROR in getLocation HOME');
+          setGeo({
+            latitude: '',
+            longitude: '',
+          });
+        },
+        {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
+      );
+    } else {
+      const permission = locationPermission();
+      permission.then(res => {
+        if (res) {
+          Geolocation.getCurrentPosition(
+            position => {
+              setGeo(position.coords);
+              setLoading(true)
+              return position.coords
+            },
+            error => {
+              console.log(error.code, error.message, 'ERROR in getLocation HOME');
+              setGeo({
+                latitude: '',
+                longitude: '',
+              });
+            },
+            {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
+          );
+          return true
+        }
+      });
+    }
   };
 
   useEffect(() => {
@@ -101,6 +110,7 @@ export const Home = (props: Props) => {
       Authorization: "Bearer " + YelpKey,
     },
   }
+
   // Get list of places
   const getList = () => {
     if(typeof(location) === 'string') {
@@ -108,26 +118,21 @@ export const Home = (props: Props) => {
     }
     // CHANGE TO AXIOS STYLE OF CALL LATER  -- NOT WORKING WITH ACTUAL AXIOS PARAMS
     axios 
-      .get(`https://api.yelp.com/v3/businesses/search?location=${location}&latitude=${location? '' : geo.latitude}&longitude=${location? '' : geo.longitude}&open_now=${openNow ? 'true' : 'false'}&radius=${distance}&sort_by=best_match&limit=${limit}`, config)
+      .get(`https://api.yelp.com/v3/businesses/search?location=${location}&latitude=${location? '' 
+      : geo.latitude}&longitude=${location? '' 
+      : geo.longitude}&open_now=${openNow ? 'true' 
+      : 'false'}&radius=${distance}&sort_by=best_match&limit=${limit}`, config)
       .then((response) => {
         setData(response.data.businesses)
       })
       .catch((error) => {
-        console.log(error, 'error api')
+        console.log(error, 'error api HOME')
       })
   }
 
   const openFilters = () => {
     console.log('opening filters')
   }
-
-  // if(!user) {()=> navigation.navigate('Login')}
-
-  // useEffect(()=> {
-  //   if(!user) {navigation.navigate('Login')}
-  // },[user])
-
-  console.log(user, 'user in Home')
 
   // IF INITIALIZING HAVE A LOADING ANIMATION.
   return (
@@ -168,8 +173,13 @@ export const Home = (props: Props) => {
 }
 
 const styles = EStyleSheet.create({
-  title: {
-    fontSize: 30,
+  main_container: {
+    flex: 1,
+    backgroundColor: '$mainColor_black',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    borderBottom: '10px red'
   },
   input: {
     height: 60,
@@ -207,14 +217,6 @@ const styles = EStyleSheet.create({
     color: '$mainColor_white',
     fontSize: 20,
     bottom: 0,
-  },
-  main_container: {
-    flex: 1,
-    backgroundColor: '$mainColor_black',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '100%',
-    borderBottom: '10px red'
   },
   list_view: {
     backgroundColor: '$mainColor_black',

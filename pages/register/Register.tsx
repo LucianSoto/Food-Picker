@@ -6,6 +6,8 @@ import Oauth from '../../components/auth/Oauth'
 import auth from '@react-native-firebase/auth'
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+Icon.loadFont().catch((error) => { console.info(error); });
+
 type Props = {
   navigation: any
 }

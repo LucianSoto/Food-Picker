@@ -8,7 +8,7 @@ export default StyleSheet.create({
   right_container: {
     marginLeft: 20,
     height: 190,
-    width: '60%',
+    width: '40%',
     justifyContent: "space-around",
     // alignItems: "stretch",
   },

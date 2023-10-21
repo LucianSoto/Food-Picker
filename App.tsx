@@ -5,8 +5,6 @@ import React, { useEffect } from 'react'
 import {
   StatusBar,
   View,
-  SafeAreaView,
-  useColorScheme,
   StyleSheet,
 } from 'react-native';
 // Do I need to import platform for react-native?? seems to be working fine w/o it.
