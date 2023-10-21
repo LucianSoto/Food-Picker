@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 import styles from './listStyles'
 import {Dimensions} from 'react-native'
 
-Icon.loadFont()
+Icon.loadFont().catch((error) => { console.info(error); });
 
 const winWidth = Dimensions.get('window').width
 console.log(winWidth, 'winWidth')

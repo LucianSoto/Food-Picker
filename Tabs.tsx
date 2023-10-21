@@ -5,7 +5,7 @@ import {Home} from "./pages/Home"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import EStyleSheet from 'react-native-extended-stylesheet';
 
-Icon.loadFont()
+Icon.loadFont().catch((error) => { console.info(error); });
 
 type Props = {
   navigation: any,

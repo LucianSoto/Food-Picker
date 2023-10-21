@@ -19,7 +19,7 @@ import auth from '@react-native-firebase/auth'
 // import EncryptedStorage from 'react-native-encrypted-storage';
 import EStyleSheet from 'react-native-extended-stylesheet'
 
-Icon.loadFont()
+Icon.loadFont().catch((error) => { console.info(error); });
 
 type Props = {
   navigation: any,
