@@ -16,7 +16,6 @@ import { locationPermission } from '../utils/permissions';
 import List from '../components/list/list'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import auth from '@react-native-firebase/auth'
-// import EncryptedStorage from 'react-native-encrypted-storage';
 import EStyleSheet from 'react-native-extended-stylesheet'
 
 Icon.loadFont().catch((error) => { console.info(error); });
@@ -174,8 +173,13 @@ export const Home = (props: Props) => {
 }
 
 const styles = EStyleSheet.create({
-  title: {
-    fontSize: 30,
+  main_container: {
+    flex: 1,
+    backgroundColor: '$mainColor_black',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    borderBottom: '10px red'
   },
   input: {
     height: 60,
@@ -213,14 +217,6 @@ const styles = EStyleSheet.create({
     color: '$mainColor_white',
     fontSize: 20,
     bottom: 0,
-  },
-  main_container: {
-    flex: 1,
-    backgroundColor: '$mainColor_black',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '100%',
-    borderBottom: '10px red'
   },
   list_view: {
     backgroundColor: '$mainColor_black',
