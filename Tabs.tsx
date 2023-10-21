@@ -25,7 +25,7 @@ export const Tabs = (props: Props) => {
           marginTop: 0,
           borderRadius: 20,
           marginHorizontal: 30,   
-          height: 60, 
+          height: 40, 
         },
         tabBarActiveTintColor: 'tomato',
         
@@ -45,11 +45,11 @@ export const Tabs = (props: Props) => {
         options={{
           headerShown: false,
           tabBarLabel: "Home",
-          tabBarIcon: ({ focused, color, size }) => (
+          tabBarIcon: ({ focused, size }) => (
             <Icon 
               name="home"
               color={focused? 'white' : 'gray'}
-              size={35}
+              size={25}
             />
           )
           
@@ -61,11 +61,11 @@ export const Tabs = (props: Props) => {
         options={{
           headerShown: false,
           tabBarLabel: "favorites",
-          tabBarIcon: ({ focused, color, size }) => (
+          tabBarIcon: ({ focused, size }) => (
             <Icon 
               name="star"
               color={focused? 'white' : 'gray'}
-              size={35}
+              size={25}
             />
           )
         }}
@@ -76,11 +76,11 @@ export const Tabs = (props: Props) => {
         options={{
           headerShown: false,
           tabBarLabel: "settings",
-          tabBarIcon: ({ focused, color, size }) => (
+          tabBarIcon: ({ focused, size }) => (
             <Icon 
               name="gear"
               color={focused? 'white' : 'gray'}
-              size={35}
+              size={25}
             />
           )
         }} 
