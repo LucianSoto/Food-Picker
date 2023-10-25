@@ -6,6 +6,7 @@ import {
   StatusBar,
   View,
   StyleSheet,
+  Text,
 } from 'react-native';
 // Do I need to import platform for react-native?? seems to be working fine w/o it.
 import { useSafeAreaInsets, SafeAreaProvider} from 'react-native-safe-area-context';
@@ -47,7 +48,7 @@ function App(): JSX.Element {
 
 
   return (  
-    // <SafeAreaProvider>
+    <SafeAreaProvider>
       <Provider store={store}>
         <NavigationContainer 
           // theme={theme}      
@@ -58,7 +59,7 @@ function App(): JSX.Element {
           />
         </NavigationContainer>
       </Provider>
-  //  </SafeAreaProvider>
+    </SafeAreaProvider>
   );
 }
 
