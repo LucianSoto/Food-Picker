@@ -12,7 +12,7 @@ import {
 import Geolocation from 'react-native-geolocation-service'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-import { locationPermission } from '../utils/permissions';
+import { locationPermission } from '../../utils/permissions';
 import List from '../components/list/list'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import auth from '@react-native-firebase/auth'
@@ -185,6 +185,7 @@ const styles = EStyleSheet.create({
     height: 60,
     width: "90%",
     margin: 10,
+    marginTop: 15,
     marginLeft: 0,
     borderWidth: 1,
     borderColor: 'white',

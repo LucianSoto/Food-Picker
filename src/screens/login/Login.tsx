@@ -20,18 +20,16 @@ const Login = (props: Props) => {
   const IMAGE = require('../../assets/images/logo_sm.png')
   const {navigation} = props
 
-  console.log('in LOGIN')
+  // const onAuthStateChanged = (user:any) => {
+  //   setUser(user)
+  //   if(initializing) setInitializing(false)
+  //   if(user) {()=> navigation.navigate('Home')}
+  // }
 
-  const onAuthStateChanged = (user:any) => {
-    setUser(user)
-    if(initializing) setInitializing(false)
-    if(user) {()=> navigation.navigate('Home')}
-  }
-
-  useEffect(()=> {
-    const subscriber = auth().onAuthStateChanged(onAuthStateChanged)
-    return subscriber
-  }, [])
+  // useEffect(()=> {
+  //   const subscriber = auth().onAuthStateChanged(onAuthStateChanged)
+  //   return subscriber
+  // }, [])
 
   const loginValidationSchema = yup.object().shape({
     email: yup
@@ -49,13 +47,13 @@ const Login = (props: Props) => {
     if(user) {navigation.navigate('Home')}
   },[user])
     
-  if (initializing) {
-    return(
-      <View>
-        <Text>Initializing...</Text>
-      </View>
-    )
-  }
+  // if (initializing) {
+  //   return(
+  //     <View>
+  //       <Text>Initializing...</Text>
+  //     </View>
+  //   )
+  // }
 
   return (
     <ScrollView contentContainerStyle={styles.container}
