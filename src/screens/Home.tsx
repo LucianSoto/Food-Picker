@@ -185,6 +185,7 @@ const styles = EStyleSheet.create({
     height: 60,
     width: "90%",
     margin: 10,
+    marginTop: 15,
     marginLeft: 0,
     borderWidth: 1,
     borderColor: 'white',

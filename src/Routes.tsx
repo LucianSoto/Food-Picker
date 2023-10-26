@@ -37,12 +37,12 @@ const Stack = createNativeStackNavigator()
     if (initializing) {setInitializing(false)}
   }
 
-  // useEffect(() => {
-  //   const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-  //   return subscriber; // unsubscribe on unmount
-  // }, []);
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber; // unsubscribe on unmount
+  }, []);
 
-  // console.log('IN ROUTES, user: ', user)
+  console.log('IN ROUTES, user: ', user)
 
   useEffect(()=> {
     console.log('refreshed, in ROUTES')

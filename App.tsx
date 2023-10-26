@@ -7,6 +7,7 @@ import {
   View,
   StyleSheet,
   Text,
+  Platform,
 } from 'react-native';
 // Do I need to import platform for react-native?? seems to be working fine w/o it.
 import { useSafeAreaInsets, SafeAreaProvider} from 'react-native-safe-area-context';
@@ -34,8 +35,10 @@ function App(): JSX.Element {
     }, 3000);
   },[])
   
-  const CustomStatusBar = (backgroundColor: any) => { 
+  const CustomStatusBar = ({backgroundColor}) => { 
+    // when I try to remove the type warning by creating a type and destructuring the object it does not work on IOS so leaving warning here
     const insets = useSafeAreaInsets();
+    console.log(backgroundColor,' in APP custombar component')
     return (
       <View style={{ height: insets.top, backgroundColor }}>
         <StatusBar
@@ -45,7 +48,6 @@ function App(): JSX.Element {
       </View>
     );
   }
-
 
   return (  
     <SafeAreaProvider>
@@ -82,7 +84,7 @@ const styles = StyleSheet.create({
     height: STATUSBAR_HEIGHT,
   },
   appBar: {
-    backgroundColor:'#79B45D',
+    backgroundColor:'#c2003f',
     height: APPBAR_HEIGHT,
   },
   content: {
