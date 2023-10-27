@@ -15,16 +15,9 @@ import { setUser } from './redux/userSlice';
 import {useDispatch, useSelector} from 'react-redux'
 import auth from '@react-native-firebase/auth';
 
-
 Icon.loadFont().catch((error) => { console.info(error); }); // or do nothing with the function?
 const Tab = createBottomTabNavigator()
 const Stack = createNativeStackNavigator()
-
-// type Props = {
-  //   navigation: any,
-  //   state: any,
-  //   descriptions: any,
-  // }
   
   export const Routes = () => {  
   const dispatch = useDispatch() //THIS HAS TO GO INSIDE THE FUNCTION!!!!!
@@ -43,10 +36,6 @@ const Stack = createNativeStackNavigator()
   }, []);
 
   console.log('IN ROUTES, user: ', user)
-
-  useEffect(()=> {
-    console.log('refreshed, in ROUTES')
-  },[user])
 
   // if (initializing) {return null}
 

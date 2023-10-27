@@ -41,20 +41,7 @@ const Login = (props: Props) => {
       .min(8, ({ min }) => `Password must be at least ${min} characters`)
       .required('Password is required'),
   })
-
-
-  useEffect(()=> {
-    if(user) {navigation.navigate('Home')}
-  },[user])
-    
-  // if (initializing) {
-  //   return(
-  //     <View>
-  //       <Text>Initializing...</Text>
-  //     </View>
-  //   )
-  // }
-
+  
   return (
     <ScrollView contentContainerStyle={styles.container}
       contentInsetAdjustmentBehavior="automatic"
@@ -83,9 +70,6 @@ const Login = (props: Props) => {
                 })
                 )
             })
-            .then (
-                ()=> navigation.navigate('Home')
-            )
             .catch(error => {
               console.log(error.code, error.message)
               if(error.code === 'auth/wrong-password'){
@@ -164,7 +148,7 @@ const Login = (props: Props) => {
       </Formik>
       {/* Google  */}
       {/* figure out how to pass navigation to oauth as well or just import it????????????? */}
-      <Oauth {...props} />
+      <Oauth text={'Or signin with'} />
     </ScrollView>
   )
 }

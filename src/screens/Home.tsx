@@ -86,11 +86,12 @@ export const Home = (props: Props) => {
     }
   };
 
+  // Might have to re organize everything here
+
   useEffect(() => {
     const loadList = async () => {
       try {
         const coords = await getLocation()
-        
       } catch (err) {
         console.log(err)
       }

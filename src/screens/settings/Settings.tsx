@@ -7,33 +7,14 @@ type Props = {
 }
 
 const Settings = (props: Props) => {
-  const [initializing, setInitializing] = useState(true)
-  const [user, setUser] = useState()
   const {navigation} = props
-
-  const onAuthStateChanged = (user:any) => {
-    setUser(user)
-    if(initializing) setInitializing(false)
-  }
-
-  useEffect(()=> {
-    const subscriber = auth().onAuthStateChanged(onAuthStateChanged)
-    return subscriber
-  }, [])
-
-  useEffect(()=> {
-    console.log(user, 'in useEffect')
-  }, [user])
-
-  // if(user) {navigation.navigate('Home')}
-  // else if(!user) {navigation.navigate('Login')}
 
   const logOut = () => {
     console.log('logging out'),
     auth()
       .signOut()
       .then(()=> console.log('user signed out!'))
-      navigation.navigate('Login')
+      // navigation.navigate('Login')
   }
 
   return (

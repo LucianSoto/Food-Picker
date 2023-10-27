@@ -6,10 +6,8 @@ import {
   StatusBar,
   View,
   StyleSheet,
-  Text,
   Platform,
 } from 'react-native';
-// Do I need to import platform for react-native?? seems to be working fine w/o it.
 import { useSafeAreaInsets, SafeAreaProvider} from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native'
 import SplashScreen from 'react-native-splash-screen'
@@ -20,30 +18,26 @@ import { Provider } from 'react-redux'
 
 
 function App(): JSX.Element {
-  const theme = {
-    // ...DefaultTheme,
-    // colors: {
-    //   ...DefaultTheme.colors,
-    //   background: '#fff',
-    // },
-  }
-  // const isDarkMode = useColorScheme() === 'dark';
-
   useEffect(()=> {
     setTimeout(() => {
       SplashScreen.hide();
     }, 3000);
   },[])
+
+  type BgProps = {
+    backgroundColor: string,
+  }
   
-  const CustomStatusBar = ({backgroundColor}) => { 
+  const CustomStatusBar = (backgroundColor: BgProps) => { 
+    const bgColor = backgroundColor.backgroundColor
+    // console.log(color, 'APP')
     // when I try to remove the type warning by creating a type and destructuring the object it does not work on IOS so leaving warning here
     const insets = useSafeAreaInsets();
-    console.log(backgroundColor,' in APP custombar component')
     return (
-      <View style={{ height: insets.top, backgroundColor }}>
+      <View style={{ height: insets.top, backgroundColor: bgColor}}>
         <StatusBar
           animated={true}
-          backgroundColor={backgroundColor}
+          backgroundColor={bgColor}
         />
       </View>
     );

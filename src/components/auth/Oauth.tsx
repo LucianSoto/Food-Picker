@@ -10,14 +10,13 @@ import auth from '@react-native-firebase/auth'
 
 type Props = {
   text: string,
-  navigation: any
 }
 
 GoogleSignin.configure();
 
 const Oauth = (props: Props) => {
   const [user, setUser] = useState<{}>([])
-  const {navigation, text} = props
+  const { text } = props
 
   GoogleSignin.configure({
     webClientId: '472888646819-96no2ertkgn045l9vtcavd1trafj8ccm.apps.googleusercontent.com',
@@ -28,7 +27,7 @@ const Oauth = (props: Props) => {
       await GoogleSignin.hasPlayServices();
       const userInfo: any = await GoogleSignin.signIn();
       setUser({ userInfo });
-      navigation.navigate('Home')
+      // navigation.navigate('Home') might not need this 
     } catch (error: any) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
       } else if (error.code === statusCodes.IN_PROGRESS) {
@@ -52,7 +51,7 @@ const Oauth = (props: Props) => {
 
   return (
     <View style={style.auth_cont}>
-      <Text style={{color: 'white', marginBottom: 15}}>Or signin with Google</Text>
+      <Text style={{color: 'white', marginBottom: 15}}>{props.text}</Text>
       <TouchableOpacity 
         onPress={()=> signIn()}
       >
