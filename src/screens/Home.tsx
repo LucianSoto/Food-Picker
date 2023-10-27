@@ -22,12 +22,15 @@ Icon.loadFont().catch((error) => { console.info(error); });
 
 type Props = {
   navigation: any,
-  name: string,
 }
 
-export const Home = (props: Props) => {
+interface Igeo {
+  latitude: string,
+  longitude: string,
+}
+
+const Home = (props: Props) => {
   const [initializing, setInitializing] = useState(true)
-  const [user, setUser] = useState()
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState<Array<string>>([])
   const [location, setLocation] = useState<any>()
@@ -36,13 +39,10 @@ export const Home = (props: Props) => {
   const [openNow, setOppenNow] = useState<boolean>(true)
   const [geo, setGeo] = useState({})
   const YelpKey = process.env.YELP_API
-  const {navigation, name} = props
+  const {navigation} = props
   const {width} = Dimensions.get('window')
 
   const getLocation = async () => {
-    console.log('getting location HOME')
-
-
     if(Platform.OS === "ios") {
       Geolocation.requestAuthorization('whenInUse')
       Geolocation.getCurrentPosition(
@@ -87,7 +87,6 @@ export const Home = (props: Props) => {
   };
 
   // Might have to re organize everything here
-
   useEffect(() => {
     const loadList = async () => {
       try {
@@ -112,7 +111,6 @@ export const Home = (props: Props) => {
     },
   }
 
-  // Get list of places
   const getList = () => {
     if(typeof(location) === 'string') {
       setGeo(false)
@@ -134,7 +132,6 @@ export const Home = (props: Props) => {
   const openFilters = () => {
     console.log('opening filters')
   }
-
   // IF INITIALIZING HAVE A LOADING ANIMATION.
   return (
     <SafeAreaView style={styles.main_container}>
@@ -228,3 +225,4 @@ const styles = EStyleSheet.create({
   }
 });
 
+export default Home
