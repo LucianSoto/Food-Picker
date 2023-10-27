@@ -23,31 +23,28 @@ Icon.loadFont().catch((error) => { console.info(error); });
 type Props = {
   navigation: any,
 }
-
 interface Igeo {
   latitude: string,
   longitude: string,
 }
 
 const Home = (props: Props) => {
-  const [initializing, setInitializing] = useState(true)
-  const [loading, setLoading] = useState(false)
-  const [data, setData] = useState<Array<string>>([])
-  const [location, setLocation] = useState<any>()
-  const [distance, setDistance] = useState<string>('5000')
-  const [limit, setLimit] = useState<string>('10')
-  const [openNow, setOppenNow] = useState<boolean>(true)
-  const [geo, setGeo] = useState({})
   const YelpKey = process.env.YELP_API
   const {navigation} = props
   const {width} = Dimensions.get('window')
+  const [initializing, setInitializing] = useState(true)
+  const [loading, setLoading] = useState(false)
+  const [data, setData] = useState<Array<string>>([])
+  const [distance, setDistance] = useState<string>('5000')
+  const [limit, setLimit] = useState<string>('10')
+  const [openNow, setOppenNow] = useState<boolean>(true)
+  const [location, setLocation] = useState<any>()
+  const [geo, setGeo] = useState({})
 
-  const getLocation = async () => {
+  const getLocation = () => {
     if(Platform.OS === "ios") {
-      Geolocation.requestAuthorization('whenInUse')
       Geolocation.getCurrentPosition(
         position => {
-          console.log(position, 'IOS geo in HOME')
           setGeo(position.coords);
           setLoading(true)
           return position.coords
@@ -86,16 +83,8 @@ const Home = (props: Props) => {
     }
   };
 
-  // Might have to re organize everything here
   useEffect(() => {
-    const loadList = async () => {
-      try {
-        const coords = await getLocation()
-      } catch (err) {
-        console.log(err)
-      }
-    }
-    loadList()
+    getLocation()
   },[])
 
   useEffect(() => {
@@ -109,6 +98,10 @@ const Home = (props: Props) => {
     headers: {
       Authorization: "Bearer " + YelpKey,
     },
+  }
+  
+  const openFilters = () => {
+    console.log('opening filters')
   }
 
   const getList = () => {
@@ -129,9 +122,6 @@ const Home = (props: Props) => {
       })
   }
 
-  const openFilters = () => {
-    console.log('opening filters')
-  }
   // IF INITIALIZING HAVE A LOADING ANIMATION.
   return (
     <SafeAreaView style={styles.main_container}>
@@ -158,7 +148,12 @@ const Home = (props: Props) => {
             onPress={openFilters}
           />
         </View>
-          {data && <List data={data} />}
+          { data ? 
+            <List data={data} /> : 
+            <View>
+              <Text onPress={()=> getList()}>Load List</Text>
+            </View>
+          }
       </ScrollView>
         <TouchableOpacity
           style={styles.main_button}

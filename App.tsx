@@ -15,6 +15,7 @@ import { Routes } from './src/Routes'
 import EStyleSheet from 'react-native-extended-stylesheet'
 import store from './src/redux/store'
 import { Provider } from 'react-redux'
+import Geolocation from 'react-native-geolocation-service'
 
 type BgProps = {
   backgroundColor: string,
@@ -26,6 +27,10 @@ function App(): JSX.Element {
       SplashScreen.hide();
     }, 3000);
   },[])
+
+  if(Platform.OS === "ios") {
+    Geolocation.requestAuthorization('whenInUse')
+  }
   
   const CustomStatusBar = (backgroundColor: BgProps) => { 
     const bgColor = backgroundColor.backgroundColor

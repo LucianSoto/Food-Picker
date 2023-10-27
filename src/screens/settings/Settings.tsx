@@ -8,6 +8,7 @@ type Props = {
 
 const Settings = (props: Props) => {
   const {navigation} = props
+  console.log('SETTINGS')
 
   const logOut = () => {
     console.log('logging out'),
