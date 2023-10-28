@@ -34,8 +34,6 @@ function App(): JSX.Element {
   
   const CustomStatusBar = (backgroundColor: BgProps) => { 
     const bgColor = backgroundColor.backgroundColor
-    // console.log(color, 'APP')
-    // when I try to remove the type warning by creating a type and destructuring the object it does not work on IOS so leaving warning here
     const insets = useSafeAreaInsets();
     return (
       <View style={{ height: insets.top, backgroundColor: bgColor}}>
@@ -50,13 +48,9 @@ function App(): JSX.Element {
   return (  
     <SafeAreaProvider>
       <Provider store={store}>
-        <NavigationContainer 
-          // theme={theme}      
-        >
+        <NavigationContainer >
           <CustomStatusBar backgroundColor={EStyleSheet.value('$mainColor_magenta')} />
-          <Routes 
-            // navigation={undefined} state={undefined} descriptions={undefined} 
-          />
+          <Routes/>
         </NavigationContainer>
       </Provider>
     </SafeAreaProvider>

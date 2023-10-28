@@ -20,17 +20,6 @@ const Login = (props: Props) => {
   const IMAGE = require('../../assets/images/logo_sm.png')
   const {navigation} = props
 
-  // const onAuthStateChanged = (user:any) => {
-  //   setUser(user)
-  //   if(initializing) setInitializing(false)
-  //   if(user) {()=> navigation.navigate('Home')}
-  // }
-
-  // useEffect(()=> {
-  //   const subscriber = auth().onAuthStateChanged(onAuthStateChanged)
-  //   return subscriber
-  // }, [])
-
   const loginValidationSchema = yup.object().shape({
     email: yup
       .string()
@@ -57,6 +46,7 @@ const Login = (props: Props) => {
           auth()
             .signInWithEmailAndPassword( email, password )
             .then((userCredential:any)=> {
+              console.log('LOGIN FUNCTION')
               const userCreds = userCredential.user
               const token = userCredential.user.getIdToken()
               return token

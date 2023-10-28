@@ -34,22 +34,9 @@ const Register = (props: Props) => {
         if(err.code === 'auth/invalid-email'){
           console.log('Invalid email address.')
         }
-        console.log(err)  
+        console.log(err, 'REGISTER')  
       })
   }
-
-  const onAuthStateChanged = (user:any) => {
-    setUser(user)
-    if(initializing) setInitializing(false)
-  }
-
-  useEffect(()=> {
-    const subscriber = auth().onAuthStateChanged(onAuthStateChanged)
-    return subscriber
-  }, [])
-
-  if(user) {navigation.navigate('Home')} 
-  // might have to remove this one too to get rid of navigation
 
   return (
     <ScrollView contentContainerStyle={styles.container}

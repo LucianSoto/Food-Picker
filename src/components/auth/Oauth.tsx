@@ -15,11 +15,12 @@ type Props = {
 GoogleSignin.configure();
 
 const Oauth = (props: Props) => {
+  const webClientId = process.env.WEB_CLIENT_ID
   const [user, setUser] = useState<{}>([])
   const { text } = props
 
   GoogleSignin.configure({
-    webClientId: '472888646819-96no2ertkgn045l9vtcavd1trafj8ccm.apps.googleusercontent.com',
+    webClientId: webClientId,
   });
 
   const signIn = async () => {
@@ -27,7 +28,6 @@ const Oauth = (props: Props) => {
       await GoogleSignin.hasPlayServices();
       const userInfo: any = await GoogleSignin.signIn();
       setUser({ userInfo });
-      // navigation.navigate('Home') might not need this 
     } catch (error: any) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
       } else if (error.code === statusCodes.IN_PROGRESS) {
@@ -37,17 +37,6 @@ const Oauth = (props: Props) => {
       }
     }
   };
-
-  useEffect(()=> {
-    const getCurrentUser = async () => {
-      const currentUser = await GoogleSignin.getCurrentUser();
-      setUser({ currentUser });
-    };
-
-    if(!user) {
-      getCurrentUser()      
-    }
-  })
 
   return (
     <View style={style.auth_cont}>

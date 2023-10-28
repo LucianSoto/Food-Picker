@@ -3,19 +3,14 @@ import { View, Text, TouchableOpacity, SafeAreaView } from 'react-native'
 import auth from '@react-native-firebase/auth'
 
 type Props = {
-  navigation: any,
+  // navigation: any,
 }
 
 const Settings = (props: Props) => {
-  const {navigation} = props
-  console.log('SETTINGS')
-
   const logOut = () => {
-    console.log('logging out'),
     auth()
       .signOut()
       .then(()=> console.log('user signed out!'))
-      // navigation.navigate('Login')
   }
 
   return (
