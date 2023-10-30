@@ -13,7 +13,6 @@ Icon.loadFont().catch((error) => { console.info(error); });
 type Props = {navigation:any}
 
 const Login = (props: Props) => {
-  const [initializing, setInitializing] = useState(true)
   const [user, setUser] = useState()
   const [secure, setSecure] = useState<boolean>(true)
   const [err, setErr] = useState<string>('')
@@ -46,7 +45,6 @@ const Login = (props: Props) => {
           auth()
             .signInWithEmailAndPassword( email, password )
             .then((userCredential:any)=> {
-              console.log('LOGIN FUNCTION')
               const userCreds = userCredential.user
               const token = userCredential.user.getIdToken()
               return token
@@ -71,7 +69,6 @@ const Login = (props: Props) => {
                 setErr('User does not exist.')
               }
             })
-            // luxi
         }}
       >
         {({ handleChange, handleBlur, handleSubmit, values, errors, touched}) => (
@@ -134,10 +131,7 @@ const Login = (props: Props) => {
                        
           </View>
         )}
-        
       </Formik>
-      {/* Google  */}
-      {/* figure out how to pass navigation to oauth as well or just import it????????????? */}
       <Oauth text={'Or signin with'} />
     </ScrollView>
   )

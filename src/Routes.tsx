@@ -24,7 +24,9 @@ export const Routes = () => {
   const user = useSelector(state => state.user.data)
   const [initializing, setInitializing] = useState(true);
 
+  console.log('ROUTES')
   function onAuthStateChanged(user:any) {
+    console.log('listening in ROUTES')
     dispatch (setUser(user))
     if (initializing) {setInitializing(false)}
   }

@@ -1,33 +1,48 @@
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native'
 import React, { useState, useEffect } from 'react'
-// @react-native-firebase/app
 import {
   GoogleSignin,
-  GoogleSigninButton,
   statusCodes,
 } from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth'
+import {useDispatch, useSelector} from 'react-redux'
+import { setUser } from '../../redux/userSlice';
 
 type Props = {
   text: string,
 }
 
-GoogleSignin.configure();
+// Important: To enable Google sign-in for your Android apps, you must provide the SHA-1 release fingerprint for each app (go to Project Settings > Your apps section).
 
 const Oauth = (props: Props) => {
+  const dispatch = useDispatch() //THIS HAS TO GO INSIDE THE FUNCTION!!!!!
+  const user = useSelector(state => state.user.data)
   const webClientId = process.env.WEB_CLIENT_ID
-  const [user, setUser] = useState<{}>([])
-  const { text } = props
+  const [initializing, setInitializing] = useState(true);
 
   GoogleSignin.configure({
     webClientId: webClientId,
   });
 
+  function onAuthStateChanged(user:any) {
+    console.log('listening in OaUTH')
+    dispatch (setUser(user))
+    if (initializing) {setInitializing(false)}
+  }
+
+  useEffect(() => {
+    console.log('insubscriber, OAUTH')
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber; // unsubscribe on unmount
+  }, []);
+
   const signIn = async () => {
     try {
-      await GoogleSignin.hasPlayServices();
-      const userInfo: any = await GoogleSignin.signIn();
-      setUser({ userInfo });
+      await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
+      const idToken: any = await GoogleSignin.signIn();
+      console.log(idToken, 'in OAUTH 1st')
+      // setUser({ userInfo });
+      dispatch (setUser(idToken))
     } catch (error: any) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
       } else if (error.code === statusCodes.IN_PROGRESS) {
@@ -37,6 +52,8 @@ const Oauth = (props: Props) => {
       }
     }
   };
+
+  console.log(user, 'in OAUTH, 2nd')
 
   return (
     <View style={style.auth_cont}>
