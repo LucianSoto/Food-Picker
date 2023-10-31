@@ -22,32 +22,29 @@ Icon.loadFont().catch((error) => { console.info(error); });
 
 type Props = {
   navigation: any,
-  name: string,
+}
+interface Igeo {
+  latitude: string,
+  longitude: string,
 }
 
-export const Home = (props: Props) => {
+const Home = (props: Props) => {
+  const YelpKey = process.env.YELP_API
+  const {navigation} = props
+  const {width} = Dimensions.get('window')
   const [initializing, setInitializing] = useState(true)
-  const [user, setUser] = useState()
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState<Array<string>>([])
-  const [location, setLocation] = useState<any>()
   const [distance, setDistance] = useState<string>('5000')
   const [limit, setLimit] = useState<string>('10')
   const [openNow, setOppenNow] = useState<boolean>(true)
+  const [location, setLocation] = useState<any>()
   const [geo, setGeo] = useState({})
-  const YelpKey = process.env.YELP_API
-  const {navigation, name} = props
-  const {width} = Dimensions.get('window')
 
-  const getLocation = async () => {
-    console.log('getting location HOME')
-
-
+  const getLocation = () => {
     if(Platform.OS === "ios") {
-      Geolocation.requestAuthorization('whenInUse')
       Geolocation.getCurrentPosition(
         position => {
-          console.log(position, 'IOS geo in HOME')
           setGeo(position.coords);
           setLoading(true)
           return position.coords
@@ -87,15 +84,7 @@ export const Home = (props: Props) => {
   };
 
   useEffect(() => {
-    const loadList = async () => {
-      try {
-        const coords = await getLocation()
-        
-      } catch (err) {
-        console.log(err)
-      }
-    }
-    loadList()
+    getLocation()
   },[])
 
   useEffect(() => {
@@ -110,8 +99,11 @@ export const Home = (props: Props) => {
       Authorization: "Bearer " + YelpKey,
     },
   }
+  
+  const openFilters = () => {
+    console.log('opening filters')
+  }
 
-  // Get list of places
   const getList = () => {
     if(typeof(location) === 'string') {
       setGeo(false)
@@ -128,10 +120,6 @@ export const Home = (props: Props) => {
       .catch((error) => {
         console.log(error, 'error api HOME')
       })
-  }
-
-  const openFilters = () => {
-    console.log('opening filters')
   }
 
   // IF INITIALIZING HAVE A LOADING ANIMATION.
@@ -160,7 +148,12 @@ export const Home = (props: Props) => {
             onPress={openFilters}
           />
         </View>
-          {data && <List data={data} />}
+          { data ? 
+            <List data={data} /> : 
+            <View>
+              <Text onPress={()=> getList()}>Load List</Text>
+            </View>
+          }
       </ScrollView>
         <TouchableOpacity
           style={styles.main_button}
@@ -227,3 +220,4 @@ const styles = EStyleSheet.create({
   }
 });
 
+export default Home

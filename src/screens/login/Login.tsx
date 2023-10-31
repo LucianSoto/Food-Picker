@@ -13,23 +13,11 @@ Icon.loadFont().catch((error) => { console.info(error); });
 type Props = {navigation:any}
 
 const Login = (props: Props) => {
-  const [initializing, setInitializing] = useState(true)
   const [user, setUser] = useState()
   const [secure, setSecure] = useState<boolean>(true)
   const [err, setErr] = useState<string>('')
   const IMAGE = require('../../assets/images/logo_sm.png')
   const {navigation} = props
-
-  // const onAuthStateChanged = (user:any) => {
-  //   setUser(user)
-  //   if(initializing) setInitializing(false)
-  //   if(user) {()=> navigation.navigate('Home')}
-  // }
-
-  // useEffect(()=> {
-  //   const subscriber = auth().onAuthStateChanged(onAuthStateChanged)
-  //   return subscriber
-  // }, [])
 
   const loginValidationSchema = yup.object().shape({
     email: yup
@@ -41,20 +29,7 @@ const Login = (props: Props) => {
       .min(8, ({ min }) => `Password must be at least ${min} characters`)
       .required('Password is required'),
   })
-
-
-  useEffect(()=> {
-    if(user) {navigation.navigate('Home')}
-  },[user])
-    
-  // if (initializing) {
-  //   return(
-  //     <View>
-  //       <Text>Initializing...</Text>
-  //     </View>
-  //   )
-  // }
-
+  
   return (
     <ScrollView contentContainerStyle={styles.container}
       contentInsetAdjustmentBehavior="automatic"
@@ -83,9 +58,6 @@ const Login = (props: Props) => {
                 })
                 )
             })
-            .then (
-                ()=> navigation.navigate('Home')
-            )
             .catch(error => {
               console.log(error.code, error.message)
               if(error.code === 'auth/wrong-password'){
@@ -97,7 +69,6 @@ const Login = (props: Props) => {
                 setErr('User does not exist.')
               }
             })
-            // luxi
         }}
       >
         {({ handleChange, handleBlur, handleSubmit, values, errors, touched}) => (
@@ -160,11 +131,8 @@ const Login = (props: Props) => {
                        
           </View>
         )}
-        
       </Formik>
-      {/* Google  */}
-      {/* figure out how to pass navigation to oauth as well or just import it????????????? */}
-      <Oauth {...props} />
+      <Oauth text={'Or signin with'} />
     </ScrollView>
   )
 }

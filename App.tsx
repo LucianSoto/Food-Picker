@@ -6,10 +6,8 @@ import {
   StatusBar,
   View,
   StyleSheet,
-  Text,
   Platform,
 } from 'react-native';
-// Do I need to import platform for react-native?? seems to be working fine w/o it.
 import { useSafeAreaInsets, SafeAreaProvider} from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native'
 import SplashScreen from 'react-native-splash-screen'
@@ -17,33 +15,31 @@ import { Routes } from './src/Routes'
 import EStyleSheet from 'react-native-extended-stylesheet'
 import store from './src/redux/store'
 import { Provider } from 'react-redux'
+import Geolocation from 'react-native-geolocation-service'
 
+type BgProps = {
+  backgroundColor: string,
+}
 
 function App(): JSX.Element {
-  const theme = {
-    // ...DefaultTheme,
-    // colors: {
-    //   ...DefaultTheme.colors,
-    //   background: '#fff',
-    // },
-  }
-  // const isDarkMode = useColorScheme() === 'dark';
-
   useEffect(()=> {
     setTimeout(() => {
       SplashScreen.hide();
     }, 3000);
   },[])
+
+  if(Platform.OS === "ios") {
+    Geolocation.requestAuthorization('whenInUse')
+  }
   
-  const CustomStatusBar = ({backgroundColor}) => { 
-    // when I try to remove the type warning by creating a type and destructuring the object it does not work on IOS so leaving warning here
+  const CustomStatusBar = (backgroundColor: BgProps) => { 
+    const bgColor = backgroundColor.backgroundColor
     const insets = useSafeAreaInsets();
-    console.log(backgroundColor,' in APP custombar component')
     return (
-      <View style={{ height: insets.top, backgroundColor }}>
+      <View style={{ height: insets.top, backgroundColor: bgColor}}>
         <StatusBar
           animated={true}
-          backgroundColor={backgroundColor}
+          backgroundColor={bgColor}
         />
       </View>
     );
@@ -52,13 +48,9 @@ function App(): JSX.Element {
   return (  
     <SafeAreaProvider>
       <Provider store={store}>
-        <NavigationContainer 
-          // theme={theme}      
-        >
+        <NavigationContainer >
           <CustomStatusBar backgroundColor={EStyleSheet.value('$mainColor_magenta')} />
-          <Routes 
-            // navigation={undefined} state={undefined} descriptions={undefined} 
-          />
+          <Routes/>
         </NavigationContainer>
       </Provider>
     </SafeAreaProvider>

@@ -34,21 +34,9 @@ const Register = (props: Props) => {
         if(err.code === 'auth/invalid-email'){
           console.log('Invalid email address.')
         }
-        console.log(err)  
+        console.log(err, 'REGISTER')  
       })
   }
-
-  const onAuthStateChanged = (user:any) => {
-    setUser(user)
-    if(initializing) setInitializing(false)
-  }
-
-  useEffect(()=> {
-    const subscriber = auth().onAuthStateChanged(onAuthStateChanged)
-    return subscriber
-  }, [])
-
-  if(user) {navigation.navigate('Home')}
 
   return (
     <ScrollView contentContainerStyle={styles.container}
@@ -58,7 +46,7 @@ const Register = (props: Props) => {
       <Text style={styles.sub_heading}>Create and account to get munching!</Text>
       <Formik
         initialValues={{ name: '', email: '', password: '' }}
-        onSubmit={values => {console.log(values), createUser(values.email, values.password, values.name,)}}
+        onSubmit={values => {createUser(values.email, values.password, values.name,)}}
       >
         {({ handleChange, handleBlur, handleSubmit, values }) => (
           <View style={styles.form}>
@@ -91,7 +79,7 @@ const Register = (props: Props) => {
                 onPress={()=> setSecure(!secure)}
               />
             </View>
-            <TouchableOpacity style={styles.submit} onPress={handleSubmit}>
+            <TouchableOpacity style={styles.submit} onPress={()=> handleSubmit}>
             <Text style={styles.submit_text}>SUBMIT</Text>
             </TouchableOpacity>
             <View style={styles.links_cont}>

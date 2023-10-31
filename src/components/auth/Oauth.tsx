@@ -1,34 +1,39 @@
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native'
 import React, { useState, useEffect } from 'react'
-// @react-native-firebase/app
 import {
   GoogleSignin,
-  GoogleSigninButton,
   statusCodes,
 } from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth'
+import {useDispatch, useSelector} from 'react-redux'
+import { setUser } from '../../redux/userSlice';
 
 type Props = {
   text: string,
-  navigation: any
 }
 
-GoogleSignin.configure();
+// Important: To enable Google sign-in for your Android apps, you must provide the SHA-1 release fingerprint for each app (go to Project Settings > Your apps section).
 
 const Oauth = (props: Props) => {
-  const [user, setUser] = useState<{}>([])
-  const {navigation, text} = props
+  const dispatch = useDispatch() //THIS HAS TO GO INSIDE THE FUNCTION!!!!!
+  const user = useSelector(state => state.user.data)
+  const webClientId = process.env.WEB_CLIENT_ID
+  const [initializing, setInitializing] = useState(true);
 
   GoogleSignin.configure({
-    webClientId: '472888646819-96no2ertkgn045l9vtcavd1trafj8ccm.apps.googleusercontent.com',
+    webClientId: webClientId,
   });
 
   const signIn = async () => {
     try {
-      await GoogleSignin.hasPlayServices();
-      const userInfo: any = await GoogleSignin.signIn();
-      setUser({ userInfo });
-      navigation.navigate('Home')
+      await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
+      const {user: {}} = await GoogleSignin.signIn();
+      const {accessToken} = await GoogleSignin.getTokens()      
+      const credential = auth.GoogleAuthProvider.credential(
+        user,
+        accessToken,
+      );
+      await auth().signInWithCredential(credential)
     } catch (error: any) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
       } else if (error.code === statusCodes.IN_PROGRESS) {
@@ -39,20 +44,10 @@ const Oauth = (props: Props) => {
     }
   };
 
-  useEffect(()=> {
-    const getCurrentUser = async () => {
-      const currentUser = await GoogleSignin.getCurrentUser();
-      setUser({ currentUser });
-    };
-
-    if(!user) {
-      getCurrentUser()      
-    }
-  })
 
   return (
     <View style={style.auth_cont}>
-      <Text style={{color: 'white', marginBottom: 15}}>Or signin with Google</Text>
+      <Text style={{color: 'white', marginBottom: 15}}>{props.text}</Text>
       <TouchableOpacity 
         onPress={()=> signIn()}
       >

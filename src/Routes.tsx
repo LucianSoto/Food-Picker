@@ -4,7 +4,7 @@ import React, {useEffect, useState} from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Settings from "./screens/settings/Settings"
 import Favorites from "./screens/favorites/Favorites"
-import {Home} from "./screens/Home"
+import Home from "./screens/Home"
 // make sure components default types are consistent
 import Login from './screens/login/Login';
 import { ForgotPassword } from './screens/forgotPassword/ForgotPassword';
@@ -15,24 +15,18 @@ import { setUser } from './redux/userSlice';
 import {useDispatch, useSelector} from 'react-redux'
 import auth from '@react-native-firebase/auth';
 
-
 Icon.loadFont().catch((error) => { console.info(error); }); // or do nothing with the function?
 const Tab = createBottomTabNavigator()
 const Stack = createNativeStackNavigator()
-
-// type Props = {
-  //   navigation: any,
-  //   state: any,
-  //   descriptions: any,
-  // }
   
-  export const Routes = () => {  
+export const Routes = () => {  
   const dispatch = useDispatch() //THIS HAS TO GO INSIDE THE FUNCTION!!!!!
   const user = useSelector(state => state.user.data)
   const [initializing, setInitializing] = useState(true);
+  //initializing should be set inside redux
 
-  // Handle user state changes
   function onAuthStateChanged(user:any) {
+    console.log('listening in ROUTES')
     dispatch (setUser(user))
     if (initializing) {setInitializing(false)}
   }
@@ -41,14 +35,6 @@ const Stack = createNativeStackNavigator()
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
     return subscriber; // unsubscribe on unmount
   }, []);
-
-  console.log('IN ROUTES, user: ', user)
-
-  useEffect(()=> {
-    console.log('refreshed, in ROUTES')
-  },[user])
-
-  // if (initializing) {return null}
 
   if(user) {
     return(
@@ -73,8 +59,7 @@ const Stack = createNativeStackNavigator()
         }}
       >
         <Tab.Screen 
-          style={{background: 'red'}}
-          name='HomeScreen'         
+          name='Home'         
           component={Home} 
           //CLEAR THIS LATER
           options={{
@@ -84,7 +69,7 @@ const Stack = createNativeStackNavigator()
               <Icon 
                 name="home"
                 color={focused? 'white' : 'gray'}
-                size={25}
+                size={size}
               />
             )
             
@@ -100,7 +85,7 @@ const Stack = createNativeStackNavigator()
               <Icon 
                 name="star"
                 color={focused? 'white' : 'gray'}
-                size={25}
+                size={size}
               />
             )
           }}
@@ -115,7 +100,7 @@ const Stack = createNativeStackNavigator()
               <Icon 
                 name="gear"
                 color={focused? 'white' : 'gray'}
-                size={25}
+                size={size}
               />
             )
           }} 
