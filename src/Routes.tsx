@@ -23,8 +23,8 @@ export const Routes = () => {
   const dispatch = useDispatch() //THIS HAS TO GO INSIDE THE FUNCTION!!!!!
   const user = useSelector(state => state.user.data)
   const [initializing, setInitializing] = useState(true);
+  //initializing should be set inside redux
 
-  console.log('ROUTES')
   function onAuthStateChanged(user:any) {
     console.log('listening in ROUTES')
     dispatch (setUser(user))

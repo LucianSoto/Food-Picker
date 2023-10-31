@@ -1,20 +1,26 @@
 import React , { useState, useEffect } from 'react'
-import { View, Text, TouchableOpacity, SafeAreaView } from 'react-native'
+import { View, Text, TouchableOpacity } from 'react-native'
+import { GoogleSignin } from '@react-native-google-signin/google-signin'
 import auth from '@react-native-firebase/auth'
 
 type Props = {
-  // navigation: any,
 }
 
 const Settings = (props: Props) => {
-  const logOut = () => {
-    auth()
-      .signOut()
-      .then(()=> console.log('user signed out!'))
+  const logOut = async () => {
+    try {
+      await GoogleSignin.revokeAccess();
+      await GoogleSignin.signOut();
+      auth()
+        .signOut()
+        .then(() => console.log('Your are signed out!'));
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return (
-    <SafeAreaView>
+    <View>
       <Text>Settings</Text>
       <TouchableOpacity 
         // style={styles.links} 
@@ -25,7 +31,7 @@ const Settings = (props: Props) => {
           // style={styles.links_txt}
         >LOG OUT</Text>
       </TouchableOpacity>
-    </SafeAreaView>
+    </View>
   )
 }
 
