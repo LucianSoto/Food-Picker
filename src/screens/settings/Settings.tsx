@@ -15,7 +15,7 @@ const Settings = (props: Props) => {
         .signOut()
         .then(() => console.log('Your are signed out!'));
     } catch (error) {
-      console.error(error);
+      console.error(error, 'SETTINGS');
     }
   }
 

@@ -26,8 +26,7 @@ export const Routes = () => {
   //initializing should be set inside redux
 
   function onAuthStateChanged(user:any) {
-    console.log('listening in ROUTES')
-    dispatch (setUser(user))
+    dispatch (setUser(user))  
     if (initializing) {setInitializing(false)}
   }
 
