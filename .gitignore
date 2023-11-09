@@ -72,3 +72,5 @@ google-services.json
 project_NOTES.txt
 zTODOS.txt
 
+# testing
+/coverage
