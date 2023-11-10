@@ -48,21 +48,22 @@ const List = (data: any) => {
         <View style={styles.right_container}>
           <Text style={styles.name}>{item.name}</Text>
           <Text>
-            {/* <Icon
+            <Icon
+              style={{marginRight: 20}}
               name="phone"
               color="black"
               size={15}
-            /> */}
+            />
             {/* deal with removing +1 on display */}
-            {item.phone} 
+            {'  ' + item.phone} 
           </Text>
           <Text>
-            {/* <Icon
+            <Icon
               name="star"
               color="red"
               size={15}
-            />  */}
-            {item.rating}
+            /> 
+            {'  ' + item.rating}
           </Text>
           <Text style={styles.price}>{item.price}</Text>
           <View style={styles.categories_container}>{getCategories}</View>

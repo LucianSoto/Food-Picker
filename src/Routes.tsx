@@ -14,8 +14,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { setUser } from './redux/userSlice';
 import {useDispatch, useSelector} from 'react-redux'
 import auth from '@react-native-firebase/auth';
-//TEST
-import {TT} from './TT'
 
 Icon.loadFont().catch((error) => { console.info(error); }); // or do nothing with the function?
 const Tab = createBottomTabNavigator()
@@ -37,92 +35,84 @@ export const Routes = () => {
     return subscriber; // unsubscribe on unmount
   }, []);
 
-  // if(user) {
-  //   return(
-  //     <Tab.Navigator initialRouteName='Home' 
-  //       screenOptions={{
-  //         tabBarShowLabel: false,
-  //         tabBarItemStyle: {
-  //           backgroundColor: 'rgba(200,200,200, 0.1)',
-  //           marginTop: 0,
-  //           borderRadius: 20,
-  //           marginHorizontal: 30,   
-  //           height: 40, 
-  //         },
-  //         tabBarActiveTintColor: 'tomato',
+  if(user) {
+    return(
+      <Tab.Navigator initialRouteName='Home' 
+        screenOptions={{
+          tabBarShowLabel: false,
+          tabBarItemStyle: {
+            backgroundColor: 'rgba(200,200,200, 0.1)',
+            marginTop: 0,
+            borderRadius: 20,
+            marginHorizontal: 30,   
+            height: 40, 
+          },
+          tabBarActiveTintColor: 'tomato',
           
-  //         tabBarStyle: {
-  //           backgroundColor: 'black',
-  //           height: 80,
-  //           paddingVertical: 10,
-  //           paddingHorizontal: 20,
-  //         },
-  //       }}
-  //     >
-  //       <Tab.Screen 
-  //         name='Home'         
-  //         component={Home} 
-  //         //CLEAR THIS LATER
-  //         options={{
-  //           headerShown: false,
-  //           tabBarLabel: "Home",
-  //           tabBarIcon: ({ focused, size }) => (
-  //             <Icon 
-  //               name="home"
-  //               color={focused? 'white' : 'gray'}
-  //               size={20}
-  //             />
-  //           )
-  //         }}
-  //       />
-  //       <Tab.Screen 
-  //         name="Favorites" 
-  //         component={Favorites} 
-  //         options={{
-  //           headerShown: false,
-  //           tabBarLabel: "favorites",
-  //           tabBarIcon: ({ focused, size }) => (
-  //             <Icon 
-  //               name="star"
-  //               color={focused? 'white' : 'gray'}
-  //               size={20}
-  //             />
-  //           )
-  //         }}
-  //       />
-  //       <Tab.Screen 
-  //         name='Settings' 
-  //         component={Settings} 
-  //         options={{
-  //           headerShown: false,
-  //           tabBarLabel: "settings",
-  //           tabBarIcon: ({ focused, size }) => (
-  //             <Icon 
-  //               name="gear"
-  //               color={focused? 'white' : 'gray'}
-  //               size={20}
-  //             />
-  //           )
-  //         }} 
-  //       />
-  //     </Tab.Navigator>
-  //   )
-  // }
+          tabBarStyle: {
+            backgroundColor: 'black',
+            height: 80,
+            paddingVertical: 10,
+            paddingHorizontal: 20,
+          },
+        }}
+      >
+        <Tab.Screen 
+          name='Home'         
+          component={Home} 
+          //CLEAR THIS LATER
+          options={{
+            headerShown: false,
+            tabBarLabel: "Home",
+            tabBarIcon: ({ focused, size }) => (
+              <Icon 
+                name="home"
+                color={focused? 'white' : 'gray'}
+                size={20}
+              />
+            )
+          }}
+        />
+        <Tab.Screen 
+          name="Favorites" 
+          component={Favorites} 
+          options={{
+            headerShown: false,
+            tabBarLabel: "favorites",
+            tabBarIcon: ({ focused, size }) => (
+              <Icon 
+                name="star"
+                color={focused? 'white' : 'gray'}
+                size={20}
+              />
+            )
+          }}
+        />
+        <Tab.Screen 
+          name='Settings' 
+          component={Settings} 
+          options={{
+            headerShown: false,
+            tabBarLabel: "settings",
+            tabBarIcon: ({ focused, size }) => (
+              <Icon 
+                name="gear"
+                color={focused? 'white' : 'gray'}
+                size={20}
+              />
+            )
+          }} 
+        />
+      </Tab.Navigator>
+    )
+  }
 
   return (
     <Stack.Navigator screenOptions={{headerShown: false}} >
-      {/* <Stack.Screen name="Login" component={Login} />
-      <Stack.Screen name="Register" component={Register} /> */}
+      <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name="Register" component={Register} />
       <Stack.Screen name="Forgot_Password" component={ForgotPassword} />
-      {/* <Stack.Screen name="tt" component={TT} /> */}
     </Stack.Navigator>
   )
-
-  // return (
-  //   <View>
-  //     <Text>Working</Text>
-  //     <TT/>
-  //   </View>
-  // )
 }
 

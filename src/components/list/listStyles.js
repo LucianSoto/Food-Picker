@@ -14,13 +14,13 @@ export default StyleSheet.create({
   },
   name: {
     fontSize: 18,
-    fontWeight: 900,
+    fontWeight: '900',
     color: "black",
     marginBottom: 7,
     width: '100%',
   },
   price: {
-    fontWeight: 900,
+    fontWeight: '900',
   },
   categories_container: {
     flexDirection: 'row',

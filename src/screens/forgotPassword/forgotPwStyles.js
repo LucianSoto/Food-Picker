@@ -11,7 +11,7 @@ export default EStyleSheet.create({
 
   sub_heading: {
     fontSize: 30,
-    // fontWeight: 600,
+    fontWeight: '600',
     alignItems: 'center',
     color: '$mainColor_white',
     marginBottom: 70,
@@ -46,7 +46,7 @@ export default EStyleSheet.create({
   submit_text: {
     color: '$mainColor_white',
     fontSize: 20,
-    // fontWeight: 700,
+    fontWeight: '700',
     letterSpacing: 5,
   },
 
@@ -63,7 +63,7 @@ export default EStyleSheet.create({
 
   modal: {
     flex: 1,
-    // marginTop: 100,
+    // marginTop: '100',
     textAlign: 'center',
     justifyContent: 'center',
     alignItems: 'center',
