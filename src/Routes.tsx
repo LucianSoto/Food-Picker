@@ -1,5 +1,5 @@
 // 'use client';
-
+import { View, Text } from 'react-native'
 import React, {useEffect, useState} from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Settings from "./screens/settings/Settings"
@@ -26,8 +26,7 @@ export const Routes = () => {
   //initializing should be set inside redux
 
   function onAuthStateChanged(user:any) {
-    console.log('listening in ROUTES')
-    dispatch (setUser(user))
+    dispatch (setUser(user))  
     if (initializing) {setInitializing(false)}
   }
 
@@ -69,10 +68,9 @@ export const Routes = () => {
               <Icon 
                 name="home"
                 color={focused? 'white' : 'gray'}
-                size={size}
+                size={20}
               />
             )
-            
           }}
         />
         <Tab.Screen 
@@ -85,7 +83,7 @@ export const Routes = () => {
               <Icon 
                 name="star"
                 color={focused? 'white' : 'gray'}
-                size={size}
+                size={20}
               />
             )
           }}
@@ -100,7 +98,7 @@ export const Routes = () => {
               <Icon 
                 name="gear"
                 color={focused? 'white' : 'gray'}
-                size={size}
+                size={20}
               />
             )
           }} 
