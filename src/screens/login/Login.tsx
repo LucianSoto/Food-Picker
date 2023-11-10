@@ -49,15 +49,15 @@ const Login = (props: Props) => {
               const token = userCredential.user.getIdToken()
               return token
             })
-            .then((idToken:any)=> {
-              EncryptedStorage.setItem(
-                "user_session",
-                JSON.stringify({
-                  token : idToken,
-                  email : email,
-                })
-                )
-            })
+            // .then((idToken:any)=> {
+            //   EncryptedStorage.setItem(
+            //     "user_session",
+            //     JSON.stringify({
+            //       token : idToken,
+            //       email : email,
+            //     })
+            //     )
+            // }) 
             .catch(error => {
               console.log(error.code, error.message)
               if(error.code === 'auth/wrong-password'){

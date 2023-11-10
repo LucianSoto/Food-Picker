@@ -142,18 +142,20 @@ const Home = (props: Props) => {
             clearButtonMode='while-editing'
             placeholderTextColor={'gray'}
           />
-          <Icon
-            style={styles.filterButton}
+          {/* COMMENTING OUT TO SEE IF ICON IS WHAT'S CAUSING THIS */}
+          {/* <Icon
+            size={20}// commented out in styles below
+            // style={styles.filterButton}
             name="chevron-down"
             onPress={openFilters}
-          />
+          /> */}
         </View>
-          { data ? 
+          {/* { data ? 
             <List data={data} /> : 
             <View>
               <Text onPress={()=> getList()}>Load List</Text>
             </View>
-          }
+          } */}
       </ScrollView>
         <TouchableOpacity
           style={styles.main_button}
@@ -188,7 +190,7 @@ const styles = EStyleSheet.create({
     color: "white",
   },
   filterButton: {
-    width: 40,
+    // width: 40,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',

@@ -48,20 +48,20 @@ const List = (data: any) => {
         <View style={styles.right_container}>
           <Text style={styles.name}>{item.name}</Text>
           <Text>
-            <Icon
+            {/* <Icon
               name="phone"
               color="black"
               size={15}
-            />
+            /> */}
             {/* deal with removing +1 on display */}
             {item.phone} 
           </Text>
           <Text>
-            <Icon
+            {/* <Icon
               name="star"
               color="red"
               size={15}
-            /> 
+            />  */}
             {item.rating}
           </Text>
           <Text style={styles.price}>{item.price}</Text>
