@@ -27,6 +27,7 @@ const Oauth = (props: Props) => {
   });
 
   const signIn = async () => {
+    console.log('in OAUTH signin')
     try {
       await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
       const {user: {}} = await GoogleSignin.signIn();
