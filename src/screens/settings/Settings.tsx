@@ -9,13 +9,12 @@ type Props = {
 const Settings = (props: Props) => {
   const logOut = async () => {
     try {
-      await GoogleSignin.revokeAccess();
+      // await GoogleSignin.revokeAccess();//REVOKE WAS MAKING IT NOT SIGN OUT
       await GoogleSignin.signOut();
-      auth()
-        .signOut()
-        .then(() => console.log('Your are signed out!'));
+      await auth().signOut()
+        console.log('signed out')
     } catch (error) {
-      console.error(error);
+      console.error(error, 'SETTINGS');
     }
   }
 

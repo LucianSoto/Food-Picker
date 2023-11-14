@@ -143,6 +143,7 @@ const Home = (props: Props) => {
             placeholderTextColor={'gray'}
           />
           <Icon
+            size={20}// commented out in styles below
             style={styles.filterButton}
             name="chevron-down"
             onPress={openFilters}
@@ -188,7 +189,7 @@ const styles = EStyleSheet.create({
     color: "white",
   },
   filterButton: {
-    width: 40,
+    // width: 40,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',

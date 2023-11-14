@@ -11,7 +11,7 @@ export default EStyleSheet.create({
 
   sub_heading: {
     fontSize: 20,
-    fontWeight: 600,
+    fontWeight: '600',
     marginVertical: 20,
     alignItems: 'center',
     color: '$mainColor_white',
@@ -60,7 +60,7 @@ export default EStyleSheet.create({
   submit_text: {
     color: '$mainColor_white',
     fontSize: 20,
-    fontWeight: 700,
+    fontWeight: '700',
     letterSpacing: 5,
   },
 
