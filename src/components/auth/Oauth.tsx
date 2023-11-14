@@ -20,18 +20,19 @@ const Oauth = (props: Props) => {
   const webClientId = process.env.WEB_CLIENT_ID
   const [initializing, setInitializing] = useState(true);
 
-  GoogleSignin.configure({
-    // iosClientId: webClientId,
-    webClientId: webClientId,
-    // offlineAccess: true,
-  });
+  useEffect(()=> {
+    GoogleSignin.configure({
+      // iosClientId: webClientId,
+      webClientId: webClientId,
+      // offlineAccess: true,
+    });
+  })
 
   const signIn = async () => {
+    console.log(webClientId, 'OAUTH')
     try {
       await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
-      const {user: {}} = await GoogleSignin.signIn();
-      console.log('afterGoogleSingin OAUTH', user)
-      
+      const {user: {}} = await GoogleSignin.signIn();      
       const {accessToken} = await GoogleSignin.getTokens()     
       console.log(user, accessToken, 'OAUTH') 
       const credential = await auth.GoogleAuthProvider.credential(
