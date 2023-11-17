@@ -30,6 +30,7 @@ const Item = styled.View`
   border-radius: 5px;
 `
 
+
 const List = (data: any) => { 
   const list = data.data.map((item: Data, i: number)=> {
     let getCategories = item.categories.map((category: {title: string}, i:number)=> {
@@ -38,7 +39,8 @@ const List = (data: any) => {
           {category.title}
         </Text>
       )
-    })
+    }) 
+
     return (
       <Item key={i}>
         <Image 
@@ -55,16 +57,16 @@ const List = (data: any) => {
               size={15}
             />
             {/* deal with removing +1 on display */}
-            {'  ' + item.phone} 
+            {item.phone.replace(/^[\s\S]{0,2}/g, "  ")} 
           </Text>
-          <Text>
+          <View style={{flexDirection: "row"}}>
             <Icon
               name="star"
               color="red"
               size={15}
             /> 
-            {'  ' + item.rating}
-          </Text>
+            <Text>  {item.rating}</Text>
+          </View>
           <Text style={styles.price}>{item.price}</Text>
           <View style={styles.categories_container}>{getCategories}</View>
         </View>
