@@ -4,8 +4,11 @@ import { Formik } from 'formik'
 import styles from './registerStyles'
 import Oauth from '../../components/auth/Oauth'
 import auth from '@react-native-firebase/auth'
+// import {updateProfile} from "@react-native-firebase/auth"
 import Icon from 'react-native-vector-icons/FontAwesome';
-
+import firestore  from '@react-native-firebase/firestore'
+// import timeStamp from '@react-native-firebase/firestore'
+// import {collection, serverTimeStamp} from "@react-native-firebase/firestore"
 Icon.loadFont().catch((error) => { console.info(error); });
 
 type Props = {
@@ -18,24 +21,31 @@ const Register = (props: Props) => {
   const [user, setUser] = useState()
   const [secure, setSecure] = useState<boolean>(true)
   const {navigation} = props
+  const ref = firestore().collection('users')
 
-  const createUser = (email:string, password:string, name:string) => {
-    auth()
-      .createUserWithEmailAndPassword(email, password)
-      .then(()=> console.log('working', email))
-      .then(()=> {
-        console.log('User account created & signed in!'),
-        navigation.navigate('Home', {name: name})
+  const createUser = async (email:string, password:string, name:string) => {
+    try {
+      auth()
+        .createUserWithEmailAndPassword(email, password)
+      const userCopy = {
+        email, 
+        name,
+        timestamp : firestore.FieldValue.serverTimestamp(),
+        favorites: []
+      }
+
+      await ref.add({
+        userCopy
       })
-      .catch(err => {
-        if(err.code === 'auth/email-already-in-use') {
-          console.log('Email / Account already exists.')
-        }
-        if(err.code === 'auth/invalid-email'){
-          console.log('Invalid email address.')
-        }
-        console.log(err, 'REGISTER')  
-      })
+    } catch (error: any){
+      if(error.code === 'auth/email-already-in-use') {
+        console.log('Email / Account already exists.')
+      }
+      if(error.code === 'auth/invalid-email'){
+        console.log('Invalid email address.')
+      }
+      console.log(error, 'REGISTER')  
+    }
   }
 
   return (
@@ -79,7 +89,7 @@ const Register = (props: Props) => {
                 onPress={()=> setSecure(!secure)}
               />
             </View>
-            <TouchableOpacity style={styles.submit} onPress={()=> handleSubmit}>
+            <TouchableOpacity style={styles.submit} onPress={()=> handleSubmit()}>
             <Text style={styles.submit_text}>SUBMIT</Text>
             </TouchableOpacity>
             <View style={styles.links_cont}>

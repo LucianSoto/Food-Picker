@@ -5,6 +5,7 @@ const Favorites = () => {
   return (
     <View>
       <Text>Favorites</Text>
+      
     </View>
   )
 }
