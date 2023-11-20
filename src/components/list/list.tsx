@@ -5,6 +5,8 @@ import styles from './listStyles'
 import firestore from '@react-native-firebase/firestore';
 
 Icon.loadFont().catch((error) => { console.info(error); });
+// see if each restaurant has its own iD from Yelp
+// get user data
 
 type Data = {
   name: string, 
@@ -15,13 +17,14 @@ type Data = {
   rating: number,
   price: string,
   categories: [{title: string}],
+  id: string,
 }
 
 const List = (data: any) => { 
   const addToFavs = async (name: string) => {
     firestore()
-      .collection('User_Favorites')
-      .doc('ABC')
+      .collection('users')
+      .doc('')
       .set({
         name: name,
       })
@@ -38,9 +41,10 @@ const List = (data: any) => {
         </Text>
       )
     }) 
+
     
     return (
-      <Item key={i}>
+      <Item key={i} id={item.id}>
         <Image 
           style={styles.thumb as ImageStyle} // had to add type for typescript compiling.
           source={{uri: item.image_url}}
@@ -68,7 +72,7 @@ const List = (data: any) => {
           <Text style={styles.price}>{item.price}</Text>
           <View style={styles.categories_container}>{getCategories}</View>
         </View>
-        <TouchableOpacity onPress={()=> addToFavs(item.name)}>
+        <TouchableOpacity onPress={()=> addToFavs(item.id)}>
           <Icon 
             name="heart-o"
             color="red"

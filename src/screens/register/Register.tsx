@@ -5,6 +5,8 @@ import styles from './registerStyles'
 import Oauth from '../../components/auth/Oauth'
 import auth from '@react-native-firebase/auth'
 import Icon from 'react-native-vector-icons/FontAwesome';
+import firestore  from '@react-native-firebase/firestore'
+import {nanoid} from 'nanoid'
 
 Icon.loadFont().catch((error) => { console.info(error); });
 
@@ -13,29 +15,47 @@ type Props = {
 }
 
 const Register = (props: Props) => {
-  const IMAGE = require('../../assets/images/logo_sm.png')
+  const IMAGE: string = require('../../assets/images/logo_sm.png')
   const [initializing, setInitializing] = useState(true)
   const [user, setUser] = useState()
   const [secure, setSecure] = useState<boolean>(true)
   const {navigation} = props
+  const collectionRef = firestore().collection('users')
 
   const createUser = (email:string, password:string, name:string) => {
+    let userCopy = {}
     auth()
       .createUserWithEmailAndPassword(email, password)
-      .then(()=> console.log('working', email))
-      .then(()=> {
-        console.log('User account created & signed in!'),
-        navigation.navigate('Home', {name: name})
+    .then(()=> {
+      const user = auth().currentUser
+      const id = user?.uid
+      console.log('id REGISTER', id)
+      userCopy = {
+        email, 
+        name,
+        timestamp : firestore.FieldValue.serverTimestamp(),
+        favorites: [],
+        userRef: id
+      }
+      console.log(userCopy, 'register function')
+      return userCopy
+    })
+    .then((userCopy: any)=> {
+      console.log(userCopy)
+      collectionRef.add({
+        userCopy
       })
-      .catch(err => {
-        if(err.code === 'auth/email-already-in-use') {
-          console.log('Email / Account already exists.')
-        }
-        if(err.code === 'auth/invalid-email'){
-          console.log('Invalid email address.')
-        }
-        console.log(err, 'REGISTER')  
-      })
+      console.log(userCopy, 'REGISTER FUNCTION')
+    })
+    .catch(error => {
+      if(error.code === 'auth/email-already-in-use') {
+      console.log('Email / Account already exists.')
+      }
+      if(error.code === 'auth/invalid-email'){
+        console.log('Invalid email address.')
+      }
+      console.log(error, 'in REGISTER') 
+    })
   }
 
   return (
@@ -79,7 +99,7 @@ const Register = (props: Props) => {
                 onPress={()=> setSecure(!secure)}
               />
             </View>
-            <TouchableOpacity style={styles.submit} onPress={()=> handleSubmit}>
+            <TouchableOpacity style={styles.submit} onPress={()=> handleSubmit()}>
             <Text style={styles.submit_text}>SUBMIT</Text>
             </TouchableOpacity>
             <View style={styles.links_cont}>
