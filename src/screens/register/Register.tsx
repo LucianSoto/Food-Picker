@@ -4,11 +4,10 @@ import { Formik } from 'formik'
 import styles from './registerStyles'
 import Oauth from '../../components/auth/Oauth'
 import auth from '@react-native-firebase/auth'
-// import {updateProfile} from "@react-native-firebase/auth"
 import Icon from 'react-native-vector-icons/FontAwesome';
 import firestore  from '@react-native-firebase/firestore'
-// import timeStamp from '@react-native-firebase/firestore'
-// import {collection, serverTimeStamp} from "@react-native-firebase/firestore"
+import {nanoid} from 'nanoid'
+
 Icon.loadFont().catch((error) => { console.info(error); });
 
 type Props = {
@@ -16,36 +15,47 @@ type Props = {
 }
 
 const Register = (props: Props) => {
-  const IMAGE = require('../../assets/images/logo_sm.png')
+  const IMAGE: string = require('../../assets/images/logo_sm.png')
   const [initializing, setInitializing] = useState(true)
   const [user, setUser] = useState()
   const [secure, setSecure] = useState<boolean>(true)
   const {navigation} = props
-  const ref = firestore().collection('users')
+  const collectionRef = firestore().collection('users')
 
-  const createUser = async (email:string, password:string, name:string) => {
-    try {
-      auth()
-        .createUserWithEmailAndPassword(email, password)
-      const userCopy = {
+  const createUser = (email:string, password:string, name:string) => {
+    let userCopy = {}
+    auth()
+      .createUserWithEmailAndPassword(email, password)
+    .then(()=> {
+      const user = auth().currentUser
+      const id = user?.uid
+      console.log('id REGISTER', id)
+      userCopy = {
         email, 
         name,
         timestamp : firestore.FieldValue.serverTimestamp(),
-        favorites: []
+        favorites: [],
+        userRef: id
       }
-
-      await ref.add({
+      console.log(userCopy, 'register function')
+      return userCopy
+    })
+    .then((userCopy: any)=> {
+      console.log(userCopy)
+      collectionRef.add({
         userCopy
       })
-    } catch (error: any){
+      console.log(userCopy, 'REGISTER FUNCTION')
+    })
+    .catch(error => {
       if(error.code === 'auth/email-already-in-use') {
-        console.log('Email / Account already exists.')
+      console.log('Email / Account already exists.')
       }
       if(error.code === 'auth/invalid-email'){
         console.log('Invalid email address.')
       }
-      console.log(error, 'REGISTER')  
-    }
+      console.log(error, 'in REGISTER') 
+    })
   }
 
   return (
