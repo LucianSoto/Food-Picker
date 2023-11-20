@@ -26,16 +26,20 @@ const Register = (props: Props) => {
     try{
       const credential = await auth().createUserWithEmailAndPassword(email, password)
       const user = await auth().currentUser
-      const id = await user?.uid //this will wait for the user id before making the userCopty
-      const userCopy = await {
+      const id = await user?.uid  //this will wait for the user id before making the userCopty
+      // const userCopy = await {
+      //   email, 
+      //   name,
+      //   timestamp : firestore.FieldValue.serverTimestamp(),
+      //   favorites: [],
+      //   userRef: id
+      // } 
+      const userRef = await collectionRef.add({
         email, 
         name,
         timestamp : firestore.FieldValue.serverTimestamp(),
         favorites: [],
         userRef: id
-      } 
-      const userRef = await collectionRef.add({
-        userCopy
       })
     } catch(error: any) {
       if(error.code === 'auth/email-already-in-use') {

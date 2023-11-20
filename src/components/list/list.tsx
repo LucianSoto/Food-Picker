@@ -1,8 +1,13 @@
 import { Text, View, Image, ImageStyle, TouchableOpacity } from 'react-native'
+import {useState, useEffect} from 'react'
 import styled from 'styled-components/native'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import styles from './listStyles'
 import firestore from '@react-native-firebase/firestore';
+// import {updateDoc, doc, collection, query, where, orderBy} from '@react-native-firebase/firestore'
+import auth from '@react-native-firebase/auth'
+// import getDoc from '@react-native-firebase/firestore'
+import {useDispatch, useSelector} from 'react-redux'
 
 Icon.loadFont().catch((error) => { console.info(error); });
 // see if each restaurant has its own iD from Yelp
@@ -21,16 +26,36 @@ type Data = {
 }
 
 const List = (data: any) => { 
-  const addToFavs = async (name: string) => {
-    firestore()
-      .collection('users')
-      .doc('')
-      .set({
-        name: name,
-      })
-      .then(() => {
-        console.log('User added!');
+  const user = useSelector(state => state.user.data)
+  const [favorites, setFavorites] = useState([])
+  const userRef = ''
+  const collection = firestore().collection('users')
+
+
+  const getFavs = async () => {
+    // Also gets called by toggle favs
+    const id = await user.uid
+    const favs = await collection
+      .where('userRef', '==', id)
+      .get()
+      .then(querySnapShot => {
+        return querySnapShot.docs[0].data().favorites
       });
+      
+    console.log(favs, 'LIST FAVES')
+    const settingFavs = setFavorites(favs)
+  }
+
+  console.log(favorites, 'favorites LIST')
+
+  useEffect(()=> {
+    getFavs()
+  },[])
+
+  const toggleFavs = async (bussinessID: string) => {
+
+    // const toggleFav = await 
+    getFavs()
   }
   
   const list = data.data.map((item: Data, i: number)=> {
@@ -41,8 +66,7 @@ const List = (data: any) => {
         </Text>
       )
     }) 
-
-    
+   
     return (
       <Item key={i} id={item.id}>
         <Image 
@@ -72,7 +96,7 @@ const List = (data: any) => {
           <Text style={styles.price}>{item.price}</Text>
           <View style={styles.categories_container}>{getCategories}</View>
         </View>
-        <TouchableOpacity onPress={()=> addToFavs(item.id)}>
+        <TouchableOpacity onPress={()=> toggleFavs(item.id)}>
           <Icon 
             name="heart-o"
             color="red"
