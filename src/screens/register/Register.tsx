@@ -15,47 +15,37 @@ type Props = {
 }
 
 const Register = (props: Props) => {
-  const IMAGE: string = require('../../assets/images/logo_sm.png')
+  const IMAGE = require('../../assets/images/logo_sm.png')
   const [initializing, setInitializing] = useState(true)
   const [user, setUser] = useState()
   const [secure, setSecure] = useState<boolean>(true)
   const {navigation} = props
   const collectionRef = firestore().collection('users')
 
-  const createUser = (email:string, password:string, name:string) => {
-    let userCopy = {}
-    auth()
-      .createUserWithEmailAndPassword(email, password)
-    .then(()=> {
-      const user = auth().currentUser
-      const id = user?.uid
-      console.log('id REGISTER', id)
-      userCopy = {
+  const createUser = async (email:string, password:string, name:string) => {
+    try{
+      const credential = await auth().createUserWithEmailAndPassword(email, password)
+      const user = await auth().currentUser
+      const id = await user?.uid //this will wait for the user id before making the userCopty
+      const userCopy = await {
         email, 
         name,
         timestamp : firestore.FieldValue.serverTimestamp(),
         favorites: [],
         userRef: id
-      }
-      console.log(userCopy, 'register function')
-      return userCopy
-    })
-    .then((userCopy: any)=> {
-      console.log(userCopy)
-      collectionRef.add({
+      } 
+      const userRef = await collectionRef.add({
         userCopy
       })
-      console.log(userCopy, 'REGISTER FUNCTION')
-    })
-    .catch(error => {
+    } catch(error: any) {
       if(error.code === 'auth/email-already-in-use') {
-      console.log('Email / Account already exists.')
+        console.log('Email / Account already exists.')
       }
       if(error.code === 'auth/invalid-email'){
         console.log('Invalid email address.')
       }
       console.log(error, 'in REGISTER') 
-    })
+    }
   }
 
   return (
