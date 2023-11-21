@@ -4,14 +4,9 @@ import styled from 'styled-components/native'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import styles from './listStyles'
 import firestore from '@react-native-firebase/firestore';
-// import {updateDoc, doc, collection, query, where, orderBy} from '@react-native-firebase/firestore'
-import auth from '@react-native-firebase/auth'
-// import getDoc from '@react-native-firebase/firestore'
 import {useDispatch, useSelector} from 'react-redux'
 
 Icon.loadFont().catch((error) => { console.info(error); });
-// see if each restaurant has its own iD from Yelp
-// get user data
 
 type Data = {
   name: string, 
@@ -30,31 +25,55 @@ const List = (data: any) => {
   const [favorites, setFavorites] = useState([])
   const userRef = ''
   const collection = firestore().collection('users')
-
+  const id = user.uid
 
   const getFavs = async () => {
-    // Also gets called by toggle favs
-    const id = await user.uid
     const favs = await collection
       .where('userRef', '==', id)
       .get()
       .then(querySnapShot => {
         return querySnapShot.docs[0].data().favorites
       });
-      
-    console.log(favs, 'LIST FAVES')
     const settingFavs = setFavorites(favs)
   }
-
-  console.log(favorites, 'favorites LIST')
 
   useEffect(()=> {
     getFavs()
   },[])
 
   const toggleFavs = async (bussinessID: string) => {
+//https://stackoverflow.com/questions/64682448/firestore-retrieve-single-document-by-field-value-and-update
+//second answer had the below formula/query that worked
+  try {
+    const query = await collection.where('userRef', '==', id).get();
+    const snapshot = query.docs[0] // gotta break this and the next function in two for it to work
+// gotta break this and the next function in two for it to work
+// const docId = snapshot.data()
+// console.log(docId)
+    const favorites = await snapshot.data().favorites
+    console.log(favorites, 'favorites LIST')
+    const checkFavorite = favorites.includes(bussinessID)
 
-    // const toggleFav = await 
+    if (checkFavorite) {
+      const removedFav = await favorites.filter(n => n !== bussinessID)
+      console.log(removedFav, 'LIST')
+      const updating = await query.forEach((doc) => {
+        doc.ref.update({
+          favorites: removedFav
+        })
+      })
+    } else {
+      const addFav = await favorites.push(bussinessID)
+      console.log(addFav, 'LIST')
+      const updating = await query.forEach((doc) => {
+        doc.ref.update({
+          favorites: addFav
+        })
+      })
+    }
+  } catch (error) {
+    console.log(error)
+  } 
     getFavs()
   }
   
@@ -98,7 +117,7 @@ const List = (data: any) => {
         </View>
         <TouchableOpacity onPress={()=> toggleFavs(item.id)}>
           <Icon 
-            name="heart-o"
+            name={ 'heart-o' }
             color="red"
             size={20}
             />
