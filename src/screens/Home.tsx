@@ -150,7 +150,8 @@ const Home = (props: Props) => {
           />
         </View>
           { data ? 
-            <List data={data} /> : 
+            <List data={data} /> 
+            : 
             <View>
               <Text onPress={()=> getList()}>Load List</Text>
             </View>

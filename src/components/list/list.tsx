@@ -67,7 +67,7 @@ const List = (data: any) => {
       console.log(addFav, 'LIST')
       const updating = await query.forEach((doc) => {
         doc.ref.update({
-          favorites: addFav
+          favorites: favorites
         })
       })
     }
@@ -76,6 +76,8 @@ const List = (data: any) => {
   } 
     getFavs()
   }
+
+  console.log(favorites)
   
   const list = data.data.map((item: Data, i: number)=> {
     let getCategories = item.categories.map((category: {title: string}, i:number)=> {
@@ -117,7 +119,7 @@ const List = (data: any) => {
         </View>
         <TouchableOpacity onPress={()=> toggleFavs(item.id)}>
           <Icon 
-            name={ 'heart-o' }
+            name={ favorites.includes(item.id)? 'heart' : 'heart-o' }
             color="red"
             size={20}
             />
