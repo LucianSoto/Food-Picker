@@ -1,12 +1,11 @@
+Icon.loadFont().catch((error) => { console.info(error); });
 import { Text, View, Image, ImageStyle, TouchableOpacity } from 'react-native'
 import {useState, useEffect} from 'react'
 import styled from 'styled-components/native'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import styles from './listStyles'
 import firestore from '@react-native-firebase/firestore';
-import {useDispatch, useSelector} from 'react-redux'
-
-Icon.loadFont().catch((error) => { console.info(error); });
+import {useSelector} from 'react-redux'
 
 type Data = {
   name: string, 
@@ -23,7 +22,6 @@ type Data = {
 const List = (data: any) => { 
   const user = useSelector(state => state.user.data)
   const [favorites, setFavorites] = useState([])
-  const userRef = ''
   const collection = firestore().collection('users')
   const id = user.uid
 
@@ -42,42 +40,32 @@ const List = (data: any) => {
   },[])
 
   const toggleFavs = async (bussinessID: string) => {
-//https://stackoverflow.com/questions/64682448/firestore-retrieve-single-document-by-field-value-and-update
-//second answer had the below formula/query that worked
-  try {
-    const query = await collection.where('userRef', '==', id).get();
-    const snapshot = query.docs[0] // gotta break this and the next function in two for it to work
-// gotta break this and the next function in two for it to work
-// const docId = snapshot.data()
-// console.log(docId)
-    const favorites = await snapshot.data().favorites
-    console.log(favorites, 'favorites LIST')
-    const checkFavorite = favorites.includes(bussinessID)
+    try {
+      const query = await collection.where('userRef', '==', id).get();
+      const snapshot = query.docs[0] // gotta break this and the next function in two for it to work
+      const favorites = await snapshot.data().favorites
+      const checkFavorite = favorites.includes(bussinessID)
 
-    if (checkFavorite) {
-      const removedFav = await favorites.filter(n => n !== bussinessID)
-      console.log(removedFav, 'LIST')
-      const updating = await query.forEach((doc) => {
-        doc.ref.update({
-          favorites: removedFav
+      if (checkFavorite) {
+        const removedFav = await favorites.filter(n => n !== bussinessID)
+        const updating = await query.forEach((doc) => {
+          doc.ref.update({
+            favorites: removedFav
+          })
         })
-      })
-    } else {
-      const addFav = await favorites.push(bussinessID)
-      console.log(addFav, 'LIST')
-      const updating = await query.forEach((doc) => {
-        doc.ref.update({
-          favorites: favorites
+      } else {
+        const addFav = await favorites.push(bussinessID)
+        const updating = await query.forEach((doc) => {
+          doc.ref.update({
+            favorites: favorites
+          })
         })
-      })
-    }
-  } catch (error) {
-    console.log(error)
-  } 
+      }
+    } catch (error) {
+      console.log(error)
+    } 
     getFavs()
   }
-
-  console.log(favorites)
   
   const list = data.data.map((item: Data, i: number)=> {
     let getCategories = item.categories.map((category: {title: string}, i:number)=> {
@@ -93,7 +81,7 @@ const List = (data: any) => {
         <Image 
           style={styles.thumb as ImageStyle} // had to add type for typescript compiling.
           source={{uri: item.image_url}}
-          />
+        />
         <View style={styles.right_container}>
           <Text style={styles.name}>{item.name}</Text>
           <Text>
@@ -103,7 +91,6 @@ const List = (data: any) => {
               color="black"
               size={15}
               />
-            {/* deal with removing +1 on display */}
             {item.phone.replace(/^[\s\S]{0,2}/g, "  ")} 
           </Text>
           <View style={{flexDirection: "row"}}>
@@ -140,9 +127,9 @@ export default List
 
 const Item = styled.View`
   margin: 10px;
+  width: 100%;
   padding: 10px;
   background-color: white;
-  font-size: 15px;
   flexDirection: row;
   border-radius: 5px;
 `
