@@ -5,48 +5,40 @@ import {
   statusCodes,
 } from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth'
-import {useDispatch, useSelector} from 'react-redux'
-import { setUser } from '../../redux/userSlice';
+import {useSelector} from 'react-redux'
 
 type Props = {
   text: string,
 }
 
 // Important: To enable Google sign-in for your Android apps, you must provide the SHA-1 release fingerprint for each app (go to Project Settings > Your apps section).
-
 const Oauth = (props: Props) => {
-  const dispatch = useDispatch() //THIS HAS TO GO INSIDE THE FUNCTION!!!!!
   const user = useSelector(state => state.user.data)
   const webClientId = process.env.WEB_CLIENT_ID
   const [initializing, setInitializing] = useState(true);
 
   useEffect(()=> {
     GoogleSignin.configure({
-      // iosClientId: webClientId,
       webClientId: webClientId,
-      // offlineAccess: true,
     });
   })
 
   const signIn = async () => {
-    console.log(webClientId, 'OAUTH')
     try {
       await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
       const {user: {}} = await GoogleSignin.signIn();      
       const {accessToken} = await GoogleSignin.getTokens()     
-      console.log(user, accessToken, 'OAUTH') 
       const credential = await auth.GoogleAuthProvider.credential(
         user,
         accessToken,
       );
-      console.log(credential, 'oauth credential')
       await auth().signInWithCredential(credential)
     } catch (error: any) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
       } else if (error.code === statusCodes.IN_PROGRESS) {
       } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
       } else {
-        // some other error happened
+        console.log(error)
       }
     }
   };

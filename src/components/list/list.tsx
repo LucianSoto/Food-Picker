@@ -1,4 +1,4 @@
-Icon.loadFont().catch((error) => { console.info(error); });
+Icon.loadFont().catch((error) => {});
 import { Text, View, Image, ImageStyle, TouchableOpacity } from 'react-native'
 import {useState, useEffect} from 'react'
 import styled from 'styled-components/native'
@@ -32,7 +32,7 @@ const List = (data: any) => {
       .then(querySnapShot => {
         return querySnapShot.docs[0].data().favorites
       });
-    const settingFavs = setFavorites(favs)
+    setFavorites(favs)
   }
 
   useEffect(()=> {

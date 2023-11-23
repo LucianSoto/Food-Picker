@@ -1,7 +1,7 @@
+Icon.loadFont().catch((error) => {});
 import {
   SafeAreaView,
   ScrollView,
-  StyleSheet,
   Text,
   View,
   TextInput,
@@ -15,10 +15,7 @@ import axios from 'axios'
 import { locationPermission } from '../../utils/permissions';
 import List from '../components/list/list'
 import Icon from 'react-native-vector-icons/FontAwesome';
-import auth from '@react-native-firebase/auth'
 import EStyleSheet from 'react-native-extended-stylesheet'
-
-Icon.loadFont().catch((error) => { console.info(error); });
 
 type Props = {
   navigation: any,
@@ -36,7 +33,7 @@ const Home = (props: Props) => {
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState<Array<string>>([])
   const [distance, setDistance] = useState<string>('5000')
-  const [limit, setLimit] = useState<string>('10')
+  const [limit, setLimit] = useState<string>('5')
   const [openNow, setOppenNow] = useState<boolean>(true)
   const [location, setLocation] = useState<any>()
   const [geo, setGeo] = useState({})
@@ -115,6 +112,7 @@ const Home = (props: Props) => {
       : geo.longitude}&open_now=${openNow ? 'true' 
       : 'false'}&radius=${distance}&sort_by=best_match&limit=${limit}`, config)
       .then((response) => {
+        console.log(response.data.businesses, 'IN HOME****')
         setData(response.data.businesses)
       })
       .catch((error) => {
