@@ -22,11 +22,11 @@ type Data = {
 const List = (data: any) => { 
   const user = useSelector(state => state.user.data)
   const [favorites, setFavorites] = useState([])
-  const collection = firestore().collection('users')
+  const collectionRef = firestore().collection('users')
   const id = user.uid
 
   const getFavs = async () => {
-    const favs = await collection
+    const favs = await collectionRef
       .where('userRef', '==', id)
       .get()
       .then(querySnapShot => {
@@ -41,7 +41,7 @@ const List = (data: any) => {
 
   const toggleFavs = async (bussinessID: string) => {
     try {
-      const query = await collection.where('userRef', '==', id).get();
+      const query = await collectionRef.where('userRef', '==', id).get();
       const snapshot = query.docs[0] // gotta break this and the next function in two for it to work
       const favorites = await snapshot.data().favorites
       const checkFavorite = favorites.includes(bussinessID)

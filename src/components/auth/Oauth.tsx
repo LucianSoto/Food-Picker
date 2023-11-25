@@ -7,7 +7,7 @@ import {
 import auth from '@react-native-firebase/auth'
 import firestore  from '@react-native-firebase/firestore'
 import {useSelector} from 'react-redux'
-
+//git merge <name of branch to copy>
 type Props = {
   text: string,
 }
@@ -28,15 +28,30 @@ const Oauth = (props: Props) => {
   const signIn = async () => {
     try {
       await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
-      const {user: {}} = await GoogleSignin.signIn();   
-      console.log(user, 'user OAUTH')
+      const gUser = await GoogleSignin.signIn();   
+      const {email, givenName, id} = gUser.user
+      const query =  await collectionRef.where('userRef', '==', id ).get()
+      const exists = await query.docs
+
+      const userRef = { 
+        email: email, 
+        name: givenName,
+        timestamp : firestore.FieldValue.serverTimestamp(),
+        favorites: [],
+        userRef: id
+      }
+
+      if(exists.length < 1) {
+        await collectionRef.add({userRef})
+      }
 
       const {accessToken} = await GoogleSignin.getTokens()     
       const credential = await auth.GoogleAuthProvider.credential(
-        user,
+        userRef,
         accessToken,
       );
-      // await auth().signInWithCredential(credential)
+      await auth().signInWithCredential(credential)
+
     } catch (error: any) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
       } else if (error.code === statusCodes.IN_PROGRESS) {

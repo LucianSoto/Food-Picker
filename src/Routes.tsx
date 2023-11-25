@@ -24,6 +24,7 @@ export const Routes = () => {
   const user = useSelector(state => state.user.data)
   const [initializing, setInitializing] = useState(true);
   //initializing should be set inside redux
+  console.log('user ROUTES', user)
 
   function onAuthStateChanged(user:any) {
     dispatch (setUser(user))  
