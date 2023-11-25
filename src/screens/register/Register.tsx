@@ -17,7 +17,7 @@ type Props = {
 const Register = (props: Props) => {
   const IMAGE = require('../../assets/images/logo_sm.png')
   const [initializing, setInitializing] = useState(true)
-  const [user, setUser] = useState()
+  // const [user, setUser] = useState() not being used
   const [secure, setSecure] = useState<boolean>(true)
   const {navigation} = props
   const collectionRef = firestore().collection('users')
@@ -27,13 +27,7 @@ const Register = (props: Props) => {
       const credential = await auth().createUserWithEmailAndPassword(email, password)
       const user = await auth().currentUser
       const id = await user?.uid  //this will wait for the user id before making the userCopty
-      // const userCopy = await {
-      //   email, 
-      //   name,
-      //   timestamp : firestore.FieldValue.serverTimestamp(),
-      //   favorites: [],
-      //   userRef: id
-      // } 
+
       const userRef = await collectionRef.add({
         email, 
         name,

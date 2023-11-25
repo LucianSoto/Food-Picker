@@ -5,6 +5,7 @@ import {
   statusCodes,
 } from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth'
+import firestore  from '@react-native-firebase/firestore'
 import {useSelector} from 'react-redux'
 
 type Props = {
@@ -16,6 +17,7 @@ const Oauth = (props: Props) => {
   const user = useSelector(state => state.user.data)
   const webClientId = process.env.WEB_CLIENT_ID
   const [initializing, setInitializing] = useState(true);
+  const collectionRef = firestore().collection('users')
 
   useEffect(()=> {
     GoogleSignin.configure({
@@ -26,13 +28,15 @@ const Oauth = (props: Props) => {
   const signIn = async () => {
     try {
       await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
-      const {user: {}} = await GoogleSignin.signIn();      
+      const {user: {}} = await GoogleSignin.signIn();   
+      console.log(user, 'user OAUTH')
+
       const {accessToken} = await GoogleSignin.getTokens()     
       const credential = await auth.GoogleAuthProvider.credential(
         user,
         accessToken,
       );
-      await auth().signInWithCredential(credential)
+      // await auth().signInWithCredential(credential)
     } catch (error: any) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
       } else if (error.code === statusCodes.IN_PROGRESS) {
