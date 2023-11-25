@@ -1,7 +1,7 @@
+Icon.loadFont().catch((error) => {});
 import {
   SafeAreaView,
   ScrollView,
-  StyleSheet,
   Text,
   View,
   TextInput,
@@ -15,10 +15,7 @@ import axios from 'axios'
 import { locationPermission } from '../../utils/permissions';
 import List from '../components/list/list'
 import Icon from 'react-native-vector-icons/FontAwesome';
-import auth from '@react-native-firebase/auth'
 import EStyleSheet from 'react-native-extended-stylesheet'
-
-Icon.loadFont().catch((error) => { console.info(error); });
 
 type Props = {
   navigation: any,
@@ -36,7 +33,7 @@ const Home = (props: Props) => {
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState<Array<string>>([])
   const [distance, setDistance] = useState<string>('5000')
-  const [limit, setLimit] = useState<string>('10')
+  const [limit, setLimit] = useState<string>('5')
   const [openNow, setOppenNow] = useState<boolean>(true)
   const [location, setLocation] = useState<any>()
   const [geo, setGeo] = useState({})
@@ -127,11 +124,9 @@ const Home = (props: Props) => {
     <SafeAreaView style={styles.main_container}>
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
-        contentContainerStyle={styles.list_view}
+        contentContainerStyle={styles.scroll_view}
       >
-        <View 
-          style={{flexDirection: "row", alignItems: 'center'}}
-        >
+        <View style={styles.search_container}>
           <TextInput 
             style={styles.input}
             onChangeText={text => setLocation(text)}
@@ -144,17 +139,18 @@ const Home = (props: Props) => {
           />
           <Icon
             size={20}// commented out in styles below
-            style={styles.filterButton}
+            style={styles.filter_button}
             name="chevron-down"
             onPress={openFilters}
           />
         </View>
-          { data ? 
-            <List data={data} /> : 
-            <View>
-              <Text onPress={()=> getList()}>Load List</Text>
-            </View>
-          }
+        { data ? 
+          <List data={data} /> 
+          : 
+          <View>
+            <Text onPress={()=> getList()}>Load List</Text>
+          </View>
+        }
       </ScrollView>
         <TouchableOpacity
           style={styles.main_button}
@@ -175,26 +171,33 @@ const styles = EStyleSheet.create({
     width: '100%',
     borderBottom: '10px red'
   },
+  search_container: {
+    flex: 1,
+    flexDirection: "row", 
+    alignItems: 'center', 
+    width: "100%"
+  },
   input: {
+    flex: 1,
     height: 60,
-    width: "90%",
-    margin: 10,
-    marginTop: 15,
-    marginLeft: 0,
+    width: 100,
+    marginTop: 20,
+    marginBottom: 10,
+    marginLeft: 10,
+    marginRight: 10,
+    paddingLeft: 20,
     borderWidth: 1,
     borderColor: 'white',
-    paddingLeft: 20,
     borderRadius: 30,
     fontSize: 23,
     color: "white",
   },
-  filterButton: {
-    // width: 40,
-    flexDirection: 'row',
-    justifyContent: 'center',
+  filter_button: {
     alignItems: 'center',
-    marginLeft: -50,
+    // left: -30,
+    top: 5,
     fontSize: 25,
+    marginRight: 10,
     color: "lightgray",
   },
   main_button: {
@@ -213,11 +216,13 @@ const styles = EStyleSheet.create({
     fontSize: 20,
     bottom: 0,
   },
-  list_view: {
+  scroll_view: {
     backgroundColor: '$mainColor_black',
     flexDirection: 'column',
+    justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
+    overflow: 'none',
   }
 });
 

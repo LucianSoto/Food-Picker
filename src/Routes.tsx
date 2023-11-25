@@ -1,4 +1,5 @@
 // 'use client';
+Icon.loadFont().catch((error) => {}); // or do nothing with the function?
 import { View, Text } from 'react-native'
 import React, {useEffect, useState} from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -15,7 +16,6 @@ import { setUser } from './redux/userSlice';
 import {useDispatch, useSelector} from 'react-redux'
 import auth from '@react-native-firebase/auth';
 
-Icon.loadFont().catch((error) => { console.info(error); }); // or do nothing with the function?
 const Tab = createBottomTabNavigator()
 const Stack = createNativeStackNavigator()
   
@@ -32,7 +32,7 @@ export const Routes = () => {
 
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-    return subscriber; // unsubscribe on unmount
+    return subscriber; 
   }, []);
 
   if(user) {
@@ -77,6 +77,7 @@ export const Routes = () => {
           name="Favorites" 
           component={Favorites} 
           options={{
+            unmountOnBlur: true,
             headerShown: false,
             tabBarLabel: "favorites",
             tabBarIcon: ({ focused, size }) => (
