@@ -35,6 +35,7 @@ const Favorites = () => {
   const options = {method: 'GET', headers: {accept: 'application/json'}};
 
   const getList = async () => {
+    // map through favs adding each restaurant to data then pass to list component
     const call = await map(favorites, async (id) => {
       try{
         const res = await axios.get(`https://api.yelp.com/v3/businesses/${id}`, config)
@@ -47,14 +48,19 @@ const Favorites = () => {
   }
   
   useEffect(()=> {
+    console.log('getting favs ***')
       getFavs()
   },[])
 // IMPORTANT : SEPARATE CALLS OR DEFINE A BETTER FUNCTION TO CALL THE BOTH CONDITIONALY?
   useEffect(()=> {
+    console.log('getting list &&&')
     if(dataArray.length < 1) {
       getList()
     }
   })
+
+  // add toggleFav function over here too
+  console.log(dataArray, ' dataArray Favorites:?>>>')
 
   return (
     <View style={styles.main_container}>
@@ -63,9 +69,12 @@ const Favorites = () => {
         contentContainerStyle={styles.scroll_view}
       >
       <Text style={styles.title}>Favorites</Text>
-      { dataArray &&
+      { dataArray.length > 1 ?
           <List data={dataArray} /> 
+          :
+          <Text style={styles.no_favs}>No favorites yet...</Text>
         }
+
       </ScrollView>
     </View>
   )
@@ -95,4 +104,9 @@ const styles =  EStyleSheet.create({
     width: '100%',
     overflow: 'none',
   },
+  no_favs: {
+    color: 'white',
+    marginTop: 50,
+    fontSize: 25,
+  }
 })

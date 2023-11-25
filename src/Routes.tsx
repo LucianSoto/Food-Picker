@@ -77,6 +77,7 @@ export const Routes = () => {
           name="Favorites" 
           component={Favorites} 
           options={{
+            unmountOnBlur: true,
             headerShown: false,
             tabBarLabel: "favorites",
             tabBarIcon: ({ focused, size }) => (

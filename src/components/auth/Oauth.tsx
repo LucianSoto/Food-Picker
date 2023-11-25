@@ -66,7 +66,6 @@ const style = StyleSheet.create({
     flex: 1, 
     marginBottom: 30,
   },
-
   goog: {
     height: 60,
     width: 59,

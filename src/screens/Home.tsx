@@ -112,7 +112,6 @@ const Home = (props: Props) => {
       : geo.longitude}&open_now=${openNow ? 'true' 
       : 'false'}&radius=${distance}&sort_by=best_match&limit=${limit}`, config)
       .then((response) => {
-        console.log(response.data.businesses, 'IN HOME****')
         setData(response.data.businesses)
       })
       .catch((error) => {
