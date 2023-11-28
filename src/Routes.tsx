@@ -23,7 +23,6 @@ export const Routes = () => {
   const dispatch = useDispatch() //THIS HAS TO GO INSIDE THE FUNCTION!!!!!
   const user = useSelector(state => state.user.data)
   const [initializing, setInitializing] = useState(true);
-  //initializing should be set inside redux
 
   function onAuthStateChanged(user:any) {
     dispatch (setUser(user))  
@@ -36,6 +35,8 @@ export const Routes = () => {
   }, []);
 
   if(user) {
+    // currently using onmountBlur: true to refresh screen when swithiing 
+    // but maybe using redux would be better? To spread state across screens.
     return(
       <Tab.Navigator initialRouteName='Home' 
         screenOptions={{
@@ -62,6 +63,7 @@ export const Routes = () => {
           component={Home} 
           //CLEAR THIS LATER
           options={{
+            unmountOnBlur: true,
             headerShown: false,
             tabBarLabel: "Home",
             tabBarIcon: ({ focused, size }) => (
@@ -93,6 +95,7 @@ export const Routes = () => {
           name='Settings' 
           component={Settings} 
           options={{
+            unmountOnBlur: true,
             headerShown: false,
             tabBarLabel: "settings",
             tabBarIcon: ({ focused, size }) => (

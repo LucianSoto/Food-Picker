@@ -20,13 +20,14 @@ type Data = {
 }
 
 const List = (data: any) => { 
+  // console.log(data, 'LIST data')
   const user = useSelector(state => state.user.data)
   const [favorites, setFavorites] = useState([])
-  const collection = firestore().collection('users')
+  const collectionRef = firestore().collection('users')
   const id = user.uid
 
   const getFavs = async () => {
-    const favs = await collection
+    const favs = await collectionRef
       .where('userRef', '==', id)
       .get()
       .then(querySnapShot => {
@@ -34,14 +35,14 @@ const List = (data: any) => {
       });
     setFavorites(favs)
   }
-
+  
   useEffect(()=> {
     getFavs()
   },[])
 
   const toggleFavs = async (bussinessID: string) => {
     try {
-      const query = await collection.where('userRef', '==', id).get();
+      const query = await collectionRef.where('userRef', '==', id).get();
       const snapshot = query.docs[0] // gotta break this and the next function in two for it to work
       const favorites = await snapshot.data().favorites
       const checkFavorite = favorites.includes(bussinessID)
@@ -67,7 +68,8 @@ const List = (data: any) => {
     getFavs()
   }
   
-  const list = data.data.map((item: Data, i: number)=> {
+  const list = data.data.map((item: Data, i: number)=> 
+  {
     let getCategories = item.categories.map((category: {title: string}, i:number)=> {
       return (
         <Text key={i} style={styles.categories}>
@@ -114,6 +116,8 @@ const List = (data: any) => {
       </Item>
     )
   })
+
+  // console.log(id, user, "LIST***")
   
   return (
     <View>
