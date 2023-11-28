@@ -28,7 +28,7 @@ const Register = (props: Props) => {
       const user = await auth().currentUser
       const id = await user?.uid  //this will wait for the user id before making the userCopty
 
-      const userRef = await collectionRef.add({
+      const addUserToCollection = await collectionRef.add({
         email, 
         name,
         timestamp : firestore.FieldValue.serverTimestamp(),

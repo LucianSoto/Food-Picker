@@ -28,30 +28,39 @@ const Oauth = (props: Props) => {
   const signIn = async () => {
     try {
       await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
-      const gUser = await GoogleSignin.signIn();   
-      const {email, givenName, id} = gUser.user
-      const query =  await collectionRef.where('userRef', '==', id ).get()
-      const exists = await query.docs
-
-      const userRef = { 
-        email: email, 
-        name: givenName,
-        timestamp : firestore.FieldValue.serverTimestamp(),
-        favorites: [],
-        userRef: id
-      }
-
-      if(exists.length < 1) {
-        await collectionRef.add({userRef})
-      }
-
+      const gUser = await GoogleSignin.signIn();        
       const {accessToken} = await GoogleSignin.getTokens()     
       const credential = await auth.GoogleAuthProvider.credential(
-        userRef,
-        accessToken,
-      );
+          gUser.idToken,
+          accessToken,
+        );
       await auth().signInWithCredential(credential)
 
+      const authUser = await auth().currentUser
+      const uid = authUser?.uid
+      const email = authUser?.email
+      const name = authUser?.displayName
+      //Firebase has to use ?. format to get user info 
+
+    //Check if doc with user UID exists in collection users if not create it!
+      const noDoc = await collectionRef
+        .where('userRef', '==', uid)
+        .get()
+        .then(querySnapshot => {
+          console.log(querySnapshot.size, 'auth documentdata AUTH')
+          return querySnapshot.empty
+        })
+      console.log(noDoc, 'EXISTS')
+
+      if(noDoc) {
+        const addUserToCollection = await collectionRef.add({
+          email, 
+          name,
+          timestamp : firestore.FieldValue.serverTimestamp(),
+          favorites: [],
+          userRef: uid
+        })
+      }
     } catch (error: any) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
       } else if (error.code === statusCodes.IN_PROGRESS) {

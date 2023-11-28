@@ -20,6 +20,7 @@ type Data = {
 }
 
 const List = (data: any) => { 
+  // console.log(data, 'LIST data')
   const user = useSelector(state => state.user.data)
   const [favorites, setFavorites] = useState([])
   const collectionRef = firestore().collection('users')
@@ -34,7 +35,7 @@ const List = (data: any) => {
       });
     setFavorites(favs)
   }
-
+  
   useEffect(()=> {
     getFavs()
   },[])
@@ -67,7 +68,8 @@ const List = (data: any) => {
     getFavs()
   }
   
-  const list = data.data.map((item: Data, i: number)=> {
+  const list = data.data.map((item: Data, i: number)=> 
+  {
     let getCategories = item.categories.map((category: {title: string}, i:number)=> {
       return (
         <Text key={i} style={styles.categories}>
@@ -114,6 +116,8 @@ const List = (data: any) => {
       </Item>
     )
   })
+
+  // console.log(id, user, "LIST***")
   
   return (
     <View>

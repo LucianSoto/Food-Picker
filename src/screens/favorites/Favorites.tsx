@@ -21,6 +21,7 @@ const Favorites = () => {
       .where('userRef', '==', id)
       .get()
       .then(querySnapShot => {
+        console.log(querySnapShot.docs[0].data().favorites, "FAVS: QUERY")
         return querySnapShot.docs[0].data().favorites
       });
     setFavorites(favs)
@@ -31,7 +32,6 @@ const Favorites = () => {
       Authorization: "Bearer " + YelpKey,
     },
   }
-
   const options = {method: 'GET', headers: {accept: 'application/json'}};
 
   const getList = async () => {
@@ -48,19 +48,15 @@ const Favorites = () => {
   }
   
   useEffect(()=> {
-    console.log('getting favs ***')
       getFavs()
   },[])
 // IMPORTANT : SEPARATE CALLS OR DEFINE A BETTER FUNCTION TO CALL THE BOTH CONDITIONALY?
   useEffect(()=> {
-    console.log('getting list &&&')
     if(dataArray.length < 1) {
       getList()
     }
   })
-
   // add toggleFav function over here too
-  console.log(dataArray, ' dataArray Favorites:?>>>')
 
   return (
     <View style={styles.main_container}>
@@ -69,10 +65,10 @@ const Favorites = () => {
         contentContainerStyle={styles.scroll_view}
       >
       <Text style={styles.title}>Favorites</Text>
-      { dataArray.length > 1 ?
-          <List data={dataArray} /> 
+      { dataArray.length > 0 ?
+          <List data={dataArray} />
           :
-          <Text style={styles.no_favs}>No favorites yet...</Text>
+          <Text style={styles.no_favs}>No favorites yet  :(</Text>
         }
 
       </ScrollView>
