@@ -6,7 +6,6 @@ import {
   View,
   TextInput,
   TouchableOpacity,
-  Dimensions,
   Platform
 } from 'react-native';
 import Geolocation from 'react-native-geolocation-service'
@@ -15,6 +14,7 @@ import axios from 'axios'
 import { locationPermission } from '../../utils/permissions';
 import List from '../components/list/list'
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Search from '../components/search/Search'
 import EStyleSheet from 'react-native-extended-stylesheet'
 
 type Props = {
@@ -25,19 +25,35 @@ interface Igeo {
   longitude: string,
 }
 
+interface ISearchOptions {
+  distance: string,
+  limit: number,
+  price: any,
+  term: string,
+  attributes: string,
+  openNow: boolean,
+  categories: string,
+}
+
 const Home = (props: Props) => {
   const YelpKey = process.env.YELP_API
-  const {navigation} = props
-  const {width} = Dimensions.get('window')
-  const [initializing, setInitializing] = useState(true)
+  // const [initializing, setInitializing] = useState(true)
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState<Array<string>>([])
-  const [distance, setDistance] = useState<string>('5000')
-  const [limit, setLimit] = useState<string>('5')
-  const [openNow, setOppenNow] = useState<boolean>(true)
   const [location, setLocation] = useState<any>()
   const [geo, setGeo] = useState({})
+  const [searchOptions, setSearchOptions] = useState<ISearchOptions>({
+    distance: '2000', // 1 - 5
+    limit: 5,  // 1- 2
+    price: null, // int or string?
+    term: '',
+    attributes: '',
+    openNow: true,
+    categories: '',
+  })
 
+  const {distance, limit, price, term, attributes, openNow, categories} = searchOptions
+  
   const getLocation = () => {
     if(Platform.OS === "ios") {
       Geolocation.getCurrentPosition(
@@ -84,13 +100,7 @@ const Home = (props: Props) => {
     getLocation()
   },[])
 
-  useEffect(() => {
-    if(!geo) {
-      return
-    }
-    getList()
-  }, [loading])
-
+  
   const config = { 
     headers: {
       Authorization: "Bearer " + YelpKey,
@@ -100,17 +110,24 @@ const Home = (props: Props) => {
   const openFilters = () => {
     console.log('opening filters')
   }
-
+  
   const getList = () => {
     if(typeof(location) === 'string') {
       setGeo(false)
     }
-    // CHANGE TO AXIOS STYLE OF CALL LATER  -- NOT WORKING WITH ACTUAL AXIOS PARAMS
     axios 
-      .get(`https://api.yelp.com/v3/businesses/search?location=${location}&latitude=${location? '' 
-      : geo.latitude}&longitude=${location? '' 
-      : geo.longitude}&open_now=${openNow ? 'true' 
-      : 'false'}&radius=${distance}&sort_by=best_match&limit=${limit}`, config)
+      .get(`https://api.yelp.com/v3/businesses/search?location=${location}
+      &latitude=${location? '' : geo.latitude}
+      &longitude=${location? '' : geo.longitude}
+      &open_now=${openNow ? 'true' : 'false'}
+      &radius=${distance}
+      &limit=${limit}
+      &term=${term}
+      &categories=${categories}
+      &price=${price}
+      &attributes=${attributes}
+      &sort_by=best_match`
+      , config)
       .then((response) => {
         setData(response.data.businesses)
       })
@@ -118,14 +135,21 @@ const Home = (props: Props) => {
         console.log(error, 'error api HOME')
       })
   }
-
+  
+  useEffect(() => {
+    if(!geo) {
+      return
+    }
+    getList()
+  }, [loading])
   // IF INITIALIZING HAVE A LOADING ANIMATION.
+
   return (
     <SafeAreaView style={styles.main_container}>
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         contentContainerStyle={styles.scroll_view}
-      >
+        >
         <View style={styles.search_container}>
           <TextInput 
             style={styles.input}
@@ -143,6 +167,7 @@ const Home = (props: Props) => {
             name="chevron-down"
             onPress={openFilters}
           />
+        <Search />
         </View>
         { data ? 
           <List data={data} /> 
@@ -194,7 +219,6 @@ const styles = EStyleSheet.create({
   },
   filter_button: {
     alignItems: 'center',
-    // left: -30,
     top: 5,
     fontSize: 25,
     marginRight: 10,
