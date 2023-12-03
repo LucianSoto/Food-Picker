@@ -27,27 +27,24 @@ interface Igeo {
 
 interface ISearchOptions {
   distance: string,
-  limit: number,
+  limit: string,
   price: any,
   term: string,
-  attributes: string,
   openNow: boolean,
   categories: string,
 }
 
 const Home = (props: Props) => {
   const YelpKey = process.env.YELP_API
-  // const [initializing, setInitializing] = useState(true)
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState<Array<string>>([])
   const [location, setLocation] = useState<any>()
   const [geo, setGeo] = useState({})
   const [searchOptions, setSearchOptions] = useState<ISearchOptions>({
     distance: '2000', // 1 - 5
-    limit: 5,  // 1- 2
-    price: null, // int or string?
+    limit: '5',  // 1- 2
+    price: '2', // int or string?
     term: '',
-    attributes: '',
     openNow: true,
     categories: '',
   })
@@ -55,6 +52,7 @@ const Home = (props: Props) => {
   const {distance, limit, price, term, attributes, openNow, categories} = searchOptions
   
   const getLocation = () => {
+    console.log('getting location')
     if(Platform.OS === "ios") {
       Geolocation.getCurrentPosition(
         position => {
@@ -99,13 +97,33 @@ const Home = (props: Props) => {
   useEffect(() => {
     getLocation()
   },[])
+useEffect(() => {
+    if(!geo) {
+      return
+    }
+    getList()
+  }, [loading])
 
-  
-  const config = { 
-    headers: {
-      Authorization: "Bearer " + YelpKey,
+  const options = { 
+    method: 'GET',
+    url: 'https://api.yelp.com/v3/businesses/search',
+    params: {
+      location: location,
+      latitude: geo.latitude,
+      longitude: geo.longitude,
+      open_now: openNow,
+      term: term,
+      categories: categories,
+      price: price,
+      radius: distance,
+      sort_by: 'best_match'
     },
+    headers: {
+      accept: 'application/json',
+      Authorization: "Bearer " + YelpKey,
+    }
   }
+  
   
   const openFilters = () => {
     console.log('opening filters')
@@ -115,34 +133,21 @@ const Home = (props: Props) => {
     if(typeof(location) === 'string') {
       setGeo(false)
     }
-    axios 
-      .get(`https://api.yelp.com/v3/businesses/search?location=${location}
-      &latitude=${location? '' : geo.latitude}
-      &longitude=${location? '' : geo.longitude}
-      &open_now=${openNow ? 'true' : 'false'}
-      &radius=${distance}
-      &limit=${limit}
-      &term=${term}
-      &categories=${categories}
-      &price=${price}
-      &attributes=${attributes}
-      &sort_by=best_match`
-      , config)
+    axios
+      .request(options)
       .then((response) => {
+        console.log(response.data.businesses,'HOME in getlist')
         setData(response.data.businesses)
       })
       .catch((error) => {
         console.log(error, 'error api HOME')
       })
   }
+
+  // console.log(setData, 'HOME') 
+  // https://api.yelp.com/v3/businesses/search?location=Seattle&radius=1000&categories=Bar&price=3&open_now=true&sort_by=best_match&limit=1
   
-  useEffect(() => {
-    if(!geo) {
-      return
-    }
-    getList()
-  }, [loading])
-  // IF INITIALIZING HAVE A LOADING ANIMATION.
+  
 
   return (
     <SafeAreaView style={styles.main_container}>
