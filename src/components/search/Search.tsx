@@ -25,23 +25,19 @@ const Search = () => {
         style={styles.input}
         placeholder='1-10'
       /> 
+      {/* change to slider */}
       <Text style={styles.label}>Limit</Text>
       <SelectList
-        inputStyles={{
-    height: 60,
-    width: 100,
-    marginTop: 20,
-    paddingLeft: 20,
-    borderWidth: 1,
-    fontSize: 13,
-    color: "white",
-        }}
-        dropdownStyles={styles.input}
+        inputStyles={styles.dropdown_input}
+        dropdownStyles={styles.dropdown}
+        dropdownItemStyles={styles.dropdown_item}
+        dropdownTextStyles={styles.dropdown_text}
         data={distanceData}
         setSelected={()=> setSearchOptions(prevState => ({
           ...prevState,
           limit: 1000, // figure this out
         }))}
+        defaultOption={{key: '1', value: 1}}
       />
 
       <Text style={styles.label}>Price</Text>

@@ -128,7 +128,6 @@ useEffect(() => {
     }
   }
   
-  
   const openFilters = () => {
     console.log('opening filters')
   }
