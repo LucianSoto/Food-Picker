@@ -49,10 +49,9 @@ const Home = (props: Props) => {
     categories: '',
   })
 
-  const {distance, limit, price, term, attributes, openNow, categories} = searchOptions
+  const {distance, limit, price, term, openNow, categories} = searchOptions
   
   const getLocation = () => {
-    console.log('getting location')
     if(Platform.OS === "ios") {
       Geolocation.getCurrentPosition(
         position => {
@@ -94,6 +93,10 @@ const Home = (props: Props) => {
     }
   };
 
+  const changeSearchOptions = (options) => {
+    console.log(options)
+  }
+
   useEffect(() => {
     getLocation()
   },[])
@@ -116,6 +119,7 @@ useEffect(() => {
       categories: categories,
       price: price,
       radius: distance,
+      limit: limit,
       sort_by: 'best_match'
     },
     headers: {
@@ -142,12 +146,7 @@ useEffect(() => {
       .catch((error) => {
         console.log(error, 'error api HOME')
       })
-  }
-
-  // console.log(setData, 'HOME') 
-  // https://api.yelp.com/v3/businesses/search?location=Seattle&radius=1000&categories=Bar&price=3&open_now=true&sort_by=best_match&limit=1
-  
-  
+  }  
 
   return (
     <SafeAreaView style={styles.main_container}>
@@ -172,8 +171,8 @@ useEffect(() => {
             name="chevron-down"
             onPress={openFilters}
           />
-        <Search />
         </View>
+        <Search searchOptions={searchOptions}/>
         { data ? 
           <List data={data} /> 
           : 
