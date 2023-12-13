@@ -47,10 +47,8 @@ const Oauth = (props: Props) => {
         .where('userRef', '==', uid)
         .get()
         .then(querySnapshot => {
-          console.log(querySnapshot.size, 'auth documentdata AUTH')
           return querySnapshot.empty
         })
-      console.log(noDoc, 'EXISTS')
 
       if(noDoc) {
         const addUserToCollection = await collectionRef.add({

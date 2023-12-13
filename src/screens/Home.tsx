@@ -139,7 +139,6 @@ useEffect(() => {
     axios
       .request(options)
       .then((response) => {
-        console.log(response.data.businesses,'HOME in getlist')
         setData(response.data.businesses)
       })
       .catch((error) => {
@@ -196,8 +195,16 @@ const styles = EStyleSheet.create({
     backgroundColor: '$mainColor_black',
     alignItems: 'center',
     justifyContent: 'center',
-    width: '100%',
     borderBottom: '10px red'
+  },
+  scroll_view: {
+    // flex: 1, did not need ??
+    backgroundColor: '$mainColor_black',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '90%',
+    overflow: 'none',
   },
   search_container: {
     flex: 1,
@@ -206,9 +213,8 @@ const styles = EStyleSheet.create({
     width: "100%"
   },
   input: {
-    flex: 1,
     height: 60,
-    width: 100,
+    width: '90%',
     marginTop: 20,
     marginBottom: 10,
     marginLeft: 10,
@@ -243,14 +249,6 @@ const styles = EStyleSheet.create({
     fontSize: 20,
     bottom: 0,
   },
-  scroll_view: {
-    backgroundColor: '$mainColor_black',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '100%',
-    overflow: 'none',
-  }
 });
 
 export default Home

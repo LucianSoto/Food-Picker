@@ -2,8 +2,7 @@ import {StyleSheet} from "react-native"
 
 export default StyleSheet.create({
   search_container: {
-    flex: 1,
-    width: '85%', // fix width problems this is only temp
+    // flex: 1,
     color: 'white',
     marginTop: 15,
   },
@@ -14,8 +13,7 @@ export default StyleSheet.create({
     fontSize: 20,
   },
   input: {
-    flex: 1,
-    height: 48,
+    height: 46,
     // width: '100%', // how to make even across screen?
     marginBottom: 20,
     paddingLeft: 20,
@@ -33,13 +31,10 @@ export default StyleSheet.create({
     marginHorizontal: 5,
   },
   dropdown: {
-    flex: 1,
     minWidth: '100%', //// REQUIRED MIN WIDTH TO WORK 
-    backgroundColor: 'orange',
   },
   dropdown_item: {
     width: '100%',
-    backgroundColor: 'yellow',
   },
   dropdown_text: {
     color: 'white',
