@@ -130,7 +130,7 @@ export default List
 
 
 const Item = styled.View`
-  margin: 10px;
+  margin-bottom: 20px;
   width: 100%;
   padding: 10px;
   background-color: white;

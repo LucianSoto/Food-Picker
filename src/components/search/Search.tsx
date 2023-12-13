@@ -30,7 +30,6 @@ const Search = () => {
       <SelectList
         inputStyles={styles.dropdown_input}
         dropdownStyles={styles.dropdown}
-        dropdownItemStyles={styles.dropdown_item}
         dropdownTextStyles={styles.dropdown_text}
         data={distanceData}
         setSelected={()=> setSearchOptions(prevState => ({

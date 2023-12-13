@@ -3,12 +3,12 @@ import { StyleSheet } from 'react-native'
 export default StyleSheet.create({
   thumb: {
     minWidth: 150,
-    maxWidth: '30%',
+    maxWidth: '35%',
   },
   right_container: {
     marginLeft: 20,
     height: 190,
-    width: '45%',
+    width: '50%',
     justifyContent: "space-around",
   },
   name: {

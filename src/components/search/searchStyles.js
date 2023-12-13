@@ -14,7 +14,6 @@ export default StyleSheet.create({
   },
   input: {
     height: 46,
-    // width: '100%', // how to make even across screen?
     marginBottom: 20,
     paddingLeft: 20,
     borderWidth: 1,
@@ -24,20 +23,21 @@ export default StyleSheet.create({
     color: "white",
   },
   dropdown_input: {
-    width: '100%',
+    width: '91%',
     borderWidth: 1,
     fontSize: 13,
     color: "white",
     marginHorizontal: 5,
+    textAlign: 'center',
+    fontSize: 16,
   },
   dropdown: {
-    minWidth: '100%', //// REQUIRED MIN WIDTH TO WORK 
-  },
-  dropdown_item: {
-    width: '100%',
+    minWidth: '100%', //// REQUIRED MIN WIDTH TO WORK  wait I guess it was not acutally needed, just needed to reset the environment >:(
+    
   },
   dropdown_text: {
     color: 'white',
     textAlign: 'center',
+    fontSize: 16,
   }
 })
