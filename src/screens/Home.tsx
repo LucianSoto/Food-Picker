@@ -9,7 +9,7 @@ import {
   Platform
 } from 'react-native';
 import Geolocation from 'react-native-geolocation-service'
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { locationPermission } from '../../utils/permissions';
 import List from '../components/list/list'
@@ -24,14 +24,14 @@ interface Igeo {
   latitude: string,
   longitude: string,
 }
-
 interface ISearchOptions {
-  distance: string,
-  limit: string,
+  distance: number,
+  limit: number,
   price: any,
   term: string,
   openNow: boolean,
   categories: string,
+  attributes: Array<string>,
 }
 
 const Home = (props: Props) => {
@@ -41,12 +41,14 @@ const Home = (props: Props) => {
   const [location, setLocation] = useState<any>()
   const [geo, setGeo] = useState({})
   const [searchOptions, setSearchOptions] = useState<ISearchOptions>({
-    distance: '2000', // 1 - 5
-    limit: '5',  // 1- 2
-    price: '2', // int or string?
+    distance: 3, // 1 - 5
+    limit: 3,  // 1- 2
+    price: '$$', // int or string?
     term: '',
     openNow: true,
     categories: '',
+    attributes: ['hot_and_new', 'waitlist_reservation', 'oudoor_seating', 'parking_garage', 'etc'],
+    // sortBy: ['best_match', 'rating', 'review_count', 'distance']
   })
 
   const {distance, limit, price, term, openNow, categories} = searchOptions
@@ -93,14 +95,15 @@ const Home = (props: Props) => {
     }
   };
 
-  const changeSearchOptions = (options) => {
-    console.log(options)
+  const changeOptions = (value) => {
+    console.log(value, 'HOME')
   }
 
   useEffect(() => {
     getLocation()
   },[])
-useEffect(() => {
+
+  useEffect(() => {
     if(!geo) {
       return
     }
@@ -109,7 +112,7 @@ useEffect(() => {
 
   const options = { 
     method: 'GET',
-    url: 'https://api.yelp.com/v3/businesses/search',
+    // url: 'https://api.yelp.com/v3/businesses/search',
     params: {
       location: location,
       latitude: geo.latitude,
@@ -117,7 +120,7 @@ useEffect(() => {
       open_now: openNow,
       term: term,
       categories: categories,
-      price: price,
+      price: price.length,
       radius: distance,
       limit: limit,
       sort_by: 'best_match'
@@ -170,7 +173,8 @@ useEffect(() => {
             onPress={openFilters}
           />
         </View>
-        <Search searchOptions={searchOptions}/>
+        <Search searchOptions={searchOptions} changeOptions={changeOptions}
+        />
         { data ? 
           <List data={data} /> 
           : 
@@ -188,6 +192,7 @@ useEffect(() => {
     </SafeAreaView>
   )
 }
+
 
 const styles = EStyleSheet.create({
   main_container: {

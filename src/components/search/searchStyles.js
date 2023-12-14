@@ -3,18 +3,17 @@ import {StyleSheet} from "react-native"
 export default StyleSheet.create({
   search_container: {
     // flex: 1,
-    color: 'white',
-    marginTop: 15,
+    // color: 'white',
   },
   label: {
     color: 'white',
-    marginBottom: 10,
+    marginBottom: 8,
+    marginTop: 20,
     marginLeft: 10,
     fontSize: 20,
   },
   input: {
     height: 46,
-    marginBottom: 20,
     paddingLeft: 20,
     borderWidth: 1,
     borderColor: 'grey',
