@@ -3,9 +3,8 @@ import { View, Text, TextInput } from 'react-native'
 import {Slider} from '@miblanchard/react-native-slider'
 import { SelectList } from "react-native-dropdown-select-list";
 import styles from './searchStyles'
-
+// DIT NOT NEED TO PUT THE TYPE FOR SEARCH OPTIONS UP HERE EITHER
 const Search = ({searchOptions, changeOptions}) => { // when passing multiple props don't need to do type checking
-  console.log(searchOptions,changeOptions, 'SEARCH')
   const distanceData = [
     {key: '1', value: 1},
     {key: '2', value: 2},
@@ -15,10 +14,6 @@ const Search = ({searchOptions, changeOptions}) => { // when passing multiple pr
   ]
   const priceData = ['$', '$$', '$$$', '$$$$']
 
-  const passSearchOptions = (options) => {
-    changeOptions(options)
-  }
-
   return (
     <View style={styles.search_container}>
       <Text style={styles.label}>Term</Text>
@@ -27,7 +22,8 @@ const Search = ({searchOptions, changeOptions}) => { // when passing multiple pr
         clearButtonMode='while-editing'
         placeholder='food, beer' //can multiple categories be used?
         placeholderTextColor={'gray'}
-        onChangeText={text=> passSearchOptions(text)}
+        enablesReturnKeyAutomatically={true}
+        onChangeText={text=> changeOptions(text, 'term')}
       /> 
       <Text style={styles.label}>Distance in miles  {searchOptions.distance}</Text>
       <Slider

@@ -95,8 +95,12 @@ const Home = (props: Props) => {
     }
   };
 
-  const changeOptions = (value) => {
-    console.log(value, 'HOME')
+  const changeOptions = (value, name) => {
+    console.log(value, name, 'HOME', searchOptions)
+    setSearchOptions(prev => ({
+      ...prev,
+      [name]: value
+    }))
   }
 
   useEffect(() => {
@@ -112,7 +116,7 @@ const Home = (props: Props) => {
 
   const options = { 
     method: 'GET',
-    // url: 'https://api.yelp.com/v3/businesses/search',
+    url: 'https://api.yelp.com/v3/businesses/search',
     params: {
       location: location,
       latitude: geo.latitude,
@@ -121,7 +125,7 @@ const Home = (props: Props) => {
       term: term,
       categories: categories,
       price: price.length,
-      radius: distance,
+      radius: distance * 1600,
       limit: limit,
       sort_by: 'best_match'
     },
@@ -142,12 +146,14 @@ const Home = (props: Props) => {
     axios
       .request(options)
       .then((response) => {
+        console.log(response.data.businesses, "HOME")
         setData(response.data.businesses)
       })
       .catch((error) => {
         console.log(error, 'error api HOME')
       })
   }  
+
 
   return (
     <SafeAreaView style={styles.main_container}>
