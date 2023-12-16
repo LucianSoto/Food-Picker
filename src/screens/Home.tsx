@@ -6,15 +6,15 @@ import {
   View,
   TextInput,
   TouchableOpacity,
-  Dimensions,
   Platform
 } from 'react-native';
 import Geolocation from 'react-native-geolocation-service'
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { locationPermission } from '../../utils/permissions';
 import List from '../components/list/list'
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Search from '../components/search/Search'
 import EStyleSheet from 'react-native-extended-stylesheet'
 
 type Props = {
@@ -24,20 +24,37 @@ interface Igeo {
   latitude: string,
   longitude: string,
 }
+interface ISearchOptions {
+  distance: number,
+  limit: number,
+  price: string,
+  term: string,
+  openNow: boolean,
+  categories: string,
+  attributes: Array<string>,
+  sortBy: string,
+}
 
 const Home = (props: Props) => {
   const YelpKey = process.env.YELP_API
-  const {navigation} = props
-  const {width} = Dimensions.get('window')
-  const [initializing, setInitializing] = useState(true)
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState<Array<string>>([])
-  const [distance, setDistance] = useState<string>('5000')
-  const [limit, setLimit] = useState<string>('5')
-  const [openNow, setOppenNow] = useState<boolean>(true)
   const [location, setLocation] = useState<any>()
   const [geo, setGeo] = useState({})
+  const [showOptions, setShowOptions] = useState<boolean>(false)
+  const [searchOptions, setSearchOptions] = useState<ISearchOptions>({
+    distance: 3, // 1 - 5
+    limit: 3,  // 1- 2
+    price: '$$', // int or string?
+    term: '',
+    openNow: true,
+    categories: '',
+    attributes: [],
+    sortBy: 'best_match',
+  })
 
+  const {distance, limit, price, term, openNow, categories, sortBy} = searchOptions
+  
   const getLocation = () => {
     if(Platform.OS === "ios") {
       Geolocation.getCurrentPosition(
@@ -80,6 +97,14 @@ const Home = (props: Props) => {
     }
   };
 
+  const changeOptions = (value, name) => {
+    console.log(value, name, 'HOME', )
+    setSearchOptions(prev => ({
+      ...prev,
+      [name]: value
+    }))
+  }
+
   useEffect(() => {
     getLocation()
   },[])
@@ -91,41 +116,54 @@ const Home = (props: Props) => {
     getList()
   }, [loading])
 
-  const config = { 
-    headers: {
-      Authorization: "Bearer " + YelpKey,
+  const options = { 
+    method: 'GET',
+    url: 'https://api.yelp.com/v3/businesses/search',
+    params: {
+      location: location,
+      latitude: geo.latitude,
+      longitude: geo.longitude,
+      open_now: openNow,
+      term: term,
+      categories: categories,
+      price: price.length,
+      radius: distance * 1600,
+      limit: limit,
+      sort_by: sortBy,
     },
+    headers: {
+      accept: 'application/json',
+      Authorization: "Bearer " + YelpKey,
+    }
   }
   
   const openFilters = () => {
-    console.log('opening filters')
+    setShowOptions(!showOptions)
   }
-
+  
   const getList = () => {
     if(typeof(location) === 'string') {
       setGeo(false)
     }
-    // CHANGE TO AXIOS STYLE OF CALL LATER  -- NOT WORKING WITH ACTUAL AXIOS PARAMS
-    axios 
-      .get(`https://api.yelp.com/v3/businesses/search?location=${location}&latitude=${location? '' 
-      : geo.latitude}&longitude=${location? '' 
-      : geo.longitude}&open_now=${openNow ? 'true' 
-      : 'false'}&radius=${distance}&sort_by=best_match&limit=${limit}`, config)
+    axios
+      .request(options)
       .then((response) => {
+        // console.log(response.data.businesses, "HOME")
+        if(showOptions) {setShowOptions(!showOptions)}
         setData(response.data.businesses)
       })
       .catch((error) => {
         console.log(error, 'error api HOME')
       })
-  }
+  }  
 
-  // IF INITIALIZING HAVE A LOADING ANIMATION.
+
   return (
     <SafeAreaView style={styles.main_container}>
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         contentContainerStyle={styles.scroll_view}
-      >
+        >
         <View style={styles.search_container}>
           <TextInput 
             style={styles.input}
@@ -144,6 +182,10 @@ const Home = (props: Props) => {
             onPress={openFilters}
           />
         </View>
+        { showOptions &&
+          <Search searchOptions={searchOptions} changeOptions={changeOptions}
+          />
+        }
         { data ? 
           <List data={data} /> 
           : 
@@ -162,14 +204,23 @@ const Home = (props: Props) => {
   )
 }
 
+
 const styles = EStyleSheet.create({
   main_container: {
     flex: 1,
     backgroundColor: '$mainColor_black',
     alignItems: 'center',
     justifyContent: 'center',
-    width: '100%',
     borderBottom: '10px red'
+  },
+  scroll_view: {
+    // flex: 1, did not need ??
+    backgroundColor: '$mainColor_black',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '90%',
+    overflow: 'none',
   },
   search_container: {
     flex: 1,
@@ -178,9 +229,8 @@ const styles = EStyleSheet.create({
     width: "100%"
   },
   input: {
-    flex: 1,
     height: 60,
-    width: 100,
+    width: '90%',
     marginTop: 20,
     marginBottom: 10,
     marginLeft: 10,
@@ -194,7 +244,6 @@ const styles = EStyleSheet.create({
   },
   filter_button: {
     alignItems: 'center',
-    // left: -30,
     top: 5,
     fontSize: 25,
     marginRight: 10,
@@ -216,14 +265,6 @@ const styles = EStyleSheet.create({
     fontSize: 20,
     bottom: 0,
   },
-  scroll_view: {
-    backgroundColor: '$mainColor_black',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '100%',
-    overflow: 'none',
-  }
 });
 
 export default Home
