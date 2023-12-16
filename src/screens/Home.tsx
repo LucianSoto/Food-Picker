@@ -27,11 +27,12 @@ interface Igeo {
 interface ISearchOptions {
   distance: number,
   limit: number,
-  price: any,
+  price: string,
   term: string,
   openNow: boolean,
   categories: string,
   attributes: Array<string>,
+  sortBy: string,
 }
 
 const Home = (props: Props) => {
@@ -40,6 +41,7 @@ const Home = (props: Props) => {
   const [data, setData] = useState<Array<string>>([])
   const [location, setLocation] = useState<any>()
   const [geo, setGeo] = useState({})
+  const [showOptions, setShowOptions] = useState<boolean>(false)
   const [searchOptions, setSearchOptions] = useState<ISearchOptions>({
     distance: 3, // 1 - 5
     limit: 3,  // 1- 2
@@ -47,8 +49,8 @@ const Home = (props: Props) => {
     term: '',
     openNow: true,
     categories: '',
-    attributes: ['hot_and_new', 'waitlist_reservation', 'oudoor_seating', 'parking_garage', 'etc'],
-    // sortBy: ['best_match', 'rating', 'review_count', 'distance']
+    attributes: [],
+    sortBy: 'best_match',
   })
 
   const {distance, limit, price, term, openNow, categories} = searchOptions
@@ -136,7 +138,7 @@ const Home = (props: Props) => {
   }
   
   const openFilters = () => {
-    console.log('opening filters')
+    setShowOptions(!showOptions)
   }
   
   const getList = () => {
@@ -179,8 +181,10 @@ const Home = (props: Props) => {
             onPress={openFilters}
           />
         </View>
-        <Search searchOptions={searchOptions} changeOptions={changeOptions}
-        />
+        { showOptions &&
+          <Search searchOptions={searchOptions} changeOptions={changeOptions}
+          />
+        }
         { data ? 
           <List data={data} /> 
           : 

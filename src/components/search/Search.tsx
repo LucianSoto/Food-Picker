@@ -13,7 +13,9 @@ const Search = ({searchOptions, changeOptions}) => { // when passing multiple pr
     {key: '5', value: 5},
   ]
   const priceData = ['$', '$$', '$$$', '$$$$']
-
+  const sortByData = ['best_match', 'rating', 'review_count', 'distance']
+  // const attributesData = ['hot_and_new', 'waitlist_reservation', 'outdoor_seating', 'parking_garage', 'etc']
+  
   return (
     <View style={styles.search_container}>
       <Text style={styles.label}>Term</Text>
@@ -25,13 +27,14 @@ const Search = ({searchOptions, changeOptions}) => { // when passing multiple pr
         enablesReturnKeyAutomatically={true}
         onChangeText={text=> changeOptions(text, 'term')}
       /> 
-      <Text style={styles.label}>Distance in miles  {searchOptions.distance}</Text>
+      <Text style={styles.label}>Distance in miles  {Math.floor(searchOptions.distance)}</Text>
       <Slider
-        value={3}
+        value={searchOptions.distance}
         maximumTrackTintColor='gray'
         minimumTrackTintColor={'#c2003f'}
         maximumValue={10}
         minimumValue={1}
+        onValueChange={value => changeOptions(value, 'distance')}
       />
       {/* change to slider */}
       <Text style={styles.label}>Limit</Text>
@@ -40,8 +43,8 @@ const Search = ({searchOptions, changeOptions}) => { // when passing multiple pr
         dropdownStyles={styles.dropdown}
         dropdownTextStyles={styles.dropdown_text}
         data={distanceData}
-        setSelected={()=> console.log('working 1')}
         defaultOption={{key: '3', value: 3}}
+        setSelected={value => changeOptions(value, 'limit')}
       />
       <Text style={styles.label}>Price</Text>
       <SelectList
@@ -49,11 +52,18 @@ const Search = ({searchOptions, changeOptions}) => { // when passing multiple pr
         dropdownStyles={styles.dropdown}
         dropdownTextStyles={styles.dropdown_text}
         data={priceData}
-        setSelected={()=> console.log('Working 2')}
-        defaultOption={{key: '2', value: '$$'}}// let see if this works when the function changes it from object to number
+        setSelected={value => changeOptions(value, 'price')}
+        defaultOption={{key: '2', value: '$$'}}
       />
-      <Text style={styles.label}></Text>
-
+      <Text style={styles.label}>Sort By</Text>
+      <SelectList
+        inputStyles={styles.dropdown_input}
+        dropdownStyles={styles.dropdown}
+        dropdownTextStyles={styles.dropdown_text}
+        data={sortByData}
+        setSelected={value => changeOptions(value, 'sort_by')}
+        defaultOption={{key: '2', value: '$$'}}
+      />
       <Text style={styles.label}></Text>
     </View>
   )
