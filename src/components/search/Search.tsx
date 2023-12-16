@@ -13,9 +13,15 @@ const Search = ({searchOptions, changeOptions}) => { // when passing multiple pr
     {key: '5', value: 5},
   ]
   const priceData = ['$', '$$', '$$$', '$$$$']
-  const sortByData = ['best_match', 'rating', 'review_count', 'distance']
+  const sortByData = [
+    {key: 'best_match', value: 'Best Match'},
+    {key: 'rating', value: 'Rating'},
+    {key: 'review_count', value: 'Review Count'},
+    {key: 'distance', value: 'Distance'},
+  ]
   // const attributesData = ['hot_and_new', 'waitlist_reservation', 'outdoor_seating', 'parking_garage', 'etc']
   
+  // console.log(searchOptions.distance[0].toString(), 'SEARCH')
   return (
     <View style={styles.search_container}>
       <Text style={styles.label}>Term</Text>
@@ -27,7 +33,7 @@ const Search = ({searchOptions, changeOptions}) => { // when passing multiple pr
         enablesReturnKeyAutomatically={true}
         onChangeText={text=> changeOptions(text, 'term')}
       /> 
-      <Text style={styles.label}>Distance in miles  {Math.floor(searchOptions.distance)}</Text>
+      <Text style={styles.label}>Distance in miles  {searchOptions.distance}</Text>
       <Slider
         value={searchOptions.distance}
         maximumTrackTintColor='gray'
@@ -61,8 +67,8 @@ const Search = ({searchOptions, changeOptions}) => { // when passing multiple pr
         dropdownStyles={styles.dropdown}
         dropdownTextStyles={styles.dropdown_text}
         data={sortByData}
-        setSelected={value => changeOptions(value, 'sort_by')}
-        defaultOption={{key: '2', value: '$$'}}
+        setSelected={value => changeOptions(value, 'sortBy')}
+        defaultOption={{key: 'best_match', value: 'Best Match'}}
       />
       <Text style={styles.label}></Text>
     </View>

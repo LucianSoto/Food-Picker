@@ -53,7 +53,7 @@ const Home = (props: Props) => {
     sortBy: 'best_match',
   })
 
-  const {distance, limit, price, term, openNow, categories} = searchOptions
+  const {distance, limit, price, term, openNow, categories, sortBy} = searchOptions
   
   const getLocation = () => {
     if(Platform.OS === "ios") {
@@ -98,7 +98,7 @@ const Home = (props: Props) => {
   };
 
   const changeOptions = (value, name) => {
-    console.log(value, name, 'HOME', searchOptions)
+    console.log(value, name, 'HOME', )
     setSearchOptions(prev => ({
       ...prev,
       [name]: value
@@ -129,7 +129,7 @@ const Home = (props: Props) => {
       price: price.length,
       radius: distance * 1600,
       limit: limit,
-      sort_by: 'best_match'
+      sort_by: sortBy,
     },
     headers: {
       accept: 'application/json',
@@ -148,7 +148,8 @@ const Home = (props: Props) => {
     axios
       .request(options)
       .then((response) => {
-        console.log(response.data.businesses, "HOME")
+        // console.log(response.data.businesses, "HOME")
+        if(showOptions) {setShowOptions(!showOptions)}
         setData(response.data.businesses)
       })
       .catch((error) => {
