@@ -20,8 +20,6 @@ const Search = ({searchOptions, changeOptions}) => { // when passing multiple pr
     {key: 'distance', value: 'Distance'},
   ]
   // const attributesData = ['hot_and_new', 'waitlist_reservation', 'outdoor_seating', 'parking_garage', 'etc']
-  
-  // console.log(searchOptions.distance[0].toString(), 'SEARCH')
   return (
     <View style={styles.search_container}>
       <Text style={styles.label}>Term</Text>
@@ -33,7 +31,12 @@ const Search = ({searchOptions, changeOptions}) => { // when passing multiple pr
         enablesReturnKeyAutomatically={true}
         onChangeText={text=> changeOptions(text, 'term')}
       /> 
-      <Text style={styles.label}>Distance in miles  {searchOptions.distance}</Text>
+      <Text style={styles.label}>Distance in miles  {
+      searchOptions.distance[0] === 10 ? 10 :
+        searchOptions.distance[0] === 1 ? 1 :
+          searchOptions.distance[0].toFixed(1) 
+      }
+      </Text>
       <Slider
         value={searchOptions.distance}
         maximumTrackTintColor='gray'
