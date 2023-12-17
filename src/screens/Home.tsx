@@ -25,7 +25,7 @@ interface Igeo {
   longitude: string,
 }
 interface ISearchOptions {
-  distance: number,
+  distance: Array<number>,
   limit: number,
   price: string,
   term: string,
@@ -43,7 +43,7 @@ const Home = (props: Props) => {
   const [geo, setGeo] = useState({})
   const [showOptions, setShowOptions] = useState<boolean>(false)
   const [searchOptions, setSearchOptions] = useState<ISearchOptions>({
-    distance: 3, // 1 - 5
+    distance: [3], // 1 - 5
     limit: 3,  // 1- 2
     price: '$$', // int or string?
     term: '',
@@ -98,7 +98,7 @@ const Home = (props: Props) => {
   };
 
   const changeOptions = (value, name) => {
-    console.log(value, name, 'HOME', )
+    // console.log(value, name, 'HOME', )
     setSearchOptions(prev => ({
       ...prev,
       [name]: value
