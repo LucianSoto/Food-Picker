@@ -16,6 +16,8 @@ import List from '../components/list/list'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Search from '../components/search/Search'
 import EStyleSheet from 'react-native-extended-stylesheet'
+import {setSearchOptions} from '../redux/searchOptionsSlice'
+import {useDispatch, useSelector} from 'react-redux'
 
 type Props = {
   navigation: any,
@@ -24,36 +26,20 @@ interface Igeo {
   latitude: string,
   longitude: string,
 }
-interface ISearchOptions {
-  distance: Array<number>,
-  limit: number,
-  price: string,
-  term: string,
-  openNow: boolean,
-  categories: string,
-  attributes: Array<string>,
-  sortBy: string,
-}
 
 const Home = (props: Props) => {
   const YelpKey = process.env.YELP_API
+  const dispatch = useDispatch()
+  const searchOptions = useSelector(state => state.searchOptions.data)
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState<Array<string>>([])
   const [location, setLocation] = useState<any>()
   const [geo, setGeo] = useState({})
   const [showOptions, setShowOptions] = useState<boolean>(false)
-  const [searchOptions, setSearchOptions] = useState<ISearchOptions>({
-    distance: [3], // 1 - 5
-    limit: 3,  // 1- 2
-    price: '$$', // int or string?
-    term: '',
-    openNow: true,
-    categories: '',
-    attributes: [],
-    sortBy: 'best_match',
-  })
 
+  console.log(searchOptions, 'HOME')
   const {distance, limit, price, term, openNow, categories, sortBy} = searchOptions
+
   
   const getLocation = () => {
     if(Platform.OS === "ios") {
@@ -98,7 +84,6 @@ const Home = (props: Props) => {
   };
 
   const changeOptions = (value, name) => {
-    // console.log(value, name, 'HOME', )
     setSearchOptions(prev => ({
       ...prev,
       [name]: value
@@ -125,11 +110,11 @@ const Home = (props: Props) => {
       longitude: geo.longitude,
       open_now: openNow,
       term: term,
-      categories: categories,
-      price: price.length,
-      radius: distance * 1600,
-      limit: limit,
-      sort_by: sortBy,
+      // categories: categories,
+      // price: price,
+      // radius: distance[0] * 1600,
+      // limit: limit,
+      // sort_by: sortBy,
     },
     headers: {
       accept: 'application/json',

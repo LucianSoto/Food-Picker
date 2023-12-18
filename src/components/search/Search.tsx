@@ -5,14 +5,19 @@ import { SelectList } from "react-native-dropdown-select-list";
 import styles from './searchStyles'
 // DIT NOT NEED TO PUT THE TYPE FOR SEARCH OPTIONS UP HERE EITHER
 const Search = ({searchOptions, changeOptions}) => { // when passing multiple props don't need to do type checking
-  const distanceData = [
+  const limitData = [
     {key: '1', value: 1},
     {key: '2', value: 2},
     {key: '3', value: 3},
     {key: '4', value: 4},
     {key: '5', value: 5},
   ]
-  const priceData = ['$', '$$', '$$$', '$$$$']
+  const priceData = [
+    {key: 1, value: '$'}, 
+    {key: 2, value: '$$'},
+    {key: 3, value: '$$$'}, 
+    {key: 4, value: '$$$$'},
+  ]
   const sortByData = [
     {key: 'best_match', value: 'Best Match'},
     {key: 'rating', value: 'Rating'},
@@ -45,15 +50,14 @@ const Search = ({searchOptions, changeOptions}) => { // when passing multiple pr
         minimumValue={1}
         onValueChange={value => changeOptions(value, 'distance')}
       />
-      {/* change to slider */}
       <Text style={styles.label}>Limit</Text>
       <SelectList
         inputStyles={styles.dropdown_input}
         dropdownStyles={styles.dropdown}
         dropdownTextStyles={styles.dropdown_text}
-        data={distanceData}
-        defaultOption={{key: '3', value: 3}}
+        data={limitData}
         setSelected={value => changeOptions(value, 'limit')}
+        defaultOption={{key: '3', value: searchOptions.limit}}
       />
       <Text style={styles.label}>Price</Text>
       <SelectList
@@ -62,7 +66,7 @@ const Search = ({searchOptions, changeOptions}) => { // when passing multiple pr
         dropdownTextStyles={styles.dropdown_text}
         data={priceData}
         setSelected={value => changeOptions(value, 'price')}
-        defaultOption={{key: '2', value: '$$'}}
+        defaultOption={priceData[2]}
       />
       <Text style={styles.label}>Sort By</Text>
       <SelectList
