@@ -168,8 +168,7 @@ const Home = (props: Props) => {
           />
         </View>
         { showOptions &&
-          <Search searchOptions={searchOptions} changeOptions={changeOptions}
-          />
+          <Search />
         }
         { data ? 
           <List data={data} /> 

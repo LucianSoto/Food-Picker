@@ -15,8 +15,14 @@ export const searchOptionsSlice = createSlice({
     }
   },
   reducers: {
-    setSearchOptions: (state, action) => {
-      state.data = action.payload
+    setSearchOptions: (state, {payload}) => {
+      // const action = 
+
+      console.log(payload, 'SearchSLICE')
+      state.data = {
+        ...state.data,
+        [payload.name] : payload.data
+      }
     },
   },
 })
