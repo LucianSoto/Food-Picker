@@ -209,7 +209,7 @@ const styles = EStyleSheet.create({
     height: 60,
     width: '90%',
     marginTop: 20,
-    marginBottom: 10,
+    marginBottom: 25,
     marginLeft: 10,
     marginRight: 10,
     paddingLeft: 20,
@@ -221,7 +221,6 @@ const styles = EStyleSheet.create({
   },
   filter_button: {
     alignItems: 'center',
-    top: 5,
     fontSize: 25,
     marginRight: 10,
     color: "lightgray",

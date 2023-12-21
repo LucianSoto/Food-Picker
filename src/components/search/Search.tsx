@@ -11,7 +11,6 @@ const Search = () => { // when passing multiple props don't need to do type chec
   const dispatch = useDispatch()
   
   // const attributesData = ['hot_and_new', 'waitlist_reservation', 'outdoor_seating', 'parking_garage', 'etc']
-
   return (
     <View style={styles.search_container}>
       <Text style={styles.label}>Term</Text>
@@ -62,17 +61,18 @@ const Search = () => { // when passing multiple props don't need to do type chec
           data: value, name: 'price'
         }))}
         defaultOption={priceData[2]}
-        />
-        {/* 
+        /> 
       <Text style={styles.label}>Sort By</Text>
       <SelectList
         inputStyles={styles.dropdown_input}
         dropdownStyles={styles.dropdown}
         dropdownTextStyles={styles.dropdown_text}
         data={sortByData}
-        setSelected={value => changeOptions(value, 'sortBy')}
+        setSelected={value => dispatch(setSearchOptions({
+          data: value, name: 'Best Match'  
+        }))}
         defaultOption={{key: 'best_match', value: 'Best Match'}}
-      /> */}
+      />
       {/* <Text style={styles.label}></Text> */}
     </View>
   )
