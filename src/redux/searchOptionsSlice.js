@@ -16,9 +16,6 @@ export const searchOptionsSlice = createSlice({
   },
   reducers: {
     setSearchOptions: (state, {payload}) => {
-      // const action = 
-
-      console.log(payload, 'SearchSLICE')
       state.data = {
         ...state.data,
         [payload.name] : payload.data
@@ -29,3 +26,4 @@ export const searchOptionsSlice = createSlice({
 
 export const { setSearchOptions } = searchOptionsSlice.actions
 export default searchOptionsSlice.reducer
+

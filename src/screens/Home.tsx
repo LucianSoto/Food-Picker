@@ -16,15 +16,14 @@ import List from '../components/list/list'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Search from '../components/search/Search'
 import EStyleSheet from 'react-native-extended-stylesheet'
-import {setSearchOptions} from '../redux/searchOptionsSlice'
 import {useDispatch, useSelector} from 'react-redux'
 
 type Props = {
   navigation: any,
 }
 interface Igeo {
-  latitude: string,
-  longitude: string,
+  latitude: number,
+  longitude: number,
 }
 
 const Home = (props: Props) => {
@@ -34,12 +33,14 @@ const Home = (props: Props) => {
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState<Array<string>>([])
   const [location, setLocation] = useState<any>()
-  const [geo, setGeo] = useState({})
+  const [geo, setGeo] = useState({
+    latitude: 0,
+    longitude: 0,
+  })
   const [showOptions, setShowOptions] = useState<boolean>(false)
 
-  console.log(searchOptions, 'HOME')
   const {distance, limit, price, term, openNow, categories, sortBy} = searchOptions
-
+  console.log(searchOptions, 'HOME')
   
   const getLocation = () => {
     if(Platform.OS === "ios") {
@@ -52,8 +53,8 @@ const Home = (props: Props) => {
         error => {
           console.log(error.code, error.message, 'ERROR in getLocation HOME');
           setGeo({
-            latitude: '',
-            longitude: '',
+            latitude: 0,
+            longitude: 0,
           });
         },
         {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
@@ -71,8 +72,8 @@ const Home = (props: Props) => {
             error => {
               console.log(error.code, error.message, 'ERROR in getLocation HOME');
               setGeo({
-                latitude: '',
-                longitude: '',
+                latitude: 0,
+                longitude: 0,
               });
             },
             {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
@@ -82,13 +83,6 @@ const Home = (props: Props) => {
       });
     }
   };
-
-  const changeOptions = (value, name) => {
-    setSearchOptions(prev => ({
-      ...prev,
-      [name]: value
-    }))
-  }
 
   useEffect(() => {
     getLocation()
@@ -106,15 +100,15 @@ const Home = (props: Props) => {
     url: 'https://api.yelp.com/v3/businesses/search',
     params: {
       location: location,
-      latitude: geo.latitude,
-      longitude: geo.longitude,
+      latitude: location ? null : geo.latitude,
+      longitude: location ? null : geo.longitude,
       open_now: openNow,
       term: term,
       // categories: categories,
-      // price: price,
-      // radius: distance[0] * 1600,
-      // limit: limit,
-      // sort_by: sortBy,
+      price: price.length,
+      radius: Math.floor(distance[0] * 1600),
+      limit: limit,
+      sort_by: sortBy.replace(/ /g,"_").toLowerCase(),
     },
     headers: {
       accept: 'application/json',
@@ -127,9 +121,6 @@ const Home = (props: Props) => {
   }
   
   const getList = () => {
-    if(typeof(location) === 'string') {
-      setGeo(false)
-    }
     axios
       .request(options)
       .then((response) => {
@@ -167,15 +158,17 @@ const Home = (props: Props) => {
             onPress={openFilters}
           />
         </View>
-        { showOptions &&
-          <Search />
+        { 
+          showOptions &&
+            <Search />
         }
-        { data ? 
-          <List data={data} /> 
-          : 
-          <View>
-            <Text onPress={()=> getList()}>Load List</Text>
-          </View>
+        { 
+          data ? 
+            <List data={data} /> 
+            : 
+            <View>
+              <Text onPress={()=> getList()}>Load List</Text>
+            </View>
         }
       </ScrollView>
         <TouchableOpacity

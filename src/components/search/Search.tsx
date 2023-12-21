@@ -11,6 +11,7 @@ const Search = () => { // when passing multiple props don't need to do type chec
   const dispatch = useDispatch()
   
   // const attributesData = ['hot_and_new', 'waitlist_reservation', 'outdoor_seating', 'parking_garage', 'etc']
+
   return (
     <View style={styles.search_container}>
       <Text style={styles.label}>Term</Text>
@@ -20,12 +21,14 @@ const Search = () => { // when passing multiple props don't need to do type chec
         placeholder='food, beer' //can multiple categories be used?
         placeholderTextColor={'gray'}
         enablesReturnKeyAutomatically={true}
-        onChangeText={data=> dispatch(setSearchOptions({data, name: 'term'}))}
+        onChangeText={data=> dispatch(setSearchOptions(
+          {data, name: 'term'}
+        ))}
       /> 
-      {/* <Text style={styles.label}>Distance in miles  {
-      searchOptions.distance[0] === 10 ? 10 :
+      <Text style={styles.label}>Distance in miles  {
+        searchOptions.distance[0] === 10 ? 10 :
         searchOptions.distance[0] === 1 ? 1 :
-          searchOptions.distance[0].toFixed(1) 
+        searchOptions.distance[0].toFixed(1) 
       }
       </Text>
       <Slider
@@ -34,26 +37,33 @@ const Search = () => { // when passing multiple props don't need to do type chec
         minimumTrackTintColor={'#c2003f'}
         maximumValue={10}
         minimumValue={1}
-        onValueChange={value => changeOptions(value, 'distance')}
-      />
+        onValueChange={value => dispatch(setSearchOptions({
+          data: value, name: 'distance'}
+        ))}
+        />
       <Text style={styles.label}>Limit</Text>
       <SelectList
         inputStyles={styles.dropdown_input}
         dropdownStyles={styles.dropdown}
         dropdownTextStyles={styles.dropdown_text}
         data={limitData}
-        setSelected={value => changeOptions(value, 'limit')}
-        defaultOption={{key: '3', value: searchOptions.limit}}
-      />
+        setSelected={value => dispatch(setSearchOptions({
+          data: value, name: 'limit'
+        }))}
+        defaultOption={{key: searchOptions.limit, value: searchOptions.limit}}
+        />
       <Text style={styles.label}>Price</Text>
       <SelectList
         inputStyles={styles.dropdown_input}
         dropdownStyles={styles.dropdown}
         dropdownTextStyles={styles.dropdown_text}
         data={priceData}
-        setSelected={value => changeOptions(value, 'price')}
+        setSelected={value => dispatch(setSearchOptions({
+          data: value, name: 'price'
+        }))}
         defaultOption={priceData[2]}
-      />
+        />
+        {/* 
       <Text style={styles.label}>Sort By</Text>
       <SelectList
         inputStyles={styles.dropdown_input}
@@ -78,10 +88,10 @@ const limitData = [
     {key: '5', value: 5},
   ]
   const priceData = [
-    {key: 1, value: '$'}, 
-    {key: 2, value: '$$'},
-    {key: 3, value: '$$$'}, 
-    {key: 4, value: '$$$$'},
+    {key: '$', value: '$'}, 
+    {key: '$$', value: '$$'},
+    {key: '$$$', value: '$$$'}, 
+    {key: '$$$$', value: '$$$$'},
   ]
   const sortByData = [
     {key: 'best_match', value: 'Best Match'},
@@ -89,3 +99,4 @@ const limitData = [
     {key: 'review_count', value: 'Review Count'},
     {key: 'distance', value: 'Distance'},
   ]
+
