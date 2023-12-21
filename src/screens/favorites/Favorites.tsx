@@ -21,7 +21,6 @@ const Favorites = () => {
       .where('userRef', '==', id)
       .get()
       .then(querySnapShot => {
-        console.log(querySnapShot.docs[0].data().favorites, "FAVS: QUERY")
         return querySnapShot.docs[0].data().favorites
       });
     setFavorites(favs)
