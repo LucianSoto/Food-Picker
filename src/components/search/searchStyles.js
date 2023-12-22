@@ -4,6 +4,8 @@ export default StyleSheet.create({
   search_container: {
     // flex: 1,
     // color: 'white',
+    overflow: 'hidden',
+    marginBottom: 30,
   },
   label: {
     color: 'white',

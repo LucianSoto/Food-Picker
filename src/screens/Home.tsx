@@ -6,10 +6,12 @@ import {
   View,
   TextInput,
   TouchableOpacity,
-  Platform
+  Platform,
+  Animated,
+  LayoutAnimation
 } from 'react-native';
 import Geolocation from 'react-native-geolocation-service'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import axios from 'axios'
 import { locationPermission } from '../../utils/permissions';
 import List from '../components/list/list'
@@ -17,6 +19,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import Search from '../components/search/Search'
 import EStyleSheet from 'react-native-extended-stylesheet'
 import {useDispatch, useSelector} from 'react-redux'
+import {searchAnimation} from '../animations/searchAnimations'
 
 type Props = {
   navigation: any,
@@ -28,19 +31,36 @@ interface Igeo {
 
 const Home = (props: Props) => {
   const YelpKey = process.env.YELP_API
-  const dispatch = useDispatch()
+  // const dispatch = useDispatch()
   const searchOptions = useSelector(state => state.searchOptions.data)
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState<Array<string>>([])
   const [location, setLocation] = useState<any>()
+  const [showOptions, setShowOptions] = useState<boolean>(false)
   const [geo, setGeo] = useState({
     latitude: 0,
     longitude: 0,
   })
-  const [showOptions, setShowOptions] = useState<boolean>(false)
-
   const {distance, limit, price, term, openNow, categories, sortBy} = searchOptions
-  console.log(searchOptions, 'HOME')
+
+  const animationController = useRef(
+    new Animated.Value(0)
+  ).current;
+    
+  const toggleOptions = () => {
+    const config = {
+      duration: 300,
+      toValue: showOptions ? 0 : 1,
+      useNativeDriver: true,
+    }
+    Animated.timing(animationController, config).start()
+    LayoutAnimation.configureNext(searchAnimation)
+    setShowOptions(!showOptions)
+  }
+  const arrowTransform = animationController.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0deg', '180deg']
+  })
   
   const getLocation = () => {
     if(Platform.OS === "ios") {
@@ -115,10 +135,7 @@ const Home = (props: Props) => {
       Authorization: "Bearer " + YelpKey,
     }
   }
-  
-  const openFilters = () => {
-    setShowOptions(!showOptions)
-  }
+
   
   const getList = () => {
     axios
@@ -151,12 +168,14 @@ const Home = (props: Props) => {
             clearButtonMode='while-editing'
             placeholderTextColor={'gray'}
           />
-          <Icon
-            size={20}// commented out in styles below
-            style={styles.filter_button}
-            name="chevron-down"
-            onPress={openFilters}
-          />
+          <Animated.View style={{transform: [{rotateZ: arrowTransform}]}}>
+            <Icon
+              size={20}// commented out in styles below
+              style={styles.filter_button}
+              name="chevron-down"
+              onPress={() => toggleOptions()}
+            />
+          </Animated.View>
         </View>
         { 
           showOptions &&
@@ -191,7 +210,6 @@ const styles = EStyleSheet.create({
     borderBottom: '10px red'
   },
   scroll_view: {
-    // flex: 1, did not need ??
     backgroundColor: '$mainColor_black',
     flexDirection: 'column',
     justifyContent: 'center',
@@ -209,9 +227,9 @@ const styles = EStyleSheet.create({
     height: 60,
     width: '90%',
     marginTop: 20,
-    marginBottom: 10,
+    marginBottom: 25,
     marginLeft: 10,
-    marginRight: 10,
+    marginRight: 15,
     paddingLeft: 20,
     borderWidth: 1,
     borderColor: 'white',
@@ -221,9 +239,8 @@ const styles = EStyleSheet.create({
   },
   filter_button: {
     alignItems: 'center',
-    top: 5,
     fontSize: 25,
-    marginRight: 10,
+    // marginRight: 10,
     color: "lightgray",
   },
   main_button: {

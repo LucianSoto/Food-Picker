@@ -1,4 +1,4 @@
-***Attempting to add authentication for firebase / React Native
+   ***Attempting to add authentication for firebase / React Native
    -Doing so with RNSInfo
    -Website is giving this suggestion: 
           Android it is implemented through FingerprintManager + Keystore . Keystore has a function called setUserAuthenticationRequired which makes Keystore requires user authentication before getting value.
