@@ -8,7 +8,8 @@ import {
   TouchableOpacity,
   Platform,
   Animated,
-  LayoutAnimation
+  LayoutAnimation,
+  Alert
 } from 'react-native';
 import Geolocation from 'react-native-geolocation-service'
 import React, { useState, useEffect, useRef } from 'react'
@@ -136,20 +137,19 @@ const Home = (props: Props) => {
     }
   }
 
-  
   const getList = () => {
     axios
       .request(options)
       .then((response) => {
-        // console.log(response.data.businesses, "HOME")
-        if(showOptions) {setShowOptions(!showOptions)}
+        if(showOptions) {toggleOptions()}
         setData(response.data.businesses)
       })
       .catch((error) => {
         console.log(error, 'error api HOME')
+        console.log(error.message, 'Message')
+        setData([])
       })
   }  
-
 
   return (
     <SafeAreaView style={styles.main_container}>
@@ -185,8 +185,8 @@ const Home = (props: Props) => {
           data ? 
             <List data={data} /> 
             : 
-            <View>
-              <Text onPress={()=> getList()}>Load List</Text>
+            <View style={{alignItems: 'center'}}>
+              <Text style={styles.error}>Sorry No Matches Found :(</Text>
             </View>
         }
       </ScrollView>
@@ -240,7 +240,6 @@ const styles = EStyleSheet.create({
   filter_button: {
     alignItems: 'center',
     fontSize: 25,
-    // marginRight: 10,
     color: "lightgray",
   },
   main_button: {
@@ -259,6 +258,10 @@ const styles = EStyleSheet.create({
     fontSize: 20,
     bottom: 0,
   },
+  error: {
+    color: 'white',
+    fontSize: 35,
+  }
 });
 
 export default Home
