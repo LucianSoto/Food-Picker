@@ -1,46 +1,18 @@
-import React, {useEffect, useRef, useState} from "react";
-import { Text, TextInput, Animated, Easing, LayoutAnimation} from 'react-native'
+import React from "react";
+import { Text, TextInput, View} from 'react-native'
 import {Slider} from '@miblanchard/react-native-slider'
 import { SelectList } from "react-native-dropdown-select-list";
 import styles from './searchStyles'
 import {setSearchOptions} from '../../redux/searchOptionsSlice'
 import {useDispatch, useSelector} from 'react-redux'
-import { searchAnimation } from "../../animations/searchAnimations";
 
 // DIT NOT NEED TO PUT THE TYPE FOR SEARCH OPTIONS UP HERE EITHER
 const Search = () => { // when passing multiple props don't need to do type checking
   const searchOptions = useSelector(state => state.searchOptions.data)
   const dispatch = useDispatch()
-  const [showContent, setShowContent] = useState(false)
-  const animationController = useRef(
-    new Animated.Value(0)
-  ).current;
-
-  const showOptions = () => {
-    const config = {
-      duration: 300,
-      toValue: showContent ? 0 : 1,
-      useNativeDriver: true,
-    }
-    Animated.timing(animationController, config)
-  }
-
-  useEffect(() => {
-    LayoutAnimation.configureNext(searchAnimation)
-  })
-  // useEffect(() => {
-  //   Animated.timing(translation, {
-  //     toValue: 100,
-  //     easing: Easing.bounce,
-  //     useNativeDriver: true,
-  //   }).start();
-  // }, []);
-  
   // const attributesData = ['hot_and_new', 'waitlist_reservation', 'outdoor_seating', 'parking_garage', 'etc']
   return (
-    <Animated.View style={[styles.search_container, 
-    // {transform:  [{ translateX: translation }]}
-  ]}
+    <View style={styles.search_container}
     >
       <Text style={styles.label}>Term</Text>
       <TextInput 
@@ -89,7 +61,7 @@ const Search = () => { // when passing multiple props don't need to do type chec
         setSelected={value => dispatch(setSearchOptions({
           data: value, name: 'price'
         }))}
-        defaultOption={priceData[2]}
+        defaultOption={{key: searchOptions.price, value: searchOptions.price}}
         /> 
       <Text style={styles.label}>Sort By</Text>
       <SelectList
@@ -102,8 +74,7 @@ const Search = () => { // when passing multiple props don't need to do type chec
         }))}
         defaultOption={{key: 'best_match', value: 'Best Match'}}
       />
-      {/* <Text style={styles.label}></Text> */}
-    </Animated.View>
+    </View>
   )
 }
 
