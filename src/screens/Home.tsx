@@ -9,7 +9,6 @@ import {
   Platform,
   Animated,
   LayoutAnimation,
-  Alert
 } from 'react-native';
 import Geolocation from 'react-native-geolocation-service'
 import React, { useState, useEffect, useRef } from 'react'
@@ -19,7 +18,7 @@ import List from '../components/list/list'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Search from '../components/search/Search'
 import EStyleSheet from 'react-native-extended-stylesheet'
-import {useDispatch, useSelector} from 'react-redux'
+import {useSelector} from 'react-redux'
 import {searchAnimation} from '../animations/searchAnimations'
 
 type Props = {
@@ -32,7 +31,6 @@ interface Igeo {
 
 const Home = (props: Props) => {
   const YelpKey = process.env.YELP_API
-  // const dispatch = useDispatch()
   const searchOptions = useSelector(state => state.searchOptions.data)
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState<Array<string>>([])
@@ -58,6 +56,7 @@ const Home = (props: Props) => {
     LayoutAnimation.configureNext(searchAnimation)
     setShowOptions(!showOptions)
   }
+  
   const arrowTransform = animationController.interpolate({
     inputRange: [0, 1],
     outputRange: ['0deg', '180deg']
@@ -148,6 +147,7 @@ const Home = (props: Props) => {
         console.log(error, 'error api HOME')
         console.log(error.message, 'Message')
         setData([])
+        if(showOptions){toggleOptions()}
       })
   }  
 
@@ -182,11 +182,11 @@ const Home = (props: Props) => {
             <Search />
         }
         { 
-          data ? 
+          data.length ? 
             <List data={data} /> 
             : 
             <View style={{alignItems: 'center'}}>
-              <Text style={styles.error}>Sorry No Matches Found :(</Text>
+              <Text style={styles.error}>No Results Found :(</Text>
             </View>
         }
       </ScrollView>
@@ -260,7 +260,9 @@ const styles = EStyleSheet.create({
   },
   error: {
     color: 'white',
-    fontSize: 35,
+    fontSize: 33,
+    width: '80%',
+    marginTop: 30,
   }
 });
 
