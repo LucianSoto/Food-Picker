@@ -36,7 +36,7 @@ const Home = (props: Props) => {
   const [data, setData] = useState<Array<string>>([])
   const [location, setLocation] = useState<any>()
   const [showOptions, setShowOptions] = useState<boolean>(false)
-  const [geo, setGeo] = useState({
+  const [geo, setGeo] = useState<Igeo>({
     latitude: 0,
     longitude: 0,
   })
@@ -56,7 +56,7 @@ const Home = (props: Props) => {
     LayoutAnimation.configureNext(searchAnimation)
     setShowOptions(!showOptions)
   }
-  
+
   const arrowTransform = animationController.interpolate({
     inputRange: [0, 1],
     outputRange: ['0deg', '180deg']
