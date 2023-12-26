@@ -29,7 +29,9 @@ interface Igeo {
   longitude: number,
 }
 
+
 const Home = (props: Props) => {
+  console.log( props.navigation, 'HOME') // perhaps need to pass down nav to this component
   const YelpKey = process.env.YELP_API
   const searchOptions = useSelector(state => state.searchOptions.data)
   const [loading, setLoading] = useState(false)
@@ -183,7 +185,7 @@ const Home = (props: Props) => {
         }
         { 
           data.length ? 
-            <List data={data} /> 
+            <List data={data} navigation={props.navigation} /> //fix this TS error
             : 
             <View style={{alignItems: 'center'}}>
               <Text style={styles.error}>No Results Found :(</Text>

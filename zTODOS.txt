@@ -1,0 +1,35 @@
+BUSINESSPAGE:
+- CLICK ON NAME OR PIC => takes you to page
+- click on phone number => call phone
+- page will display map/location, hours, etc
+
+- stop homepage from reloading every time you switch tabs
+- Fix Favorites functionality
+- Price search can be adjusted to have a range not just a set $ amount
+
+
+- center splashcreen ios(maybe android as well?)
+- use global types
+-check list styles on different device widths!!!!!!!
+
+-make sure main branch is good to go .
+-use dev branch as well.
+
+//get rid of warning rejection id: 0 => only shown when user has no favs.
+if just using firebase - how to set "initializing/loading" state
+
+＊＊＊ firestore rules are set to test mode so need to set rules after 30 days
+in order to use later.
+
+- register error handling. 
+- start work on search options.
+- start work on search menu.
+- start work on favorites.
+
+
+//git merge <name of branch to copy>
+
+fetch('https://api.yelp.com/v3/businesses/search?location=Seattle&term=vietnamese&radius=3218&categories=&price=2&open_now=true&attributes=reservation&attributes=outdoor_seating&sort_by=best_match&limit=5', options)
+  .then(response => response.json())
+  .then(response => console.log(response))
+  .catch(err => console.error(err));
