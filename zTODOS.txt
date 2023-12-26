@@ -1,8 +1,7 @@
 BUSINESSPAGE:
-- CLICK ON NAME OR PIC => takes you to page
-- click on phone number => call phone
-- page will display map/location, hours, etc
+- page will display map/location, hours, image carousel etc
 
+- fix all type erros in LIST component
 - stop homepage from reloading every time you switch tabs
 - Fix Favorites functionality
 - Price search can be adjusted to have a range not just a set $ amount

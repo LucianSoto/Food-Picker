@@ -29,7 +29,6 @@ interface Igeo {
   longitude: number,
 }
 
-
 const Home = (props: Props) => {
   console.log( props.navigation, 'HOME') // perhaps need to pass down nav to this component
   const YelpKey = process.env.YELP_API
@@ -201,7 +200,6 @@ const Home = (props: Props) => {
     </SafeAreaView>
   )
 }
-
 
 const styles = EStyleSheet.create({
   main_container: {

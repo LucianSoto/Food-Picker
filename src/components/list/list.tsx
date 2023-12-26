@@ -1,5 +1,5 @@
 Icon.loadFont().catch((error) => {});
-import { Text, View, Image, ImageStyle, TouchableOpacity, ImageBackground, Pressable } from 'react-native'
+import { Text, View, Image, ImageStyle, TouchableOpacity, Linking, Pressable } from 'react-native'
 import React, {useState, useEffect} from 'react'
 import styled from 'styled-components/native'
 import Icon from 'react-native-vector-icons/FontAwesome'
@@ -87,7 +87,7 @@ const List = (props: Data,) => {
     return (
       <Item key={i} id={item.id} >
         <Pressable 
-          onPress={()=> navigation.navigate('BusinessPage', {item: item})}
+          onPress={()=> navigation.navigate('BusinessPage', {id: item.id})}
           style={styles.touch_image}
         >
           <Image 
@@ -96,8 +96,15 @@ const List = (props: Data,) => {
           />
         </Pressable>
         <View style={styles.right_container}>
-          <Text style={styles.name}>{item.name}</Text>
-          <Text>
+          <Pressable>
+            <Text 
+            onPress={()=> navigation.navigate('BusinessPage', {id: item.id})}
+            style={styles.name}
+            >
+              {item.name}
+            </Text>
+          </Pressable>
+          <Text onPress={()=>{Linking.openURL(`tel:${item.phone}`);}}>
             <Icon
               style={{marginRight: 20}}
               name="phone"
