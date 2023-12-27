@@ -1,18 +1,27 @@
 BUSINESSPAGE:
 - page will display map/location, hours, image carousel etc
 
-- fix all type erros in LIST component
+SEARCH :
+- Price search can be adjusted to have a range not just a set $ amount
+- add delivery option (true or false)
+- Add categories page
+
+
 - stop homepage from reloading every time you switch tabs
 - Fix Favorites functionality
-- Price search can be adjusted to have a range not just a set $ amount
-
+- fix all type erros in LIST component
 
 - center splashcreen ios(maybe android as well?)
 - use global types
--check list styles on different device widths!!!!!!!
+- check list styles on different device widths!!!!!!!
 
--make sure main branch is good to go .
--use dev branch as well.
+--- ((( error thrown when installing snap carousel
+  5 high severity vulnerabilities
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details. )))
 
 //get rid of warning rejection id: 0 => only shown when user has no favs.
 if just using firebase - how to set "initializing/loading" state
@@ -21,10 +30,6 @@ if just using firebase - how to set "initializing/loading" state
 in order to use later.
 
 - register error handling. 
-- start work on search options.
-- start work on search menu.
-- start work on favorites.
-
 
 //git merge <name of branch to copy>
 

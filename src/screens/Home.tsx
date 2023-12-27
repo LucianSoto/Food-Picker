@@ -30,7 +30,6 @@ interface Igeo {
 }
 
 const Home = (props: Props) => {
-  console.log( props.navigation, 'HOME') // perhaps need to pass down nav to this component
   const YelpKey = process.env.YELP_API
   const searchOptions = useSelector(state => state.searchOptions.data)
   const [loading, setLoading] = useState(false)
