@@ -19,6 +19,7 @@ const BusinessPage = (props) => {
   const [data, setData] = useState<Object>({})
   const [reviews, setReviews] = useState<Array<string>>([])
   const id = props.route.params.id
+  console.log(id, 'ID bPAGE')
   const options = { 
     method: 'GET',
     url: `https://api.yelp.com/v3/businesses/${id}`,
@@ -40,7 +41,6 @@ const BusinessPage = (props) => {
     axios
       .request(options)
       .then((response) => {
-        // console.log(response.data)
         setData(response.data)
       })
       .catch((error) => {
@@ -54,7 +54,6 @@ const BusinessPage = (props) => {
     axios
       .request(reviewsOptions)
       .then((response) => {
-        console.log(response.data.reviews)
         setReviews(response.data.reviews)
       })
       .catch((error) => {
@@ -75,38 +74,33 @@ const BusinessPage = (props) => {
     getReviews()
   },[])
 
-  // console.log(data.photos, 'BPAGE')
-  // console.log('BPAGE', reviews)
+  // console.log('DATA BUSINESSPAGE >>>', data)
+  console.log('REVIEWS:::::  ', reviews)
+  console.log('PHOTOS >>>' , data.photos? data.photos[0]: null)
   
   return (
     <View style={{flex: 1}}>
       <Text>{data.name}</Text>
+
       <Carousel
           data={data.photos}
+          // fix carousel
           renderItem={({item, index}) => {
             return (
               <View>
                 <Image 
                   source={{uri: item}}
+                  style={{height: 500, width: width}}
                 />
               </View>
             )
           }}
           sliderWidth={width}
           itemWidth={500}    
-        />
+      />
         {renderReviews}
     </View>
   )
 }
-
-const styles = StyleSheet.create({
-  slide: {
-
-  },
-  title: {
-
-  },
-})
 
 export default BusinessPage
