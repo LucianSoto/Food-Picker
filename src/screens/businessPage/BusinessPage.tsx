@@ -3,7 +3,8 @@ import { View, Text, TouchableOpacity, Linking, Dimensions, StyleSheet, Image } 
 // import FastImage from 'react-native-fast-image' ALTERNATIVE TO LOAD IMAGES FASTER/BETTER
 import axios from 'axios'
 import Icon from 'react-native-vector-icons/FontAwesome';
-import Carousel, { Pagination } from 'react-native-snap-carousel';
+import Carousel, { Pagination, ParallaxImage } from 'react-native-snap-carousel';
+import styles from './businessPageStyles'
 {/* <Text onPress={()=>{Linking.openURL(`tel:${item.phone}`);}}> */}// TO MAKE PHONE CALLS
 interface Idata {
   name: string,
@@ -14,12 +15,11 @@ interface Idata {
 // }
 
 const BusinessPage = (props) => {
-  const width = Dimensions.get('window').width;
+  const screenWidth = Dimensions.get('window').width;
   const YelpKey = process.env.YELP_API
   const [data, setData] = useState<Object>({})
   const [reviews, setReviews] = useState<Array<string>>([])
   const id = props.route.params.id
-  console.log(id, 'ID bPAGE')
   const options = { 
     method: 'GET',
     url: `https://api.yelp.com/v3/businesses/${id}`,
@@ -65,7 +65,7 @@ const BusinessPage = (props) => {
 
   const renderReviews = reviews.map((review, i) => {
     return (
-      <Text key={i}>{review.text}</Text>
+      <Text key={i} style={styles.review}>{review.text}</Text>
     )
   })
   
@@ -74,31 +74,46 @@ const BusinessPage = (props) => {
     getReviews()
   },[])
 
-  // console.log('DATA BUSINESSPAGE >>>', data)
-  console.log('REVIEWS:::::  ', reviews)
-  console.log('PHOTOS >>>' , data.photos? data.photos[0]: null)
-  
-  return (
-    <View style={{flex: 1}}>
-      <Text>{data.name}</Text>
+  console.log('DATA BP>>>>>>', data)
 
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>{data.name}</Text>
       <Carousel
+          sliderWidth={screenWidth}
           data={data.photos}
-          // fix carousel
+          itemWidth={500}    
           renderItem={({item, index}) => {
             return (
               <View>
                 <Image 
                   source={{uri: item}}
-                  style={{height: 500, width: width}}
+                  style={styles.image}
                 />
               </View>
             )
           }}
-          sliderWidth={width}
-          itemWidth={500}    
       />
+      <View style={styles.info}>
+
+      </View>
+      <View>
         {renderReviews}
+      </View>
+      <View style={styles.contact}>
+        <Text style={styles.contact_details}>PHONE ETC </Text>
+        <Text style={styles.contact_details}>PHONE ETC </Text>
+        <Text style={styles.contact_details}>PHONE ETC </Text>
+        <Text style={styles.contact_details}>PHONE ETC </Text>
+        <View style={styles.buttons_container}>
+          <TouchableOpacity style={styles.contact_button}>
+            <Text>Call</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.contact_button}>
+            <Text>Order</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
     </View>
   )
 }
