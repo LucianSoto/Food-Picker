@@ -3,8 +3,10 @@ import { View, Text, TouchableOpacity, Linking, Dimensions, StyleSheet, Image } 
 // import FastImage from 'react-native-fast-image' ALTERNATIVE TO LOAD IMAGES FASTER/BETTER
 import axios from 'axios'
 import Icon from 'react-native-vector-icons/FontAwesome';
-import Carousel, { Pagination, ParallaxImage } from 'react-native-snap-carousel';
+// import Carousel from 'react-native-reanimated-carousel';
+import Carousel from 'react-native-snap-carousel';
 import styles from './businessPageStyles'
+import {Rating, AirbnbRating} from 'react-native-ratings'
 {/* <Text onPress={()=>{Linking.openURL(`tel:${item.phone}`);}}> */}// TO MAKE PHONE CALLS
 interface Idata {
   name: string,
@@ -74,14 +76,15 @@ const BusinessPage = (props) => {
     getReviews()
   },[])
 
-  console.log('DATA BP>>>>>>', data)
+  console.log('DATA BP>>>>>>', data.rating)
+  // console.log('HOURS BP***', data.hours[0])
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{data.name}</Text>
       <Carousel
           sliderWidth={screenWidth}
-          data={data.photos}
+          data={data? data.photos : null}
           itemWidth={500}    
           renderItem={({item, index}) => {
             return (
@@ -95,7 +98,15 @@ const BusinessPage = (props) => {
           }}
       />
       <View style={styles.info}>
-
+      <Rating
+        type="star"
+        ratingCount={5}
+        fractions={5}
+        startingValue={data ? data.rating: null}
+        imageSize={40}
+        showRating
+        style={{ paddingVertical: 10 }}
+      />
       </View>
       <View>
         {renderReviews}

@@ -9,11 +9,12 @@ export default StyleSheet.create({
   },
   title: {
     fontSize: 30,
+    fontWeight: 'bold',
     color: 'white',
     margin: 15,
   },
   image: {
-    height: screenWidth - 30, 
+    height: screenWidth - 10, 
     width: screenWidth
   },
   info: {
