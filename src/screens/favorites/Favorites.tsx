@@ -4,7 +4,7 @@ import React, {useState, useEffect} from 'react'
 import firestore from '@react-native-firebase/firestore'
 import {useSelector} from 'react-redux'
 import axios from 'axios'
-import List from '../../components/list/list'
+import List from '../../components/list/List'
 import { map } from 'modern-async'
 import EStyleSheet from "react-native-extended-stylesheet"
 

@@ -14,12 +14,13 @@ import Geolocation from 'react-native-geolocation-service'
 import React, { useState, useEffect, useRef } from 'react'
 import axios from 'axios'
 import { locationPermission } from '../../utils/permissions';
-import List from '../components/list/list'
+import List from '../components/list/List'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Search from '../components/search/Search'
 import EStyleSheet from 'react-native-extended-stylesheet'
 import {useSelector} from 'react-redux'
 import {searchAnimation} from '../animations/searchAnimations'
+import Loader from '../components/loader/Loader'
 
 type Props = {
   navigation: any,
@@ -150,6 +151,12 @@ const Home = (props: Props) => {
         if(showOptions){toggleOptions()}
       })
   }  
+
+  if(!data.length) {
+    return (
+      <Loader/>
+    )
+  }
 
   return (
     <SafeAreaView style={styles.main_container}>
