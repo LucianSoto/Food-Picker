@@ -7,6 +7,7 @@ import axios from 'axios'
 import List from '../../components/list/List'
 import { map } from 'modern-async'
 import EStyleSheet from "react-native-extended-stylesheet"
+import Loader from '../../components/loader/Loader'
 
 const Favorites = () => {
   const YelpKey = process.env.YELP_API
@@ -57,6 +58,12 @@ const Favorites = () => {
   })
   // add toggleFav function over here too
 
+  if(!dataArray) {
+    return (
+      <Loader />
+    )
+  }
+
   return (
     <View style={styles.main_container}>
       <ScrollView
@@ -64,12 +71,7 @@ const Favorites = () => {
         contentContainerStyle={styles.scroll_view}
       >
       <Text style={styles.title}>Favorites</Text>
-      { dataArray.length > 0 ?
-          <List data={dataArray} />
-          :
-          <Text style={styles.no_favs}>No favorites yet  :(</Text>
-        }
-
+        <List data={dataArray} />
       </ScrollView>
     </View>
   )

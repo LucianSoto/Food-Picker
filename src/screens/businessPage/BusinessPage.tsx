@@ -8,13 +8,11 @@ import { View,
 } from 'react-native'
 // import FastImage from 'react-native-fast-image' ALTERNATIVE TO LOAD IMAGES FASTER/BETTER
 import axios from 'axios'
-import Icon from 'react-native-vector-icons/FontAwesome';
-// import Carousel from 'react-native-reanimated-carousel';
 import Carousel from 'react-native-snap-carousel';
 import styles from './businessPageStyles'
 import {Rating, AirbnbRating} from 'react-native-ratings'
 import Loader from '../../components/loader/Loader'
-{/* <Text onPress={()=>{Linking.openURL(`tel:${item.phone}`);}}> */}// TO MAKE PHONE CALLS
+{/* <Text > */}// TO MAKE PHONE CALLS
 interface Idata {
   name: string,
   phone: string,
@@ -30,6 +28,7 @@ const BusinessPage = (props) => {
   const [reviews, setReviews] = useState<Array<string>>([])
   const categories = []
   const id = props.route.params.id
+  let cats 
   const options = { 
     method: 'GET',
     url: `https://api.yelp.com/v3/businesses/${id}`,
@@ -80,9 +79,10 @@ const BusinessPage = (props) => {
   })
   
   if (data.length) {
-    data.categories
+   cats =  data.categories
      .map((category: {title: string}, i:number)=> {
-       categories.push(category.title)
+      //  categories.push(category.title)
+      <Text>{category.title}</Text>
      }) 
   } 
 
@@ -91,11 +91,10 @@ const BusinessPage = (props) => {
     getReviews()
   },[])
 
-
   console.log('DATA BP>>>>>>', data.categories)
   console.log(categories, 'categories BG **')
-  // console.log('HOURS BP***', data.hours[0])
-  if(!reviews.length) {
+  
+  if(!reviews.length && !data) {
     return (
       <Loader/>
     )
@@ -128,11 +127,12 @@ const BusinessPage = (props) => {
             fractions={5}
             startingValue={data ? data.rating: null}
             imageSize={30}
-            style={{ paddingVertical: 10 }}
+            style={{ paddingVertical: 10, backgroundColor: 'white' }}
           />
           <Text style={styles.rating_text}>4.9</Text>
         </View>
         <View>
+          <Text>{cats}</Text>
           <Text style={styles.contact_details}>PHONE ETC </Text>
           <Text style={styles.contact_details}>PHONE ETC </Text>
           <Text style={styles.contact_details}>PHONE ETC </Text>
@@ -143,7 +143,10 @@ const BusinessPage = (props) => {
         {/* </View> */}
       </ScrollView>
       <View style={styles.buttons_container}>
-        <TouchableOpacity style={styles.contact_button}>
+        <TouchableOpacity 
+          style={styles.contact_button}
+          // onPress={()=>{Linking.openURL(`tel:${item.phone}`)}}
+        >
           <Text style={styles.button_text}>Call</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.contact_button}>
