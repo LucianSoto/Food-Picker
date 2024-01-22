@@ -92,7 +92,7 @@ export const Routes = () => {
             tabBarLabel: "favorites",
             tabBarIcon: ({ focused }) => (
               <Icon 
-                name="star"
+                name="heart"
                 color={focused? 'white' : 'gray'}
                 size={20}
               />

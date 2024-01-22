@@ -8,6 +8,12 @@ export default EStyleSheet.create({
     flex: 1,
     backgroundColor: 'black'
   },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingRight: 20,
+  },
   title: {
     fontSize: 35,
     fontWeight: 'bold',
@@ -18,8 +24,43 @@ export default EStyleSheet.create({
     height: screenWidth, 
     width: screenWidth - 3,
   },
-  info: {
+  ratings_container: {
+    flexDirection: 'row',
+    alignItems: 'center',    
+  },
+  rating_text: {
+    color: 'lightgray',
+    fontWeight: 'bold',
+    fontSize: 20,
+    marginTop: 3,
+    marginLeft: 10,
+  },
+  price_cats_container: {
+    flexDirection: 'row',
+  },
+  price_categories: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  interpunct: {
+    fontSize: 25,
     
+  },
+  hours_container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  hours: {
+    color: 'lightgrey',
+    fontSize: 20,
+    fontWeight: '600',
+  },
+  open: {
+    color: 'green',
+  },
+  closed: {
+    color: 'crimson',
   },
   reviews_contianer: {
   },
@@ -36,17 +77,6 @@ export default EStyleSheet.create({
     borderTopColor: 'white',
     borderTopWidth: 1,
   },
-  ratings_container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  rating_text: {
-    color: 'lightgray',
-    fontWeight: 'bold',
-    fontSize: 20,
-    marginTop: 10,
-    marginLeft: 10,
-  },
   buttons_container: {
     flexDirection: 'row',
     width: screenWidth,
@@ -54,7 +84,7 @@ export default EStyleSheet.create({
     position: 'fixed',
   },
   contact_button: {
-    color: 'white',
+    color: '$mainColor_white',
     backgroundColor: '$mainColor_magenta',
     borderRadius: 30,
     margin: 10,

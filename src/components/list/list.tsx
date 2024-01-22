@@ -6,7 +6,6 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 import styles from './listStyles'
 import firestore from '@react-native-firebase/firestore';
 import {useSelector} from 'react-redux'
-import {useNavigation} from 'react-navigation/native'
 
 type Data = {
   data: {
@@ -116,10 +115,11 @@ const List = (props: Data,) => {
           <View style={{flexDirection: "row"}}>
             <Icon
               name="star"
-              color="red"
+              color='#c2003f'
               size={15}
               /> 
-            <Text>  {item.rating}</Text>
+            <Text>  {item.rating} </Text>
+            <Text style={styles.rating_text}> ({Number(item.review_count).   toLocaleString()} reviews)</Text>
           </View>
           <Text style={styles.price}>{item.price}</Text>
           <View style={styles.categories_container}>
