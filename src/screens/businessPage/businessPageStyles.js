@@ -20,6 +20,9 @@ export default EStyleSheet.create({
     color: 'white',
     margin: 15,
   },
+  icon: {
+    fontWeight: 'bold',
+  },
   image: {
     height: screenWidth, 
     width: screenWidth - 3,

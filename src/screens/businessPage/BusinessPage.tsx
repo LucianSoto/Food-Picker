@@ -8,7 +8,7 @@ import { View,
 } from 'react-native'
 // import FastImage from 'react-native-fast-image' ALTERNATIVE TO LOAD IMAGES FASTER/BETTER
 import axios from 'axios'
-import Carousel from 'react-native-snap-carousel';
+import Carousel, {Pagination} from 'react-native-snap-carousel';
 import styles from './businessPageStyles'
 import {Rating} from 'react-native-ratings'
 import Loader from '../../components/loader/Loader'
@@ -150,10 +150,9 @@ const BusinessPage = (props) => {
     return (time[0].charAt(0) == 1 && time[0].charAt(1) > 2) ? (time[0] - 12) + ':' + time[1] + ':' + time[2] + ' PM' : time.join(':') + ' AM'
   }
 
-  // console.log('DAY BP ***', data.hours? data.hours[0].open[today] : null)
-  console.log('TIME BPPPP', data.hours? toStandardTime(timeClose) : null)
+  // console.log('DAY BP ***', data.photos.length)
   
-  if(!reviews.length && !data) {
+  if(!reviews.length && !data.hours) { // DO SOMETHING ABOUT LOADING 
     return (
       <Loader/>
     )
@@ -167,6 +166,7 @@ const BusinessPage = (props) => {
             name={ favorites.includes(data.id)? 'heart' : 'heart-o' }
             color='#c2003f'
             size={30}
+            style={styles.icon}
             />
         </TouchableOpacity>
       </View>
@@ -185,6 +185,17 @@ const BusinessPage = (props) => {
               </View>
             )
           }}
+      />
+      <Pagination 
+        dotsLength={data.photos? data.photos.length: null}
+        dotStyle={{
+          width: 10,
+          // borderRadius: 10,
+          // : 'white',
+          backgroundColor: 'rgba(255, 255, 255, 0.92)',
+        }}
+        inactiveDotColor='gray'
+        inactiveDotOpacity={0.4}
       />
       <ScrollView>
         <View style={styles.ratings_container}>
@@ -209,9 +220,10 @@ const BusinessPage = (props) => {
         </View>
         <View style={styles.hours_container}>
           { 
-            data.hours && data.hours[0].is_open_now ? 
+            data.hours ? data.hours[0].is_open_now ? 
               <Text style={[styles.hours, styles.open]}>Open   </Text> :
               <Text style={[styles.hours, styles.closed]}>Closed  </Text>
+              : null
           }
           <Text style={styles.hours}> {data.hours ? toStandardTime(timeOpen) : null}  -  </Text>
           <Text style={styles.hours}>{data.hours ? toStandardTime(timeClose) : null}</Text>
