@@ -4,10 +4,7 @@ import { GoogleSignin } from '@react-native-google-signin/google-signin'
 import auth from '@react-native-firebase/auth'
 import EStyleSheet from 'react-native-extended-stylesheet'
 
-type Props = {
-}
-
-const Settings = (props: Props) => {
+const Settings = () => {
   const logOut = async () => {
     try {
       // await GoogleSignin.revokeAccess();//REVOKE WAS MAKING IT NOT SIGN OUT

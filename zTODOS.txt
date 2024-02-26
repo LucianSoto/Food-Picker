@@ -1,0 +1,39 @@
+BUSINESSPAGE:
+-Open hours fix (miliraty time and always AM)
+-uber eats order?
+
+- page will display map/location, hours, image carousel etc
+
+SEARCH :
+- Price search can be adjusted to have a range not just a set $ amount
+- add delivery option (true or false)
+- Add categories page
+
+
+- stop homepage from reloading every time you switch tabs
+- Fix Favorites functionality
+- fix all type erros in LIST component
+
+- center splashcreen ios(maybe android as well?)
+- use global types
+- check list styles on different device widths!!!!!!!
+
+--- ((( error thrown when installing snap carousel
+  5 high severity vulnerabilities
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details. )))
+
+//get rid of warning rejection id: 0 => only shown when user has no favs.
+if just using firebase - how to set "initializing/loading" state
+
+＊＊＊ firestore rules are set to test mode so need to set rules after 30 days
+in order to use later.
+
+- register error handling. 
+
+//git merge <name of branch to copy>
+
+ADROID: GOOGLEsignin when initially signing in it does not reload/take you home.

@@ -1,13 +1,12 @@
 // 'use client';
 Icon.loadFont().catch((error) => {}); // or do nothing with the function?
-import { View, Text } from 'react-native'
 import React, {useEffect, useState} from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Settings from "./screens/settings/Settings"
 import Favorites from "./screens/favorites/Favorites"
 import Home from "./screens/Home"
-// make sure components default types are consistent
 import Login from './screens/login/Login';
+import BusinessPage from './screens/businessPage/BusinessPage';
 import { ForgotPassword } from './screens/forgotPassword/ForgotPassword';
 import Register from './screens/register/Register';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
@@ -35,7 +34,7 @@ export const Routes = () => {
   }, []);
 
   if(user) {
-    // currently using onmountBlur: true to refresh screen when swithiing 
+    // currently using onmountBlur: true to refresh screen when swithcing 
     // but maybe using redux would be better? To spread state across screens.
     return(
       <Tab.Navigator initialRouteName='Home' 
@@ -61,12 +60,11 @@ export const Routes = () => {
         <Tab.Screen 
           name='Home'         
           component={Home} 
-          //CLEAR THIS LATER
           options={{
             unmountOnBlur: true,
             headerShown: false,
             tabBarLabel: "Home",
-            tabBarIcon: ({ focused, size }) => (
+            tabBarIcon: ({ focused }) => (
               <Icon 
                 name="home"
                 color={focused? 'white' : 'gray'}
@@ -76,15 +74,25 @@ export const Routes = () => {
           }}
         />
         <Tab.Screen 
+          name="BusinessPage" 
+          component={BusinessPage} 
+          options={{
+            unmountOnBlur: true,
+            headerShown: false,
+            tabBarLabel: "favorites",
+            tabBarButton: () => null,
+          }}
+        />
+        <Tab.Screen 
           name="Favorites" 
           component={Favorites} 
           options={{
             unmountOnBlur: true,
             headerShown: false,
             tabBarLabel: "favorites",
-            tabBarIcon: ({ focused, size }) => (
+            tabBarIcon: ({ focused }) => (
               <Icon 
-                name="star"
+                name="heart"
                 color={focused? 'white' : 'gray'}
                 size={20}
               />
@@ -98,7 +106,7 @@ export const Routes = () => {
             unmountOnBlur: true,
             headerShown: false,
             tabBarLabel: "settings",
-            tabBarIcon: ({ focused, size }) => (
+            tabBarIcon: ({ focused }) => (
               <Icon 
                 name="gear"
                 color={focused? 'white' : 'gray'}

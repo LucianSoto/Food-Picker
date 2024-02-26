@@ -9,4 +9,50 @@
           so it is necessary to add another layer of protection.
   
           
-          
+//// BUSINESS ID DATA OBJECT EXAMPLE      
+{
+    "alias": "kitchen-story-san-francisco",
+    "categories": [{
+        "alias": "breakfast_brunch",
+        "title": "Breakfast & Brunch"
+    }, {
+        "alias": "asianfusion",
+        "title": "Asian Fusion"
+    }, {
+        "alias": "newamerican",
+        "title": "New American"
+    }],
+    "coordinates": {
+        "latitude": 37.764290777795395,
+        "longitude": -122.43072410226956
+    },
+    "display_phone": "(415) 525-4905",
+    "hours": [{
+        "hours_type": "REGULAR",
+        "is_open_now": true,
+        "open": [Array]
+    }],
+    "id": "XQLmEdXoMzOpffwoFaBtaQ",
+    "image_url": "https://s3-media3.fl.yelpcdn.com/bphoto/NFhzbxcz4No5Ny8_IHdPMw/o.jpg",
+    "is_claimed": true,
+    "is_closed": false,
+    "location": {
+        "address1": "3499 16th St",
+        "address2": "",
+        "address3": "",
+        "city": "San Francisco",
+        "country": "US",
+        "cross_streets": "Dehon St & Sanchez St",
+        "display_address": ["3499 16th St", "San Francisco, CA 94114"],
+        "state": "CA",
+        "zip_code": "94114"
+    },
+    "name": "Kitchen Story",
+    "phone": "+14155254905",
+    "photos": ["https://s3-media3.fl.yelpcdn.com/bphoto/NFhzbxcz4No5Ny8_IHdPMw/o.jpg", "https://s3-media3.fl.yelpcdn.com/bphoto/hxhkG5emVNfREW6A71kL8A/o.jpg", "https://s3-media2.fl.yelpcdn.com/bphoto/pNWtM7faDRojR_irK2ayEQ/o.jpg"],
+    "price": "$$",
+    "rating": 4,
+    "review_count": 4103,
+    "transactions": ["restaurant_reservation", "delivery", "pickup"],
+    "url": "https://www.yelp.com/biz/kitchen-story-san-francisco?adjust_creative=e6hLwz7RT3MPSX0V53jnCw&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_lookup&utm_source=e6hLwz7RT3MPSX0V53jnCw"
+}

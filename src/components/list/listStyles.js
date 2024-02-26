@@ -1,9 +1,14 @@
 import { StyleSheet } from 'react-native'
 
 export default StyleSheet.create({
+  touch_image: {
+    zIndex: 0,
+  },
   thumb: {
     minWidth: 150,
     maxWidth: '35%',
+    zIndex: 10,
+    flex: 1,
   },
   right_container: {
     marginLeft: 20,

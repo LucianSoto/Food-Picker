@@ -1,6 +1,6 @@
 Icon.loadFont().catch((error) => {});
-import { Text, View, Image, ImageStyle, TouchableOpacity } from 'react-native'
-import {useState, useEffect} from 'react'
+import { Text, View, Image, ImageStyle, TouchableOpacity, Linking, Pressable } from 'react-native'
+import React, {useState, useEffect} from 'react'
 import styled from 'styled-components/native'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import styles from './listStyles'
@@ -8,23 +8,28 @@ import firestore from '@react-native-firebase/firestore';
 import {useSelector} from 'react-redux'
 
 type Data = {
-  name: string, 
-  phone: string, 
-  url: string, 
-  image_url: string,
-  distance: number, 
-  rating: number,
-  price: string,
-  categories: [{title: string}],
-  id: string,
-}
+  data: {
+    name: string, 
+    phone: string, 
+    url: string, 
+    image_url: string,
+    distance: number, 
+    rating: number,
+    price: string,
+    categories: [{title: string}],
+    id: string,
+  },
+  navigation: any
+} // globalize
 
-const List = (data: any) => { 
-  // console.log(data, 'LIST data')
+const List = (props: Data,) => { 
+  // console.log( props.navigation, 'LIST') // perhaps need to pass down nav to this component
   const user = useSelector(state => state.user.data)
   const [favorites, setFavorites] = useState([])
   const collectionRef = firestore().collection('users')
   const id = user.uid
+  const data = props.data
+  const navigation = props.navigation
 
   const getFavs = async () => {
     const favs = await collectionRef
@@ -67,10 +72,10 @@ const List = (data: any) => {
     } 
     getFavs()
   }
-  
-  const list = data.data.map((item: Data, i: number)=> 
-  {
-    let getCategories = item.categories.map((category: {title: string}, i:number)=> {
+
+  const list = data.map((item: Data, i: number)=> { // destructure data
+    let getCategories = item.categories
+    .map((category: {title: string}, i:number)=> {
       return (
         <Text key={i} style={styles.categories}>
           {category.title}
@@ -79,14 +84,26 @@ const List = (data: any) => {
     }) 
    
     return (
-      <Item key={i} id={item.id}>
-        <Image 
-          style={styles.thumb as ImageStyle} // had to add type for typescript compiling.
-          source={{uri: item.image_url}}
-        />
+      <Item key={i} id={item.id} >
+        <Pressable 
+          onPress={()=> navigation.navigate('BusinessPage', {id: item.id})}
+          style={styles.touch_image}
+        >
+          <Image 
+            style={styles.thumb as ImageStyle} // had to add type for typescript compiling.
+            source={{uri: item.image_url}}
+          />
+        </Pressable>
         <View style={styles.right_container}>
-          <Text style={styles.name}>{item.name}</Text>
-          <Text>
+          <Pressable>
+            <Text 
+            onPress={()=> navigation.navigate('BusinessPage', {id: item.id})}
+            style={styles.name}
+            >
+              {item.name}
+            </Text>
+          </Pressable>
+          <Text onPress={()=>{Linking.openURL(`tel:${item.phone}`);}}>
             <Icon
               style={{marginRight: 20}}
               name="phone"
@@ -98,13 +115,16 @@ const List = (data: any) => {
           <View style={{flexDirection: "row"}}>
             <Icon
               name="star"
-              color="red"
+              color='#c2003f'
               size={15}
               /> 
-            <Text>  {item.rating}</Text>
+            <Text>  {item.rating} </Text>
+            <Text style={styles.rating_text}> ({Number(item.review_count).   toLocaleString()} reviews)</Text>
           </View>
           <Text style={styles.price}>{item.price}</Text>
-          <View style={styles.categories_container}>{getCategories}</View>
+          <View style={styles.categories_container}>
+            {getCategories}
+          </View>
         </View>
         <TouchableOpacity onPress={()=> toggleFavs(item.id)}>
           <Icon 
@@ -117,8 +137,6 @@ const List = (data: any) => {
     )
   })
 
-  // console.log(id, user, "LIST***")
-  
   return (
     <View>
       {list}
@@ -127,7 +145,6 @@ const List = (data: any) => {
 }
 
 export default List
-
 
 const Item = styled.View`
   margin-bottom: 20px;
