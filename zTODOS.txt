@@ -1,4 +1,7 @@
 BUSINESSPAGE:
+-Open hours fix (miliraty time and always AM)
+-uber eats order?
+
 - page will display map/location, hours, image carousel etc
 
 SEARCH :

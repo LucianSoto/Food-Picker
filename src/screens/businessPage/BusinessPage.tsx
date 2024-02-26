@@ -5,6 +5,7 @@ import { View,
   Dimensions, 
   Image,
   ScrollView,
+  Linking
 } from 'react-native'
 // import FastImage from 'react-native-fast-image' ALTERNATIVE TO LOAD IMAGES FASTER/BETTER
 import axios from 'axios'
@@ -12,17 +13,18 @@ import Carousel, {Pagination} from 'react-native-snap-carousel';
 import styles from './businessPageStyles'
 import {Rating} from 'react-native-ratings'
 import Loader from '../../components/loader/Loader'
-import Icon from 'react-native-vector-icons/FontAwesome'
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome'
+import Ionicon from 'react-native-vector-icons/Ionicons'
+import Map from 'react-native-vector-icons/Fontisto'
 import firestore from '@react-native-firebase/firestore';
 import {useSelector} from 'react-redux'
+import Share from 'react-native-share'
 {/* <Text > */}// TO MAKE PHONE CALLS
 interface Idata {
   name: string,
   phone: string,
 
 }
-// interface Ireviews {
-// }
 
 const BusinessPage = (props) => {
   const screenWidth = Dimensions.get('window').width;
@@ -34,6 +36,7 @@ const BusinessPage = (props) => {
   const userId = user.uid
   const collectionRef = firestore().collection('users')
   const [favorites, setFavorites] = useState([])
+  const [currentSlide, setCurrentSlide] = useState(0)
   const today = new Date().getDay()
   const timeOpen = data.hours ? data.hours[0].open[today].start : null
   const timeClose = data.hours ? data.hours[0].open[today].end : null
@@ -143,15 +146,21 @@ const BusinessPage = (props) => {
   },[])
 
   const toStandardTime = (time) => {
-    console.log('to standardtime', time)
     time = time.slice(0, 2) + ':' + time.slice(2)
-    console.log(time,' BP time')
     time = time.split(':')
     return (time[0].charAt(0) == 1 && time[0].charAt(1) > 2) ? (time[0] - 12) + ':' + time[1] + ':' + time[2] + ' PM' : time.join(':') + ' AM'
   }
 
-  // console.log('DAY BP ***', data.photos.length)
-  
+  const share = () => {
+    Share.open(options)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        err && console.log(err);
+      });
+  }
+
   if(!reviews.length && !data.hours) { // DO SOMETHING ABOUT LOADING 
     return (
       <Loader/>
@@ -161,20 +170,29 @@ const BusinessPage = (props) => {
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>{data.name}</Text>
+        <TouchableOpacity onPress={()=> share()}>
+          <FontAwesomeIcon 
+            name={'share-square-o'}
+            color='lightgray'
+            size={30}
+            style={styles.icon}
+          />
+        </TouchableOpacity>
         <TouchableOpacity onPress={()=> toggleFavs(data.id)}>
-          <Icon 
+          <FontAwesomeIcon
             name={ favorites.includes(data.id)? 'heart' : 'heart-o' }
             color='#c2003f'
             size={30}
             style={styles.icon}
-            />
+          />
         </TouchableOpacity>
       </View>
-      <Carousel
+      <Carousel // types are missing
           sliderWidth={screenWidth}
           data={data? data.photos : null}
           itemWidth={screenWidth} 
-          itemHeight={600}   
+          itemHeight={600}  
+          onSnapToItem={(index) => setCurrentSlide(index)}
           renderItem={({item, index}) => {
             return (
               <View>
@@ -188,16 +206,19 @@ const BusinessPage = (props) => {
       />
       <Pagination 
         dotsLength={data.photos? data.photos.length: null}
-        dotStyle={{
-          width: 10,
-          // borderRadius: 10,
-          // : 'white',
-          backgroundColor: 'rgba(255, 255, 255, 0.92)',
-        }}
-        inactiveDotColor='gray'
-        inactiveDotOpacity={0.4}
+        dotStyle={{ width: 10, height: 10 }}
+        inactiveDotColor='lightgray'
+        inactiveDotStyle={{width: 10, height: 10}}
+        inactiveDotOpacity={0.8}
+        dotColor='#c2003f'
+        activeDotIndex={currentSlide}
+        containerStyle={{ height: 1, width: 100, marginTop: -10}}
+        tappableDots
+        animatedTension={100}
+        animatedDuration={1}
+        animatedFriction={4}
       />
-      <ScrollView>
+      <ScrollView style={{marginTop: -15}}>
         <View style={styles.ratings_container}>
           <Rating
             type="star"
@@ -228,13 +249,12 @@ const BusinessPage = (props) => {
           <Text style={styles.hours}> {data.hours ? toStandardTime(timeOpen) : null}  -  </Text>
           <Text style={styles.hours}>{data.hours ? toStandardTime(timeClose) : null}</Text>
         </View>
-          
           {renderReviews}
       </ScrollView>
       <View style={styles.buttons_container}>
         <TouchableOpacity 
           style={styles.contact_button}
-          // onPress={()=>{Linking.openURL(`tel:${item.phone}`)}}
+          onPress={()=>{Linking.openURL(`tel:${data.display_phone}`)}}
         >
           <Text style={styles.button_text}>Call</Text>
         </TouchableOpacity>

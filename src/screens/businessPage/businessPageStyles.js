@@ -6,7 +6,8 @@ const screenWidth = Dimensions.get('window').width;
 export default EStyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'black'
+    backgroundColor: 'black',
+    alignItems: 'center',
   },
   header: {
     flexDirection: 'row',
@@ -15,13 +16,15 @@ export default EStyleSheet.create({
     paddingRight: 20,
   },
   title: {
-    fontSize: 35,
+    fontSize: 33,
     fontWeight: 'bold',
     color: 'white',
     margin: 15,
+    width: '80%',
   },
   icon: {
     fontWeight: 'bold',
+    marginLeft: 10,
   },
   image: {
     height: screenWidth, 
@@ -69,7 +72,7 @@ export default EStyleSheet.create({
   },
   review: {
     color: 'white',
-    marginHorizontal: 10,
+    // marginHorizontal: 10,
     marginVertical: 20,
   },
   info: {
