@@ -14,7 +14,7 @@ import styles from './businessPageStyles'
 import {Rating} from 'react-native-ratings'
 import Loader from '../../components/loader/Loader'
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome'
-import Ionicon from 'react-native-vector-icons/Ionicons'
+import Feather from 'react-native-vector-icons/Feather'
 import Map from 'react-native-vector-icons/Fontisto'
 import firestore from '@react-native-firebase/firestore';
 import {useSelector} from 'react-redux'
@@ -170,14 +170,6 @@ const BusinessPage = (props) => {
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>{data.name}</Text>
-        <TouchableOpacity onPress={()=> share()}>
-          <FontAwesomeIcon 
-            name={'share-square-o'}
-            color='lightgray'
-            size={30}
-            style={styles.icon}
-          />
-        </TouchableOpacity>
         <TouchableOpacity onPress={()=> toggleFavs(data.id)}>
           <FontAwesomeIcon
             name={ favorites.includes(data.id)? 'heart' : 'heart-o' }
@@ -213,7 +205,7 @@ const BusinessPage = (props) => {
         dotColor='#c2003f'
         activeDotIndex={currentSlide}
         containerStyle={{ height: 1, width: 100, marginTop: -10}}
-        tappableDots
+        // tappableDots
         animatedTension={100}
         animatedDuration={1}
         animatedFriction={4}
@@ -257,6 +249,14 @@ const BusinessPage = (props) => {
           onPress={()=>{Linking.openURL(`tel:${data.display_phone}`)}}
         >
           <Text style={styles.button_text}>Call</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={()=> share()}>
+          <Feather 
+            name='share'
+            color='lightgray'
+            size={30}
+            style={styles.icon}
+          />
         </TouchableOpacity>
         <TouchableOpacity style={styles.contact_button}>
           <Text style={styles.button_text}>Order</Text>

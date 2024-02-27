@@ -24,7 +24,6 @@ export default EStyleSheet.create({
   },
   icon: {
     fontWeight: 'bold',
-    marginLeft: 10,
   },
   image: {
     height: screenWidth, 
@@ -87,6 +86,7 @@ export default EStyleSheet.create({
     flexDirection: 'row',
     width: screenWidth,
     justifyContent: 'space-around',
+    alignItems: 'center',
     position: 'fixed',
   },
   contact_button: {

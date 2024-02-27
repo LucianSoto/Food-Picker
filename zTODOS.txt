@@ -1,5 +1,7 @@
 BUSINESSPAGE:
 -Open hours fix (miliraty time and always AM)
+-fix stars (to not move on click)
+-have app load with current location (NOT PALO ALTO OR WHATEVER)
 -uber eats order?
 
 - page will display map/location, hours, image carousel etc

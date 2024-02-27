@@ -30,6 +30,7 @@ function App(): JSX.Element {
 
   if(Platform.OS === "ios") {
     Geolocation.requestAuthorization('whenInUse')
+    
   }
   
   const CustomStatusBar = (backgroundColor: BgProps) => { 
